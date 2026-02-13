@@ -1,0 +1,109 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\RedPaintDev\\RedPaint\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DC38C074-5A3D-3921-4F05-9CDED0708B17}|RedPaint.csproj|e:\\redpaintdev\\redpaint\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC38C074-5A3D-3921-4F05-9CDED0708B17}|RedPaint.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC38C074-5A3D-3921-4F05-9CDED0708B17}|RedPaint.csproj|e:\\redpaintdev\\redpaint\\maincode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC38C074-5A3D-3921-4F05-9CDED0708B17}|RedPaint.csproj|solutionrelative:maincode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC38C074-5A3D-3921-4F05-9CDED0708B17}|RedPaint.csproj|e:\\redpaintdev\\redpaint\\main\\settingsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC38C074-5A3D-3921-4F05-9CDED0708B17}|RedPaint.csproj|solutionrelative:main\\settingsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC38C074-5A3D-3921-4F05-9CDED0708B17}|RedPaint.csproj|e:\\redpaintdev\\redpaint\\main\\entitymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC38C074-5A3D-3921-4F05-9CDED0708B17}|RedPaint.csproj|solutionrelative:main\\entitymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC38C074-5A3D-3921-4F05-9CDED0708B17}|RedPaint.csproj|e:\\redpaintdev\\redpaint\\main\\updatemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC38C074-5A3D-3921-4F05-9CDED0708B17}|RedPaint.csproj|solutionrelative:main\\updatemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{dcc4ea97-1c0c-482b-b205-e541c0df9728}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UpdateManager.cs",
+              "DocumentMoniker": "E:\\RedPaintDev\\RedPaint\\Main\\UpdateManager.cs",
+              "RelativeDocumentMoniker": "Main\\UpdateManager.cs",
+              "ToolTip": "E:\\RedPaintDev\\RedPaint\\Main\\UpdateManager.cs",
+              "RelativeToolTip": "Main\\UpdateManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T20:06:47.775Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EntityManager.cs",
+              "DocumentMoniker": "E:\\RedPaintDev\\RedPaint\\Main\\EntityManager.cs",
+              "RelativeDocumentMoniker": "Main\\EntityManager.cs",
+              "ToolTip": "E:\\RedPaintDev\\RedPaint\\Main\\EntityManager.cs",
+              "RelativeToolTip": "Main\\EntityManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwBAAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T20:05:33.695Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\RedPaintDev\\RedPaint\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "E:\\RedPaintDev\\RedPaint\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T19:45:25.254Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SettingsManager.cs",
+              "DocumentMoniker": "E:\\RedPaintDev\\RedPaint\\Main\\SettingsManager.cs",
+              "RelativeDocumentMoniker": "Main\\SettingsManager.cs",
+              "ToolTip": "E:\\RedPaintDev\\RedPaint\\Main\\SettingsManager.cs",
+              "RelativeToolTip": "Main\\SettingsManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T17:01:47.5Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Maincode.cs",
+              "DocumentMoniker": "E:\\RedPaintDev\\RedPaint\\Maincode.cs",
+              "RelativeDocumentMoniker": "Maincode.cs",
+              "ToolTip": "E:\\RedPaintDev\\RedPaint\\Maincode.cs",
+              "RelativeToolTip": "Maincode.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAYwDgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-12T13:51:20.741Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
