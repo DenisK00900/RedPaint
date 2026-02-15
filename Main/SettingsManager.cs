@@ -33,10 +33,5 @@ namespace RedPaint
         {
             return parent._data.LoadedPalletres[parent._data.currPalletre];
         }
-
-        public void AddEntity(AbstrEntity entity)
-        {
-            parent.entities.Add(entity);
-        }
     }
 }

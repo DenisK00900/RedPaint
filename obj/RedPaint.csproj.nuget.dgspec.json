@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\RedPaintDev\\RedPaint\\RedPaint.csproj": {}
+    "E:\\Dev\\RedPaintDev\\RedPaint\\RedPaint.csproj": {}
   },
   "projects": {
-    "E:\\RedPaintDev\\RedPaint\\RedPaint.csproj": {
+    "E:\\Dev\\RedPaintDev\\RedPaint\\RedPaint.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\RedPaintDev\\RedPaint\\RedPaint.csproj",
+        "projectUniqueName": "E:\\Dev\\RedPaintDev\\RedPaint\\RedPaint.csproj",
         "projectName": "RedPaint",
-        "projectPath": "E:\\RedPaintDev\\RedPaint\\RedPaint.csproj",
+        "projectPath": "E:\\Dev\\RedPaintDev\\RedPaint\\RedPaint.csproj",
         "packagesPath": "C:\\Users\\denis\\.nuget\\packages\\",
-        "outputPath": "E:\\RedPaintDev\\RedPaint\\obj\\",
+        "outputPath": "E:\\Dev\\RedPaintDev\\RedPaint\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

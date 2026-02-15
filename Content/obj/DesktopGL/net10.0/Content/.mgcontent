@@ -4,12 +4,12 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>E:/RedPaintDev/RedPaint/Content/Fonts/DUP/DUP1.spritefont</File>
-    <File>E:/RedPaintDev/RedPaint/Content/Fonts/Haipapikuseru/Haipapikuseru1.spritefont</File>
-    <File>E:/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati1.spritefont</File>
-    <File>E:/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati2.spritefont</File>
-    <File>E:/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati3.spritefont</File>
-    <File>E:/RedPaintDev/RedPaint/Content/Texture/Misc/plane.png</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/DUP/DUP1.spritefont</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Haipapikuseru/Haipapikuseru1.spritefont</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati1.spritefont</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati2.spritefont</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati3.spritefont</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Misc/plane.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

@@ -43,7 +43,7 @@ namespace RedPaint
 
             IsMouseVisible = true;
 
-            _settings.AddEntity(new BoardPanel(this));
+            _entityManager.AddEntity(new BoardPanel(this));
 
             base.Initialize();
         }

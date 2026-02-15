@@ -12,14 +12,31 @@ namespace RedPaint
     {
         public Drawrect baseRect;
 
-        public override void Update(float deltaTime)
+        public override void OnSpawn()
         {
-            base.Update(deltaTime);
+            mc._entityManager.AddEntity(baseRect);
         }
 
-        public PopMenu(Maincode mc, Vector2 pos, AbstrEntity pr = null) : base(pos, pr)
+        public override PopMenu Clone()
+        {
+            PopMenu clone = new PopMenu(mc, GetPos(), parent);
+
+            clone.SetPos(GetPos());
+            foreach (AbstrEntity item in children)
+            {
+                clone.children.Add(item.Clone());
+            }
+
+            //clone.baseRect = baseRect.Clone(); Избегать двойного клонирования!!!
+
+            return clone;
+        }
+
+        public PopMenu(Maincode mc, Vector2 pos, AbstrEntity pr = null) : base(mc, pos, pr)
         {
             baseRect = new Drawrect(mc, this);
+
+            SetPos(pos);
 
             (baseRect.visual[0] as Sprite).origin = Vector2.Zero;
 
@@ -27,8 +44,6 @@ namespace RedPaint
             Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.3f);
 
             (baseRect.visual[0] as Sprite).scale = new Vector2(200, 400);
-
-            mc._settings.AddEntity(baseRect);
         }
     }
 }

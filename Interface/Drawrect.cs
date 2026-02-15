@@ -25,10 +25,25 @@ namespace RedPaint
             base.Update(deltaTime);
         }
 
-        public Drawrect(Maincode mc, AbstrEntity pr = null) : base(pr)
+        public override Drawrect Clone()
         {
-            this.mc = mc;
+            Drawrect clone = new Drawrect(mc);
 
+            clone.SetPos(GetPos());
+            foreach (AbstrEntity item in children)
+            {
+                clone.children.Add(item.Clone());
+            }
+
+            clone.visual = ((IDrawable)this).CloneVisual();
+
+            clone.depth = depth;
+
+            return clone;
+        }
+
+        public Drawrect(Maincode mc, AbstrEntity pr = null) : base(mc, pr)
+        {
             visual = new VisualElement[1];
 
             visual[0] = new Sprite(this);

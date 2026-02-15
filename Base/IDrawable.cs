@@ -18,5 +18,17 @@ namespace RedPaint
         public Vector2 GetPos();
 
         public void Draw(SpriteBatch sb);
+
+        public VisualElement[] CloneVisual()
+        {
+            VisualElement[] clone = new VisualElement[visual.Length];
+
+            for (int i = 0; i < clone.Length; i++)
+            {
+                clone[i] = visual[i];
+            }
+
+            return clone;
+        }
     }
 }

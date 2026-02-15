@@ -67,5 +67,22 @@ namespace RedPaint
 
             index = random.Next(0, 9999999);
         }
+
+        public VisualElement Clone()
+        {
+            Sprite clone = new Sprite(parent);
+
+            clone.pos = pos;
+            clone.rotation = rotation;
+            clone.scale = scale;
+            clone.isAbsolute = isAbsolute;
+            clone.texture = texture;
+            clone.origin = origin;
+            clone.color = color;
+            clone.alpha = alpha;
+            clone.isActive = isActive;
+
+            return clone;
+        }
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PGSfzbRw9Ds=",
+  "dgSpecHash": "KdKXpzHiy1Y=",
   "success": true,
-  "projectFilePath": "E:\\RedPaintDev\\RedPaint\\RedPaint.csproj",
+  "projectFilePath": "E:\\Dev\\RedPaintDev\\RedPaint\\RedPaint.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\denis\\.nuget\\packages\\monogame.content.builder.task\\3.8.4.1\\monogame.content.builder.task.3.8.4.1.nupkg.sha512",
     "C:\\Users\\denis\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.4.1\\monogame.framework.desktopgl.3.8.4.1.nupkg.sha512",

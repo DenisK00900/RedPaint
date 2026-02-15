@@ -45,15 +45,10 @@ namespace RedPaint
 
         public virtual void OnDestroy()
         {
-            foreach (AbstrEntity ent in children)
-            {
-                ent.parent = null;
-            }
 
-            if (parent != null) parent.children.Remove(this);
         }
 
-        public void Destroy()
+        public virtual void Destroy()
         {
             markForDestroy = true;
 
@@ -63,8 +58,12 @@ namespace RedPaint
             }
         }
 
-        public AbstrEntity(AbstrEntity pr = null)
+        public abstract AbstrEntity Clone();
+
+        public AbstrEntity(Maincode imc, AbstrEntity pr = null)
         {
+            mc = imc;
+
             position = Vector2.Zero;
 
             if (pr != null)
@@ -79,8 +78,10 @@ namespace RedPaint
             }
         }
 
-        public AbstrEntity(Vector2 pos, AbstrEntity pr = null)
+        public AbstrEntity(Maincode imc, Vector2 pos, AbstrEntity pr = null)
         {
+            mc = imc;
+
             position = pos;
 
             if (pr != null)

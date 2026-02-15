@@ -1,62 +1,72 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
 {
-    public abstract class ExpMenu : AbstrEntity, IDrawable, IReactToMouse
+    public abstract class ExpMenu : AbstrExp
     {
-        public VisualElement[] visual { get; set; }
+        public float mouseOverTime = 0f;
+        public float needTime = 0.25f;
 
-        public Hitbox[] hb {  get; set; }
+        private AbstrEntity follow;
 
-        public int depth { get; set; } = 0;
+        public AbstrEntity prototape;
 
-        public bool mouseOver { get; set; } = false;
-
-        public virtual void Draw(SpriteBatch sb)
-        {
-            foreach (VisualElement item in visual)
-            {
-                item.Draw(sb);
-            }
-        }
+        public Color color;
 
         public override void Update(float deltaTime)
         {
             if (mouseOver)
             {
-                MouseState mouseState = Mouse.GetState();
+                mouseOverTime = Math.Clamp(mouseOverTime + deltaTime, 0f, needTime);
 
-                if (mouseState.LeftButton == ButtonState.Pressed)
+                if (TUH.GetMouseClick() == 0 && !isExpanded)
                 {
                     Expand();
                 }
             }
             else
             {
-                MouseState mouseState = Mouse.GetState();
+                mouseOverTime = Math.Clamp(mouseOverTime - deltaTime, 0f, needTime);
 
-                if (mouseState.LeftButton == ButtonState.Pressed)
+                if (TUH.GetMouseClick() == 1 && isExpanded)
                 {
                     Collapse();
                 }
             }
 
-            base.Update(deltaTime);
+            foreach (VisualElement item in visual)
+            {
+                visual[0].color = color;
+            }
         }
 
-        public abstract void Expand();
-
-        public abstract void Collapse();
-
-        public ExpMenu(Maincode mc, AbstrEntity pr = null) : base(pr)
+        public override void Expand()
         {
-            this.mc = mc;
+            follow = prototape.Clone();
+
+            mc._entityManager.AddEntity(follow);
+
+            isExpanded = true;
+        }
+
+        public override void Collapse()
+        {
+            follow.Destroy();
+
+            follow = null;
+
+            isExpanded = false;
+        }
+
+        public ExpMenu(Maincode mc, AbstrEntity cr, AbstrEntity pr = null) : base(mc, pr)
+        {
+            prototape = cr;
+            prototape.parent = this;
         }
     }
 }

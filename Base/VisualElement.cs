@@ -32,6 +32,8 @@ namespace RedPaint
 
         public int index { get; set; }
 
+        public VisualElement Clone();
+
         public virtual void Start()
         {
 
