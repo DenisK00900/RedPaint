@@ -33,7 +33,7 @@ namespace RedPaint
             {
                 mouseOverTime = Math.Clamp(mouseOverTime - deltaTime, 0f, needTime);
 
-                if (TUH.GetMouseClick() == 1 && isExpanded)
+                if ((TUH.GetMouseClick() == 1 || TUH.GetMouseClick() == 0) && isExpanded)
                 {
                     Collapse();
                 }

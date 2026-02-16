@@ -23,7 +23,7 @@ namespace RedPaint
         {
             TextExpMenu clone = new TextExpMenu(mc, text, prototape);
 
-            clone.SetPos(GetPos());
+            clone.SetPos(position);
             foreach (AbstrEntity item in children)
             {
                 clone.children.Add(item.Clone());
@@ -50,17 +50,17 @@ namespace RedPaint
 
             visual[0] = text;
 
-            Vector2 box = (visual[0] as Text).GetRectSize() / 2f;
+            Vector2 textSize = text.GetRectSize();
+            Vector2 textOrigin = text.origin ?? (textSize / 2f);
 
             hb = new Hitbox[1];
-
             hb[0] = new PolygonHitbox(new List<Vector2>
-            {
-                new Vector2(-box.X, -box.Y),
-                new Vector2(box.X, -box.Y),
-                new Vector2(box.X, box.Y),
-                new Vector2(-box.X, box.Y)
-            });
+                {
+                    new Vector2(-textOrigin.X, -textOrigin.Y),
+                    new Vector2(textSize.X - textOrigin.X, -textOrigin.Y),
+                    new Vector2(textSize.X - textOrigin.X, textSize.Y - textOrigin.Y),
+                    new Vector2(-textOrigin.X, textSize.Y - textOrigin.Y)
+                });
             hb[0].parent = this;
         }
     }

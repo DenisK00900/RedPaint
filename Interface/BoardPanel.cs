@@ -10,49 +10,64 @@
         public class BoardPanel : AbstrEntity
         {
             Drawrect baseRect;
-            TextExpMenu menu1;
+            TextExpMenu[] menu;
 
             public override void OnSpawn()
             {
-                mc._entityManager.AddEntity(menu1);
+                for (int i = 0; i < menu.Length; i++)
+                {
+                    mc._entityManager.AddEntity(menu[i]);
+                }
             }
 
             public override BoardPanel Clone()
             {
                 BoardPanel clone = new BoardPanel(mc);
 
-                clone.SetPos(GetPos());
+                clone.SetPos(position);
                 foreach (AbstrEntity item in children)
                 {
                     clone.children.Add(item.Clone());
                 }
 
-                //clone.baseRect = baseRect.Clone() as Drawrect; Избегать двойного клонирования!!!
-                //clone.menu1 = menu1.Clone() as TextExpMenu;Избегать двойного клонирования!!!
-
                 return clone;
             }
 
-            public BoardPanel(Maincode mc) : base(mc)
+        public BoardPanel(Maincode mc) : base(mc)
+        {
+            baseRect = new Drawrect(mc);
+            (baseRect.visual[0] as Sprite).origin = Vector2.Zero;
+            (baseRect.visual[0] as Sprite).color = mc._settings.GetCurrPalletre().baseColor2;
+            (baseRect.visual[0] as Sprite).scale = new Vector2(mc._data.res.X, 60);
+            SetPos(Vector2.Zero);
+            mc._entityManager.AddEntity(baseRect);
+
+            Text[] texts = new Text[5];
+            menu = new TextExpMenu[5];
+            SpriteFont font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
+
+            for (int i = 0; i < texts.Length; i++)
             {
-                baseRect = new Drawrect(mc);
+                texts[i] = new Text(null);
+                texts[i].font = font;
+                texts[i].origin = new Vector2(0, 0.5f);
+            }
 
-                (baseRect.visual[0] as Sprite).origin = Vector2.Zero;
-                (baseRect.visual[0] as Sprite).color = mc._settings.GetCurrPalletre().baseColor2;
-                (baseRect.visual[0] as Sprite).scale = new Vector2(mc._data.res.X, 60);
+            texts[0].text = "Файл";
+            texts[1].text = "Изменить";
+            texts[2].text = "Вид";
+            texts[3].text = "Слой";
+            texts[4].text = "Анимация";
 
-                SetPos(Vector2.Zero);
+            float currentX = 30;
+            float spacing = 20;
 
-                mc._entityManager.AddEntity(baseRect);
-
-                Text text1 = new Text(null);
-
-                text1.font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
-                text1.text = "Файл";
-
-                menu1 = new TextExpMenu(mc, text1, new PopMenu(mc, Vector2.Zero));
-
-                menu1.SetPos(new Vector2(50, 30));
+            for (int i = 0; i < menu.Length; i++)
+            {
+                menu[i] = new TextExpMenu(mc, texts[i], new PopList(mc, Vector2.Zero));
+                menu[i].SetPos(new Vector2(currentX, 20));
+                currentX += texts[i].GetRectSize().X + spacing;
             }
         }
     }
+}

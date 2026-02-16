@@ -29,7 +29,7 @@ namespace RedPaint
         {
             Drawrect clone = new Drawrect(mc);
 
-            clone.SetPos(GetPos());
+            clone.SetPos(position);
             foreach (AbstrEntity item in children)
             {
                 clone.children.Add(item.Clone());
