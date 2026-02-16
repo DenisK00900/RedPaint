@@ -1,7 +1,8 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"E:/RedPaintDev/RedPaint/Content/Fonts/DUP/DUP1.spritefont","E:/RedPaintDev/RedPaint/Content/bin/Fonts/DUP/DUP1.xnb","FontDescriptionProcessor","SpriteFontContent",2099,186310,0,11365
-"E:/RedPaintDev/RedPaint/Content/Fonts/Haipapikuseru/Haipapikuseru1.spritefont","E:/RedPaintDev/RedPaint/Content/bin/Fonts/Haipapikuseru/Haipapikuseru1.xnb","FontDescriptionProcessor","SpriteFontContent",2092,317382,0,0860587
-"E:/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati1.spritefont","E:/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati1.xnb","FontDescriptionProcessor","SpriteFontContent",2086,4249542,0,4253702
-"E:/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati2.spritefont","E:/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati2.xnb","FontDescriptionProcessor","SpriteFontContent",2086,186310,0,1080219
-"E:/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati3.spritefont","E:/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati3.xnb","FontDescriptionProcessor","SpriteFontContent",2086,1103814,0,2440598
-"E:/RedPaintDev/RedPaint/Content/Texture/Misc/plane.png","E:/RedPaintDev/RedPaint/Content/bin/Texture/Misc/plane.xnb","TextureProcessor","Texture2DContent",70,89,0,0046634
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/DUP/DUP1.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/DUP/DUP1.xnb","FontDescriptionProcessor","SpriteFontContent",2099,186310,0,1685068
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Haipapikuseru/Haipapikuseru1.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Haipapikuseru/Haipapikuseru1.xnb","FontDescriptionProcessor","SpriteFontContent",2092,317382,0,1073579
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Haipapikuseru/Haipapikuseru2.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Haipapikuseru/Haipapikuseru2.xnb","FontDescriptionProcessor","SpriteFontContent",2092,317382,0,0508604
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati1.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati1.xnb","FontDescriptionProcessor","SpriteFontContent",2086,4249542,0,4012062
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati2.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati2.xnb","FontDescriptionProcessor","SpriteFontContent",2086,186310,0,0676567
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati3.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati3.xnb","FontDescriptionProcessor","SpriteFontContent",2086,1103814,0,1608477
+"E:/Dev/RedPaintDev/RedPaint/Content/Texture/Misc/plane.png","E:/Dev/RedPaintDev/RedPaint/Content/bin/Texture/Misc/plane.xnb","TextureProcessor","Texture2DContent",70,89,0,0162945

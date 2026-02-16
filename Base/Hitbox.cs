@@ -14,6 +14,8 @@ namespace RedPaint
 
         public Vector2 pos {  get; set; }
 
+        public int depth { get; set; } = 0;
+
         public abstract bool CheckLine(Vector2 pos1, Vector2 pos2);
 
         public abstract Vector2 GetCenter();

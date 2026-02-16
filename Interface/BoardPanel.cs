@@ -62,9 +62,27 @@
             float currentX = 30;
             float spacing = 20;
 
+            PopList[] lists = new PopList[5];
+
+            lists[0] = new PopList(mc, Vector2.Zero);
+
+            Text listtext = new Text(null);
+
+            listtext.font = font;
+            listtext.text = "Элемент";
+
+            TextExpMenu element = new TextExpMenu(mc, listtext, null);
+
+            lists[0].AddMenuElement(element);
+
+            lists[1] = new PopList(mc, Vector2.Zero);
+            lists[2] = new PopList(mc, Vector2.Zero);
+            lists[3] = new PopList(mc, Vector2.Zero);
+            lists[4] = new PopList(mc, Vector2.Zero);
+
             for (int i = 0; i < menu.Length; i++)
             {
-                menu[i] = new TextExpMenu(mc, texts[i], new PopList(mc, Vector2.Zero));
+                menu[i] = new TextExpMenu(mc, texts[i], lists[i]);
                 menu[i].SetPos(new Vector2(currentX, 20));
                 currentX += texts[i].GetRectSize().X + spacing;
             }

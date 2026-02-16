@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>E:/RedPaintDev/RedPaint/Content/Texture/Misc/plane.png</SourceFile>
+  <SourceFile>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Misc/plane.png</SourceFile>
   <SourceTime>2025-12-28T18:43:19.3304595+03:00</SourceTime>
-  <DestFile>E:/RedPaintDev/RedPaint/Content/bin/Texture/Misc/plane.xnb</DestFile>
-  <DestTime>2026-02-13T12:27:57.9153524+03:00</DestTime>
+  <DestFile>E:/Dev/RedPaintDev/RedPaint/Content/bin/Texture/Misc/plane.xnb</DestFile>
+  <DestTime>2026-02-16T18:37:03.0181669+03:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2025-06-02T13:31:02+03:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

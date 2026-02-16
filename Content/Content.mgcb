@@ -27,6 +27,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Haipapikuseru/Haipapikuseru1.spritefont
 
+#begin Fonts/Haipapikuseru/Haipapikuseru2.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Haipapikuseru/Haipapikuseru2.spritefont;Fonts/Haipapikuseru/Haipapikuseru2
+
 #begin Fonts/Serati/Serati1.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

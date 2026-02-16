@@ -6,6 +6,7 @@
   <SourceFiles>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/DUP/DUP1.spritefont</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Haipapikuseru/Haipapikuseru1.spritefont</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Haipapikuseru/Haipapikuseru2.spritefont</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati1.spritefont</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati2.spritefont</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati3.spritefont</File>
@@ -14,6 +15,7 @@
   <DestFiles>
     <File xsi:nil="true" />
     <File xsi:nil="true" />
+    <File>Fonts/Haipapikuseru/Haipapikuseru2</File>
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -76,3 +76,4 @@ E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\runtimes\win-x64\native\SDL2.dll
 E:\Dev\RedPaintDev\RedPaint\obj\Debug\net10.0\RedPaint.csproj.Up2Date
 E:\Dev\RedPaintDev\RedPaint\obj\Debug\net10.0\RedPaint.genruntimeconfig.cache
 E:\Dev\RedPaintDev\RedPaint\obj\Debug\net10.0\ref\RedPaint.dll
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Fonts\Haipapikuseru\Haipapikuseru2.xnb
