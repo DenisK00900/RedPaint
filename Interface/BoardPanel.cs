@@ -36,6 +36,9 @@
         public BoardPanel(Maincode mc) : base(mc)
         {
             baseRect = new Drawrect(mc);
+
+            baseRect.parent = this;
+
             (baseRect.visual[0] as Sprite).origin = Vector2.Zero;
             (baseRect.visual[0] as Sprite).color = mc._settings.GetCurrPalletre().baseColor2;
             (baseRect.visual[0] as Sprite).scale = new Vector2(mc._data.res.X, 60);
@@ -66,14 +69,21 @@
 
             lists[0] = new PopList(mc, Vector2.Zero);
 
-            Text listtext = new Text(null);
+            Text[] listtext = new Text[3];
+            for (int i = 0; i < listtext.Length; i++)
+            {
+                listtext[i] = new Text(null);
+                listtext[i].font = font;
+            }
 
-            listtext.font = font;
-            listtext.text = "Элемент";
+            listtext[0].text = "Создать";
+            listtext[1].text = "Загрузить";
+            listtext[2].text = "Сохранить";
 
-            TextExpMenu element = new TextExpMenu(mc, listtext, null);
-
-            lists[0].AddMenuElement(element);
+            for (int i = 0; i < listtext.Length; i++)
+            {
+                lists[0].AddMenuElement(new TextExpMenu(mc, listtext[i], null));
+            }
 
             lists[1] = new PopList(mc, Vector2.Zero);
             lists[2] = new PopList(mc, Vector2.Zero);
@@ -83,6 +93,7 @@
             for (int i = 0; i < menu.Length; i++)
             {
                 menu[i] = new TextExpMenu(mc, texts[i], lists[i]);
+                menu[i].parent = this;
                 menu[i].SetPos(new Vector2(currentX, 20));
                 currentX += texts[i].GetRectSize().X + spacing;
             }

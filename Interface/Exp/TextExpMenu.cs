@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
@@ -22,27 +23,34 @@ namespace RedPaint
 
         public override TextExpMenu Clone()
         {
-            TextExpMenu clone = new TextExpMenu(mc, text, prototape);
+            Text clonedText = text.Clone() as Text;
+            AbstrEntity clonedPrototape = prototape?.Clone();
+
+            TextExpMenu clone = new TextExpMenu(mc, clonedText, clonedPrototape, parent);
 
             clone.SetPos(position);
+
             foreach (AbstrEntity item in children)
             {
                 clone.children.Add(item.Clone());
             }
 
-            clone.visual = ((IDrawable)this).CloneVisual();
-
-            clone.text = text;
             clone.mouseOverTime = mouseOverTime;
             clone.needTime = needTime;
             clone.color = color;
-            clone.hb = hb;
             clone.depth = depth;
+
+            clonedText.parent = clone;
 
             return clone;
         }
 
-        public Vector2 GetSize()
+        public void SetElementPos(Vector2 pos)
+        {
+            SetPos(pos);
+        }
+
+        public Vector2 GetSize() 
         {
             return text.GetRectSize();
         }

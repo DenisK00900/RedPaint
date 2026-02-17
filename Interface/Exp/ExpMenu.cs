@@ -66,11 +66,6 @@ namespace RedPaint
         public ExpMenu(Maincode mc, AbstrEntity cr, AbstrEntity pr = null) : base(mc, pr)
         {
             prototape = cr;
-
-            if (cr != null)
-            {
-                prototape.parent = this;
-            }
         }
     }
 }

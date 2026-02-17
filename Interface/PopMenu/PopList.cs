@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,13 +19,7 @@ namespace RedPaint
         {
             if (entity is IMenuElement)
             {
-                entity.parent = baseRect;
-
                 elements.Add(entity);
-
-                size = DetermentSize();
-
-                entity.SetPos(size / 2f);
             }
             else
             {
@@ -48,7 +43,12 @@ namespace RedPaint
 
             clone.visual = ((IDrawable)this).CloneVisual();
 
-            clone.elements = elements;
+            clone.elements = new List<AbstrEntity>();
+
+            foreach (AbstrEntity item in elements)
+            {
+                clone.elements.Add(item.Clone());
+            }
 
             clone.size = size;
             clone.outlineSize = outlineSize;
@@ -61,7 +61,7 @@ namespace RedPaint
             if (elements.Count == 0) return new Vector2(96, 64);
 
             float w = 0; 
-            float h = 0;
+            float h = 4;
 
             foreach (AbstrEntity item in elements)
             {
@@ -69,7 +69,7 @@ namespace RedPaint
 
                 if (itemSize.X > w)
                 {
-                    w = itemSize.X;
+                    w = itemSize.X + 4;
                 }
 
                 h += itemSize.Y + 4;
@@ -82,16 +82,41 @@ namespace RedPaint
         {
             size = DetermentSize();
 
-            visual[0].pos = size / 2f;
+            MouseState mouseState = Mouse.GetState();
+            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+
+            SetPos(mousePosition);
+
+            visual[0].pos = GetPos() + size/2f;
 
             visual[0].isActive = elements.Count == 0;
 
             base.OnSpawn();
 
+            depth = baseRect.depth + 2;
+
+            float Ypos = -4;
+
             foreach (AbstrEntity item in elements)
             {
+                Ypos = Ypos + 4 + (item as IMenuElement).GetSize().Y;
+
+                (item as IMenuElement).SetElementPos(new Vector2(size.X/2f, Ypos));
+
+                item.parent = this;
+
                 mc._entityManager.AddEntity(item);
             }
+        }
+
+        public override void Update(float deltaTime)
+        {
+            foreach (AbstrEntity item in elements)
+            {
+                item.Update(deltaTime);
+            }
+
+            base.Update(deltaTime);
         }
 
         public override void OnDestroy()
@@ -114,16 +139,12 @@ namespace RedPaint
         {
             visual = new VisualElement[1];
 
-            visual[0] = new Text(this);
+            visual[0] = new Text(baseRect);
 
             (visual[0] as Text).text = "Список\nпуст";
             (visual[0] as Text).font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
             (visual[0] as Text).color =
             Color.Lerp(mc._settings.GetCurrPalletre().textColor1, mc._settings.GetCurrPalletre().baseColor1, 0.75f);
-
-            visual[0].pos = size / 2f;
-
-            depth = baseRect.depth + 2;
         }
     }
 }

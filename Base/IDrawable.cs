@@ -25,7 +25,7 @@ namespace RedPaint
 
             for (int i = 0; i < clone.Length; i++)
             {
-                clone[i] = visual[i];
+                clone[i] = visual[i].Clone();
             }
 
             return clone;

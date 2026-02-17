@@ -47,11 +47,10 @@ namespace RedPaint
         {
             baseRect = new Drawrect(mc, this);
             outline = new Drawrect(mc, baseRect);
+
             outline.SetPos(baseRect.position - outlineSize/2f);
 
             size = new Vector2(200, 400);
-
-            SetPos(pos);
 
             (baseRect.visual[0] as Sprite).origin = Vector2.Zero;
             (baseRect.visual[0] as Sprite).color = 

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using RedPaint;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,73 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static void PrintEntityHierarchy(Maincode mc)
+        {
+            if (mc == null || mc.entities == null)
+                return;
+
+            Debug.WriteLine("===== ENTITY HIERARCHY =====");
+
+            var allEntities = new HashSet<AbstrEntity>(mc.entities);
+
+            var rootEntities = new List<AbstrEntity>();
+            foreach (var entity in mc.entities)
+            {
+                if (entity.parent == null || !allEntities.Contains(entity.parent))
+                {
+                    rootEntities.Add(entity);
+                }
+            }
+
+            var processed = new HashSet<AbstrEntity>();
+            PrintEntityHierarchyRecursive(rootEntities, 0, processed, allEntities);
+
+            Debug.WriteLine("==========================");
+        }
+
+        private static void PrintEntityHierarchyRecursive(
+            List<AbstrEntity> entities,
+            int level,
+            HashSet<AbstrEntity> processed,
+            HashSet<AbstrEntity> allEntities)
+        {
+            string indent = new string(' ', level * 2);
+
+            foreach (var entity in entities)
+            {
+                if (processed.Contains(entity))
+                {
+                    Debug.WriteLine(indent + $"{entity.GetType().Name} [CYCLIC REFERENCE]");
+                    continue;
+                }
+                processed.Add(entity);
+
+                string entityInfo = $"{entity.GetType().Name} [0x{entity.GetHashCode():X4}]";
+
+                Vector2 pos = entity.GetPos();
+                entityInfo += $" (Pos: {pos.X:F1}, {pos.Y:F1})";
+
+                if (entity.markForDestroy)
+                    entityInfo += " [MARKED FOR DESTROY]";
+
+                Debug.WriteLine(indent + entityInfo);
+
+                var validChildren = new List<AbstrEntity>();
+                foreach (var child in entity.children)
+                {
+                    if (allEntities.Contains(child) && !processed.Contains(child))
+                    {
+                        validChildren.Add(child);
+                    }
+                }
+
+                if (validChildren.Count > 0)
+                {
+                    PrintEntityHierarchyRecursive(validChildren, level + 1, processed, allEntities);
+                }
+            }
+        }
+
         public static int GetMouseClick()
         {
             MouseState mouseState = Mouse.GetState();

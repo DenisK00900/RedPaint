@@ -12,5 +12,7 @@ namespace RedPaint
         public bool saveParent { get; set; }
 
         public Vector2 GetSize();
+
+        public void SetElementPos(Vector2 pos);
     }
 }

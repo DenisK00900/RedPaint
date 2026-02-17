@@ -17,6 +17,11 @@ namespace RedPaint
 
         public void Update(float deltaTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.F3))
+            {
+                TUH.PrintEntityHierarchy(mc);
+            }
+
             MouseState mouseState = Mouse.GetState();
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
 
