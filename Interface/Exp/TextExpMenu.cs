@@ -55,6 +55,13 @@ namespace RedPaint
             return text.GetRectSize();
         }
 
+        public override void OnSpawn()
+        {
+            base.OnSpawn();
+
+            hb[0].depth = depth;
+        }
+
         public TextExpMenu(Maincode mc, Text tx, AbstrEntity cr, AbstrEntity pr = null) : base(mc, cr, pr)
         {
             visual = new VisualElement[1];

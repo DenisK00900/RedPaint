@@ -32,6 +32,8 @@ namespace RedPaint
             return CollisionSolver.Check(this, hb);
         }
 
+        public abstract Hitbox Clone();
+
         public abstract bool Check(Vector2 GlobalPoint);
     }
 }

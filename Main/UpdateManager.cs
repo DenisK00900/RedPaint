@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
+using System.Diagnostics;
 
 namespace RedPaint
 {
@@ -25,18 +27,26 @@ namespace RedPaint
             MouseState mouseState = Mouse.GetState();
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
 
+            List<Hitbox> overlap = new List<Hitbox>();
+
             foreach (AbstrEntity entity in mc.entities)
             {
                 if (entity is IReactToMouse rtm)
                 {
                     rtm.mouseOver = false;
+
                     foreach (Hitbox hitbox in rtm.hb)
                     {
-                        if (hitbox.Check(mousePosition)) rtm.mouseOver = true;
+                        if (hitbox.Check(mousePosition)) overlap.Add(hitbox);
                     }
                 }
+            }
 
-                entity.Update(deltaTime);
+            if (overlap.Count > 0) (overlap.OrderByDescending(h => h.depth).First().parent as IReactToMouse).mouseOver = true;
+
+            foreach (AbstrEntity entity in mc.entities)
+            {
+                    entity.Update(deltaTime);
             }
         }
     }

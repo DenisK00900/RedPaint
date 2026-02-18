@@ -13,6 +13,15 @@ namespace RedPaint
     {
         public float r {  get; set; }
 
+        public override CircleHitbox Clone()
+        {
+            CircleHitbox clone = new CircleHitbox(r, parent);
+            clone.pos = pos;
+            clone.depth = depth;
+
+            return clone;
+        }
+
         public override bool Check(Vector2 globalpoint)
         {
             return (globalpoint - GetGlobalPos()).LengthSquared() <= r * r;

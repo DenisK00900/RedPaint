@@ -12,6 +12,17 @@ namespace RedPaint
     {
         public List<Vector2> points { get; set; }
 
+        public override PolygonHitbox Clone()
+        {
+            PolygonHitbox clone = new PolygonHitbox(points);
+
+            clone.parent = parent;
+            clone.pos = pos;
+            clone.depth = depth;
+
+            return clone;
+        }
+
         public PolygonHitbox(List<Vector2> points)
         {
             this.points = points ?? throw new ArgumentNullException(nameof(points));
