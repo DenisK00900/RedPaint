@@ -30,6 +30,17 @@ namespace RedPaint
                 throw new ArgumentException("A polygon must have at least 3 points.", nameof(points));
         }
 
+        public PolygonHitbox(Rect rect) : this(new List<Vector2>
+        {
+            Vector2.Zero,
+            new Vector2(rect.size.X, 0),
+            new Vector2(rect.size.X, rect.size.Y),
+            new Vector2(0, rect.size.Y)
+        })
+        {
+            this.pos = rect.position;
+        }
+
         public override bool Check(Vector2 GlobalPoint)
         {
             Vector2 localPoint = GlobalPoint - GetGlobalPos();

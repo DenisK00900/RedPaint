@@ -60,6 +60,8 @@ namespace RedPaint
 
         public void AddEntity(AbstrEntity entity)
         {
+            entity.isCreated = true;
+
             addBuffer.Add(entity);
         }
     }

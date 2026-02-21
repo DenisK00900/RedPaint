@@ -31,7 +31,7 @@ namespace RedPaint
 
             foreach (AbstrEntity entity in mc.entities)
             {
-                if (entity is IReactToMouse rtm)
+                if (entity is IReactToMouse rtm && rtm.hb != null)
                 {
                     rtm.mouseOver = false;
 

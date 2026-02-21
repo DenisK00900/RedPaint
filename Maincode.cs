@@ -45,6 +45,19 @@ namespace RedPaint
 
             _entityManager.AddEntity(new BoardPanel(this));
 
+            PanelHolder baseHolder = new PanelHolder(this);
+            baseHolder.SetPos(new Vector2(0, 60f));
+            baseHolder.size = _data.res - new Vector2(0, 60f);
+            baseHolder.origin = Vector2.Zero;
+            baseHolder.isBase = true;
+            baseHolder.isShow = true;
+
+            _entityManager.AddEntity(baseHolder);
+
+            baseHolder.AddPanel(new Panel(this), "UpLeft");
+
+            _entityManager.AddEntity(new VersionShow(this));
+
             base.Initialize();
         }
 

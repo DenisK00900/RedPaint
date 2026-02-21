@@ -42,6 +42,8 @@ namespace RedPaint
 
         public bool isAbsolute = false;
 
+        public bool isCreated = false;
+
         public Vector2 GetPos()
         {
             if (!isAbsolute && parent != null) return parent.GetPos() + position;
