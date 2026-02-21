@@ -16,6 +16,24 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static Rect Lerp(Rect rect1, Rect rect2, float amount)
+        {
+            return new Rect(
+                Lerp(rect1.position, rect2.position, amount),
+                Lerp(rect1.size, rect2.size, amount));
+        }
+
+        public static int GetMouseRealease()
+        {
+            MouseState mouseState = Mouse.GetState();
+
+            if (mouseState.LeftButton == ButtonState.Released) return 0;
+            else if (mouseState.RightButton == ButtonState.Released) return 1;
+            else if (mouseState.MiddleButton == ButtonState.Released) return 2;
+
+            return -1;
+        }
+
         public static void PrintEntityHierarchy(Maincode mc)
         {
             if (mc == null || mc.entities == null)

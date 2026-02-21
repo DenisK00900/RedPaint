@@ -21,6 +21,8 @@ namespace RedPaint
 
         public List<AbstrEntity> entities;
 
+        public PanelHolder mainHolder;
+
         public Maincode()
         {
             Content.RootDirectory = "Content";
@@ -45,16 +47,19 @@ namespace RedPaint
 
             _entityManager.AddEntity(new BoardPanel(this));
 
-            PanelHolder baseHolder = new PanelHolder(this);
-            baseHolder.SetPos(new Vector2(0, 60f));
-            baseHolder.size = _data.res - new Vector2(0, 60f);
-            baseHolder.origin = Vector2.Zero;
-            baseHolder.isBase = true;
-            baseHolder.isShow = true;
+            mainHolder = new PanelHolder(this);
+            mainHolder.SetPos(new Vector2(0, 60f));
+            mainHolder.size = _data.res - new Vector2(0, 60f);
+            mainHolder.origin = Vector2.Zero;
+            mainHolder.isBase = true;
+            mainHolder.isShow = false;
 
-            _entityManager.AddEntity(baseHolder);
+            _entityManager.AddEntity(mainHolder);
 
-            baseHolder.AddPanel(new Panel(this), "UpLeft");
+            Panel panel = new Panel(this);
+            _entityManager.AddEntity(panel);
+
+            mainHolder.AddPanel(panel, "UpLeft");
 
             _entityManager.AddEntity(new VersionShow(this));
 

@@ -24,7 +24,7 @@ namespace RedPaint
             LoadedPalletres = new AppPalletre[1];
             LoadedPalletres[0] = new AppPalletre();
 
-            version = "Build 7";
+            version = "Build 8";
         }
 
         public Vector2 res;

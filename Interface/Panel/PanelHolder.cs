@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection.Emit;
+using System.Xml.Linq;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
@@ -17,6 +18,8 @@ namespace RedPaint
         public Panel panel = null;
 
         public Drawrect showrect;
+
+        public Rect SideRect;
 
         public override AbstrEntity Clone()
         {
@@ -79,24 +82,42 @@ namespace RedPaint
         {
             if (panel != null) throw new Exception("Не может иметь несколько панелей. Удалите текущую.");
 
-            mc._entityManager.AddEntity(pl);
-
             panel = pl;
 
-            panel.position = GetPanelPos(name).position - GetPos();
-            panel.size = GetPanelPos(name).size;
+            SideRect = GetPanelPos(name);
+
+            panel.lastRect = GetPanelPos(name);
+
             panel.baseRect.depth = 1;
+
+            panel.hb = new Hitbox[1];
+            panel.hb[0] = new PolygonHitbox(new List<Vector2>
+                {
+                    new Vector2(position.X, position.Y),
+                    new Vector2(position.X + size.X, position.Y),
+                    new Vector2(position.X + size.X, position.Y + size.Y),
+                    new Vector2(position.X, position.Y + size.Y)
+                });
+            panel.hb[0].parent = panel;
+            panel.hb[0].depth = 1;
 
             panel.parent = this;
         }
 
         public void DeletePanel()
         {
+            panel.parent = null;
             panel = null;
         }
 
         public override void Update(float deltaTime)
         {
+            if (panel != null)
+            {
+                panel.position = TUH.Lerp(panel.position, SideRect.position, 0.1f);
+                panel.size = TUH.Lerp(panel.size, SideRect.size, 0.1f);
+            }
+
             if (isShow && panel == null)
             {
                 MouseState mouseState = Mouse.GetState();
