@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
 using System.Reflection.Emit;
 using System.Xml.Linq;
@@ -11,21 +12,16 @@ namespace RedPaint
 {
     public class PanelHolder : AbstrEntity
     {
-        public bool isBase = false;
+        public List<Panel> panels = new List<Panel>();
 
-        public bool isShow = false;
-
-        public Panel panel = null;
-
-        public Drawrect showrect;
-
-        public Rect SideRect;
+        public List<Rect> map = new List<Rect>();
 
         public override AbstrEntity Clone()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("PanelHolder не поддерживает клонирование");
         }
 
+         
         public Vector2 size = new Vector2(100f,100f);
 
         public Vector2 origin = new Vector2(0.5f, 0.5f);
@@ -35,14 +31,14 @@ namespace RedPaint
             return new Rect(position, size, origin);
         }
 
-        public Rect GetPanelPos(Vector2 pos)
+        public Rect GetPanelPos(Vector2 pos, Rect rect)
         {
-            return GetPanelPos(GetPosName(pos));
+            return GetPanelPos(GetPosName(pos, rect), rect);
         }
 
-        public Rect GetPanelPos(string name)
+        public Rect GetPanelPos(string name, Rect rect = null)
         {
-            Rect rect = GetRect();
+            if (rect == null) rect = GetRect();
 
             if (name == "UpLeft") return rect.GetSubrect(2, 2, 0, 0);
             if (name == "Up") return rect.GetSubrect(1, 2, 0, 0);
@@ -59,9 +55,9 @@ namespace RedPaint
             return null;
         }
 
-        public String GetPosName(Vector2 pos)
+        public String GetPosName(Vector2 pos, Rect rect = null)
         {
-            Rect rect = GetRect();
+            if (rect == null) rect = GetRect();
 
             if (rect.GetSubrect(3, 3, 0, 0).CheckPoint(pos)) return "UpLeft";
             if (rect.GetSubrect(3, 3, 1, 0).CheckPoint(pos)) return "Up";
@@ -78,17 +74,64 @@ namespace RedPaint
             return "Out";
         }
 
-        public void AddPanel(Panel pl, string name)
+        public void UpdateCurrMap()
         {
-            if (panel != null) throw new Exception("Не может иметь несколько панелей. Удалите текущую.");
+            List<Rect> closedSpaces = new List<Rect>();
 
-            panel = pl;
+            foreach (Panel pl in panels)
+            {
+                closedSpaces.Add(pl.GetRect());
+            }
 
-            SideRect = GetPanelPos(name);
+            map = RectPanelSolver.GetRectMap(GetRect(), closedSpaces);
 
-            panel.lastRect = GetPanelPos(name);
+            Debug.WriteLine(GetRect());
+            foreach (Rect rect in map)
+            {
+                Debug.WriteLine(rect);
+            }
+        }
 
-            panel.baseRect.depth = 1;
+        public bool IsSmallRect(Rect rect)
+        {
+            return (rect.size.X < 100 || rect.size.Y < 100 || rect.size.X * rect.size.Y < 15000);
+        }
+
+        public Rect GetRectUnder(Vector2 pos)
+        {
+            foreach (Rect rect in map)
+            {
+                if (rect.CheckPoint(pos))
+                {
+                    if (IsSmallRect(rect))
+                    {
+                        return rect;
+                    }
+                    else
+                    {
+                        return GetPanelPos(pos, rect);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public void AddPanel(Panel panel, Vector2 pos)
+        {
+            AddPanel(panel, GetRectUnder(pos));
+        }
+
+        public void AddPanel(Panel panel, Rect targetRect)
+        {
+            if (targetRect == null) throw new NullReferenceException("Целевая позиция отсутствует или не была правильно определена");
+
+            panels.Add(panel);
+
+            panel.targetRect = targetRect;
+            panel.lastRect = targetRect;
+
+            panel.parent = this;
 
             panel.hb = new Hitbox[1];
             panel.hb[0] = new PolygonHitbox(new List<Vector2>
@@ -99,61 +142,34 @@ namespace RedPaint
                     new Vector2(position.X, position.Y + size.Y)
                 });
             panel.hb[0].parent = panel;
-            panel.hb[0].depth = 1;
+            panel.hb[0].depth = panel.baseRect.depth;
 
-            panel.parent = this;
+            UpdateCurrMap();
         }
 
-        public void DeletePanel()
+        public void DeletePanel(Panel panel)
         {
+            panels.Remove(panel);
+
             panel.parent = null;
-            panel = null;
+
+            UpdateCurrMap();
         }
 
         public override void Update(float deltaTime)
         {
-            if (panel != null)
-            {
-                panel.position = TUH.Lerp(panel.position, SideRect.position, 0.1f);
-                panel.size = TUH.Lerp(panel.size, SideRect.size, 0.1f);
-            }
-
-            if (isShow && panel == null)
-            {
-                MouseState mouseState = Mouse.GetState();
-                Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-
-                Rect rect = GetPanelPos(mousePosition);
-
-                if (rect != null)
-                {
-                    showrect.position = TUH.Lerp(showrect.position, rect.position - GetPos(), 0.1f);
-                    showrect.visual[0].scale = TUH.Lerp(showrect.visual[0].scale, rect.size, 0.1f);
-
-                    showrect.visual[0].alpha = MathHelper.Lerp(showrect.visual[0].alpha, 0.35f, 0.1f);
-                    showrect.visual[0].origin = Vector2.Zero;
-                    showrect.visual[0].color =
-                        Color.Lerp(
-                        mc._settings.GetCurrPalletre().textColor1,
-                        mc._settings.GetCurrPalletre().effectColor2,
-                        0.5f);
-
-                }
-                else
-                {
-                    showrect.visual[0].alpha = MathHelper.Lerp(showrect.visual[0].alpha, 0f, 0.1f);
-                }
-            }
+            base.Update(deltaTime);
         }
 
 
         public override void OnSpawn()
         {
-            mc._entityManager.AddEntity(showrect);
+            UpdateCurrMap();
         }
+
         public PanelHolder(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
-            showrect = new Drawrect(mc, this);
+
         }
     }
 }

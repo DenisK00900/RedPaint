@@ -24,6 +24,8 @@ namespace RedPaint
 
         public bool isTaken = false;
 
+        public Rect targetRect = null;
+
         public Rect lastRect = null;
 
         public override AbstrEntity Clone()
@@ -44,39 +46,34 @@ namespace RedPaint
 
         public override void Update(float deltaTime)
         {
-
-
             MouseState mouseState = Mouse.GetState();
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
 
             if (isTaken)
             {
-                Rect rectpos = mc.mainHolder.GetPanelPos(mc.mainHolder.GetPosName(mousePosition));
-                if (rectpos != null)
-                {
-                    SetRectAsPos(TUH.Lerp(GetRect(), rectpos, 0.1f));
-                }
-                else
-                {
-                    SetRectAsPos(TUH.Lerp(GetRect(), lastRect, 0.1f));
-                }
+                targetRect = mc.mainHolder.GetRectUnder(mousePosition);
+
+                if (targetRect == null) targetRect = lastRect;
 
                 if (TUH.GetMouseRealease() == 0)
                 {
                     isTaken = false;
 
-                    mc.mainHolder.AddPanel(this, mc.mainHolder.GetPosName(mousePosition));
+                    mc.mainHolder.AddPanel(this, targetRect);
                 }
             }
             else
             {
                 if (TUH.GetMouseClick() == 0 && mouseOver)
                 {
-                    (parent as PanelHolder).DeletePanel();
                     isTaken = true;
+
+                    mc.mainHolder.DeletePanel(this);
                 }
             }
-            
+
+            position = TUH.Lerp(position, targetRect.position, 0.1f);
+            size = TUH.Lerp(size, targetRect.size, 0.1f);
 
             (baseRect.visual[0] as Sprite).scale = size - outlineSize;
             (outline.visual[0] as Sprite).scale = size;
@@ -101,7 +98,9 @@ namespace RedPaint
 
             outline.SetPos(baseRect.position - outlineSize);
 
-            size = new Vector2(200, 400);
+            size = new Vector2(1, 1);
+
+            targetRect = lastRect = GetRect();
 
             (baseRect.visual[0] as Sprite).origin = Vector2.Zero;
             (baseRect.visual[0] as Sprite).color =
@@ -113,6 +112,7 @@ namespace RedPaint
             outline.depth = baseRect.depth - 1;
 
             hb = new Hitbox[1];
+
             hb[0] = new PolygonHitbox(new List<Vector2>
                 {
                     new Vector2(position.X, position.Y),

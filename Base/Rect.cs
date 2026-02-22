@@ -30,6 +30,22 @@ namespace RedPaint
                 new Vector2(subWidth, subHeight));
         }
 
+        public bool CollideWith(Rect other)
+        {
+            return
+                position.X < other.position.X + other.size.X &&
+                position.X + size.X > other.position.X &&
+                position.Y < other.position.Y + other.size.Y &&
+                position.Y + size.Y > other.position.Y;
+        }
+
+        public override string ToString()
+        {
+            return $"Rect: {position.X} - {position.Y}, {size.X} - {size.Y}";
+        }
+
+        public Vector2 Center => position + size * 0.5f;
+
         public Rect()
         {
 

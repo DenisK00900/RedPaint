@@ -51,15 +51,8 @@ namespace RedPaint
             mainHolder.SetPos(new Vector2(0, 60f));
             mainHolder.size = _data.res - new Vector2(0, 60f);
             mainHolder.origin = Vector2.Zero;
-            mainHolder.isBase = true;
-            mainHolder.isShow = false;
 
             _entityManager.AddEntity(mainHolder);
-
-            Panel panel = new Panel(this);
-            _entityManager.AddEntity(panel);
-
-            mainHolder.AddPanel(panel, "UpLeft");
 
             _entityManager.AddEntity(new VersionShow(this));
 
