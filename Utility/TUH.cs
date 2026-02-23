@@ -23,17 +23,6 @@ namespace RedPaint
                 Lerp(rect1.size, rect2.size, amount));
         }
 
-        public static int GetMouseRealease()
-        {
-            MouseState mouseState = Mouse.GetState();
-
-            if (mouseState.LeftButton == ButtonState.Released) return 0;
-            else if (mouseState.RightButton == ButtonState.Released) return 1;
-            else if (mouseState.MiddleButton == ButtonState.Released) return 2;
-
-            return -1;
-        }
-
         public static void PrintEntityHierarchy(Maincode mc)
         {
             if (mc == null || mc.entities == null)
@@ -101,16 +90,6 @@ namespace RedPaint
             }
         }
 
-        public static int GetMouseClick()
-        {
-            MouseState mouseState = Mouse.GetState();
-
-            if (mouseState.LeftButton == ButtonState.Pressed) return 0;
-            else if (mouseState.RightButton == ButtonState.Pressed) return 1;
-            else if (mouseState.MiddleButton == ButtonState.Pressed) return 2;
-
-            return -1;
-        }
         public static void SortByIndex(List<VisualElement> elements)
         {
             if (elements == null)

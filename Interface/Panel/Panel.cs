@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
+using System.Reflection.Emit;
 using System.Text;
 using Color = Microsoft.Xna.Framework.Color;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
@@ -44,6 +45,14 @@ namespace RedPaint
             return new Rect(position, size);
         }
 
+        public void UpdateHitbox()
+        {
+            hb = new Hitbox[1];
+            hb[0] = new PolygonHitbox(lastRect);
+            hb[0].depth = baseRect.depth;
+            hb[0].parent = this;
+        }
+
         public override void Update(float deltaTime)
         {
             MouseState mouseState = Mouse.GetState();
@@ -55,7 +64,7 @@ namespace RedPaint
 
                 if (targetRect == null) targetRect = lastRect;
 
-                if (TUH.GetMouseRealease() == 0)
+                if (mc._input.IsReleased(Button.LeftButton))
                 {
                     isTaken = false;
 
@@ -64,7 +73,7 @@ namespace RedPaint
             }
             else
             {
-                if (TUH.GetMouseClick() == 0 && mouseOver)
+                if (mc._input.IsPressed(Button.LeftButton) && mouseOver)
                 {
                     isTaken = true;
 
@@ -111,17 +120,7 @@ namespace RedPaint
             Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.25f);
             outline.depth = baseRect.depth - 1;
 
-            hb = new Hitbox[1];
-
-            hb[0] = new PolygonHitbox(new List<Vector2>
-                {
-                    new Vector2(position.X, position.Y),
-                    new Vector2(position.X + size.X, position.Y),
-                    new Vector2(position.X + size.X, position.Y + size.Y),
-                    new Vector2(position.X, position.Y + size.Y)
-                });
-            hb[0].parent = this;
-            hb[0].depth = baseRect.depth;
+            UpdateHitbox();
         }
     }
 }

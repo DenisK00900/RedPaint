@@ -19,6 +19,8 @@ namespace RedPaint
 
         public EntityManager _entityManager;
 
+        public InputManager _input;
+
         public List<AbstrEntity> entities;
 
         public PanelHolder mainHolder;
@@ -33,6 +35,7 @@ namespace RedPaint
             _updateManager = new UpdateManager(this);
             _drawManager = new DrawManager(this);
             _entityManager = new EntityManager(this);
+            _input = new InputManager(this);
 
             entities = new List<AbstrEntity>();
         }
@@ -66,6 +69,8 @@ namespace RedPaint
 
         protected override void Update(GameTime gameTime)
         {
+            _input.Update();
+
             if (GamePad.GetState(0).Buttons.Back == ButtonState.Pressed)
                 Exit();
 

@@ -24,7 +24,7 @@ namespace RedPaint
             {
                 mouseOverTime = Math.Clamp(mouseOverTime + deltaTime, 0f, needTime);
 
-                if (TUH.GetMouseClick() == 0 && !isExpanded && prototape != null)
+                if (mc._input.IsPressed(Button.LeftButton) && !isExpanded && prototape != null)
                 {
                     Expand();
                 }
@@ -33,7 +33,7 @@ namespace RedPaint
             {
                 mouseOverTime = Math.Clamp(mouseOverTime - deltaTime, 0f, needTime);
 
-                if ((TUH.GetMouseClick() == 1 || TUH.GetMouseClick() == 0) && isExpanded)
+                if ((mc._input.IsPressed(Button.LeftButton) || mc._input.IsPressed(Button.RightButton)) && isExpanded)
                 {
                     Collapse();
                 }

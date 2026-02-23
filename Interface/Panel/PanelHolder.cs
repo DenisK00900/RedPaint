@@ -16,6 +16,10 @@ namespace RedPaint
 
         public List<Rect> map = new List<Rect>();
 
+        public Vector2 smallPanelSize = new Vector2(200, 200);
+
+        public float smallPanelVolume = 30000;
+
         public override AbstrEntity Clone()
         {
             throw new NotImplementedException("PanelHolder не поддерживает клонирование");
@@ -84,17 +88,11 @@ namespace RedPaint
             }
 
             map = RectPanelSolver.GetRectMap(GetRect(), closedSpaces);
-
-            Debug.WriteLine(GetRect());
-            foreach (Rect rect in map)
-            {
-                Debug.WriteLine(rect);
-            }
         }
 
         public bool IsSmallRect(Rect rect)
         {
-            return (rect.size.X < 100 || rect.size.Y < 100 || rect.size.X * rect.size.Y < 15000);
+            return (rect.size.X < smallPanelSize.X || rect.size.Y < smallPanelSize.Y || rect.size.X * rect.size.Y < smallPanelVolume);
         }
 
         public Rect GetRectUnder(Vector2 pos)
@@ -133,16 +131,7 @@ namespace RedPaint
 
             panel.parent = this;
 
-            panel.hb = new Hitbox[1];
-            panel.hb[0] = new PolygonHitbox(new List<Vector2>
-                {
-                    new Vector2(position.X, position.Y),
-                    new Vector2(position.X + size.X, position.Y),
-                    new Vector2(position.X + size.X, position.Y + size.Y),
-                    new Vector2(position.X, position.Y + size.Y)
-                });
-            panel.hb[0].parent = panel;
-            panel.hb[0].depth = panel.baseRect.depth;
+            panel.UpdateHitbox();
 
             UpdateCurrMap();
         }
@@ -152,6 +141,8 @@ namespace RedPaint
             panels.Remove(panel);
 
             panel.parent = null;
+
+            panel.hb = null;
 
             UpdateCurrMap();
         }

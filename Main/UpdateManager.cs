@@ -11,28 +11,25 @@ namespace RedPaint
     public class UpdateManager
     {
         public Maincode mc;
-        private KeyboardState _prevKeyboardState;
 
         public UpdateManager(Maincode parent)
         {
             mc = parent;
-            _prevKeyboardState = Keyboard.GetState();
         }
 
         public void Update(float deltaTime)
         {
-            KeyboardState currKeyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
 
             if (mc._data.isDevToolsOn)
             {
-                if (currKeyboardState.IsKeyDown(Keys.F3) && _prevKeyboardState.IsKeyUp(Keys.F3))
+                if (mc._input.IsPressed(Keys.F3))
                 {
                     TUH.PrintEntityHierarchy(mc);
                 }
 
-                if (currKeyboardState.IsKeyDown(Keys.F4) && _prevKeyboardState.IsKeyUp(Keys.F4))
+                if (mc._input.IsPressed(Keys.F4))
                 {
                     Panel newpanel = new Panel(mc);
                     mc._entityManager.AddEntity(newpanel);
@@ -44,7 +41,7 @@ namespace RedPaint
 
             foreach (AbstrEntity entity in mc.entities)
             {
-                if (entity is IReactToMouse rtm)
+                if (entity is IReactToMouse rtm && rtm.hb != null && rtm.hb.Count() > 0)
                 {
                     rtm.mouseOver = false;
 
@@ -61,8 +58,6 @@ namespace RedPaint
             {
                 entity.Update(deltaTime);
             }
-
-            _prevKeyboardState = currKeyboardState;
         }
     }
 }
