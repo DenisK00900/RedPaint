@@ -16,6 +16,17 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static Color GetRandomColor(int seed = -1)
+        {
+            Random random = seed == -1 ? new Random() : new Random(seed);
+
+            return new Color(
+                (byte)random.Next(256),
+                (byte)random.Next(256),
+                (byte)random.Next(256)
+            );
+        }
+
         public static Rect Lerp(Rect rect1, Rect rect2, float amount)
         {
             return new Rect(

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ namespace RedPaint
         public Vector2 smallPanelSize = new Vector2(200, 200);
 
         public float smallPanelVolume = 30000;
+
+        private Drawrect[] showrect = new Drawrect[0];
 
         public override AbstrEntity Clone()
         {
@@ -88,6 +91,22 @@ namespace RedPaint
             }
 
             map = RectPanelSolver.GetRectMap(GetRect(), closedSpaces);
+
+            for (int i = 0; i < showrect.Length; i++)
+            {
+                showrect[i].Destroy();
+            }
+            showrect = new Drawrect[map.Count];
+            for (int i = 0; i < showrect.Length; i++)
+            {
+                showrect[i] = new Drawrect(mc, this);
+                showrect[i].position = map.ToArray()[i].Center - GetPos();
+                showrect[i].visual[0].scale = map.ToArray()[i].size;
+                showrect[i].visual[0].color = TUH.GetRandomColor(i * 142);
+                showrect[i].visual[0].alpha = 0.25f;
+                showrect[i].depth = 98;
+                mc._entityManager.AddEntity(showrect[i]);
+            }
         }
 
         public bool IsSmallRect(Rect rect)
@@ -141,7 +160,6 @@ namespace RedPaint
             panels.Remove(panel);
 
             panel.parent = null;
-
             panel.hb = null;
 
             UpdateCurrMap();
@@ -151,7 +169,6 @@ namespace RedPaint
         {
             base.Update(deltaTime);
         }
-
 
         public override void OnSpawn()
         {

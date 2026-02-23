@@ -45,10 +45,10 @@ namespace RedPaint
             return new Rect(position, size);
         }
 
-        public void UpdateHitbox()
+        public void UpdateHitbox(Rect rect = null)
         {
             hb = new Hitbox[1];
-            hb[0] = new PolygonHitbox(lastRect);
+            hb[0] = new PolygonHitbox(rect == null ? lastRect : rect);
             hb[0].depth = baseRect.depth;
             hb[0].parent = this;
         }
