@@ -57,7 +57,7 @@ namespace RedPaint
             return freeCells;
         }
 
-        private static List<Rect> MergeHorizontal(List<Rect> rects)
+        public static List<Rect> MergeHorizontal(List<Rect> rects)
         {
             if (rects.Count == 0) return rects;
 
@@ -94,7 +94,7 @@ namespace RedPaint
             return result;
         }
 
-        private static List<Rect> MergeVertical(List<Rect> rects)
+        public static List<Rect> MergeVertical(List<Rect> rects)
         {
             if (rects.Count == 0) return rects;
 
@@ -132,12 +132,23 @@ namespace RedPaint
             return result;
         }
 
-        private static List<Rect> MergeBoth(List<Rect> rects)
+        public static List<Rect> MergeBothOnV(List<Rect> rects)
+        {
+            if (rects.Count == 0) return rects;
+
+            var mergedV = MergeVertical(rects);
+            var mergedH = MergeHorizontal(mergedV);
+
+            return mergedV;
+        }
+
+        public static List<Rect> MergeBothOnH(List<Rect> rects)
         {
             if (rects.Count == 0) return rects;
 
             var mergedH = MergeHorizontal(rects);
             var mergedV = MergeVertical(mergedH);
+
             return mergedV;
         }
     }

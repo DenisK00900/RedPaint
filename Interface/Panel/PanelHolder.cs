@@ -23,6 +23,8 @@ namespace RedPaint
 
         private Drawrect[] showrect = new Drawrect[0];
 
+        public bool isShow = false;
+
         public override AbstrEntity Clone()
         {
             throw new NotImplementedException("PanelHolder не поддерживает клонирование");
@@ -87,25 +89,30 @@ namespace RedPaint
 
             foreach (Panel pl in panels)
             {
-                closedSpaces.Add(pl.GetRect());
+                closedSpaces.Add(pl.targetRect);
             }
 
             map = RectPanelSolver.GetRectMap(GetRect(), closedSpaces);
 
-            for (int i = 0; i < showrect.Length; i++)
+            map = RectPanelSolver.MergeBothOnV(map);
+
+            if (isShow)
             {
-                showrect[i].Destroy();
-            }
-            showrect = new Drawrect[map.Count];
-            for (int i = 0; i < showrect.Length; i++)
-            {
-                showrect[i] = new Drawrect(mc, this);
-                showrect[i].position = map.ToArray()[i].Center - GetPos();
-                showrect[i].visual[0].scale = map.ToArray()[i].size;
-                showrect[i].visual[0].color = TUH.GetRandomColor(i * 142);
-                showrect[i].visual[0].alpha = 0.25f;
-                showrect[i].depth = 98;
-                mc._entityManager.AddEntity(showrect[i]);
+                for (int i = 0; i < showrect.Length; i++)
+                {
+                    showrect[i].Destroy();
+                }
+                showrect = new Drawrect[map.Count];
+                for (int i = 0; i < showrect.Length; i++)
+                {
+                    showrect[i] = new Drawrect(mc, this);
+                    showrect[i].position = map.ToArray()[i].Center - GetPos();
+                    showrect[i].visual[0].scale = map.ToArray()[i].size;
+                    showrect[i].visual[0].color = TUH.GetRandomColor(i * 142);
+                    showrect[i].visual[0].alpha = 0.25f;
+                    showrect[i].depth = 98;
+                    mc._entityManager.AddEntity(showrect[i]);
+                }
             }
         }
 
@@ -139,18 +146,18 @@ namespace RedPaint
             AddPanel(panel, GetRectUnder(pos));
         }
 
-        public void AddPanel(Panel panel, Rect targetRect)
+        public void AddPanel(Panel panel, Rect followRect)
         {
-            if (targetRect == null) throw new NullReferenceException("Целевая позиция отсутствует или не была правильно определена");
+            if (followRect == null) throw new NullReferenceException("Целевая позиция отсутствует или не была правильно определена");
 
             panels.Add(panel);
-
-            panel.targetRect = targetRect;
-            panel.lastRect = targetRect;
+ 
+            panel.targetRect = followRect;
+            panel.lastRect = followRect;
 
             panel.parent = this;
 
-            panel.UpdateHitbox();
+            panel.UpdateHitbox(followRect);
 
             UpdateCurrMap();
         }

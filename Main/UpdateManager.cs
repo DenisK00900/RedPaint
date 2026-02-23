@@ -41,9 +41,11 @@ namespace RedPaint
 
             foreach (AbstrEntity entity in mc.entities)
             {
-                if (entity is IReactToMouse rtm && rtm.hb != null && rtm.hb.Count() > 0)
+                if (entity is IReactToMouse rtm)
                 {
                     rtm.mouseOver = false;
+
+                    if (rtm.hb == null || rtm.hb.Count() == 0) continue;
 
                     foreach (Hitbox hitbox in rtm.hb)
                     {
