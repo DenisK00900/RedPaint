@@ -11,6 +11,11 @@ namespace RedPaint
 
         public Vector2 size;
 
+        public Rect Clone()
+        {
+            return new Rect(position, size);
+        }
+
         public bool CheckPoint(Vector2 point)
         {
             return 

@@ -53,7 +53,14 @@ namespace RedPaint
                 }
             }
 
-            if (overlap.Count > 0) (overlap.OrderByDescending(h => h.depth).First().parent as IReactToMouse).mouseOver = true;
+            if (overlap.Count > 0)
+            {
+                Hitbox top = overlap.OrderByDescending(h => h.depth).First();
+
+                if (top.parent == null) throw new InvalidOperationException("Hitbox обязан иметь родителя");
+
+                (top.parent as IReactToMouse).mouseOver = true;
+            }
 
             foreach (AbstrEntity entity in mc.entities)
             {

@@ -12,16 +12,15 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
 {
-    public class Panel : AbstrEntity, IReactToMouse
+    public class Panel : AbstrEntity
     {
         public Drawrect baseRect;
         public Drawrect outline;
+        public PanelSetRect setRect;
 
         public Vector2 size;
 
         public Vector2 outlineSize = new Vector2(8, 8);
-        public Hitbox[] hb { get; set; }
-        public bool mouseOver { get; set; } = false;
 
         public bool isTaken = false;
 
@@ -31,11 +30,13 @@ namespace RedPaint
 
         public bool isBorderChange = false;
 
-        public string typeOfBorderChange = null;
+        private string typeOfBorderChange = null;
 
-        public Rect MaxBorderChangeRect = null;
+        private Rect MaxBorderChangeRect = null;
 
         public Vector2 minSize = new Vector2(100f, 100f);
+
+        public bool isLocked = false;
 
         public override AbstrEntity Clone()
         {
@@ -53,12 +54,25 @@ namespace RedPaint
             return new Rect(position, size);
         }
 
-        public void UpdateHitbox(Rect rect = null)
+        public void UpdateHitbox()
         {
-            hb = new Hitbox[1];
-            hb[0] = new PolygonHitbox(rect == null ? lastRect : rect);
-            hb[0].depth = baseRect.depth;
-            hb[0].parent = this;
+            setRect.targetRect = targetRect.Clone();
+            setRect.targetRect.size.X -= outlineSize.X;
+            setRect.targetRect.size.Y = 32f;
+
+            setRect.UpdateHitbox();
+        }
+
+        public void ClearHitbox()
+        {
+            setRect.hb = null;
+        }
+
+        public void ChangeLocker()
+        {
+            isLocked = !isLocked;
+
+            setRect.ChangeLockerIcon(isLocked);
         }
 
         public override void Update(float deltaTime)
@@ -96,17 +110,32 @@ namespace RedPaint
             }
             else
             {
-                if (mc._input.IsPressed(Button.LeftButton) && mouseOver)
+                if (mc._input.IsPressed(Button.LeftButton) && GetRect().CheckPoint(mousePosition))
                 {
-                    string border = RectBorderSolver.GetBorder(lastRect, mousePosition, 20f);
+                    string border = RectBorderSolver.GetBorder(lastRect, mousePosition, 8f);
 
-                    if (border == "In")
+                    if (border == "In" && setRect.mouseOver)
                     {
-                        isTaken = true;
+                        if (TUH.GetHitboxCollideIndex(setRect.hb, mousePosition) == 0 && !isLocked)
+                        {
+                            isTaken = true;
 
-                        mc.mainHolder.DeletePanel(this);
+                            mc.mainHolder.DeletePanel(this);
+                        }
+
+                        else if (TUH.GetHitboxCollideIndex(setRect.hb, mousePosition) == 1)
+                        {
+                            ChangeLocker();
+                        }
+
+                        else if (TUH.GetHitboxCollideIndex(setRect.hb, mousePosition) == 2)
+                        {
+                            mc.mainHolder.DeletePanel(this);
+                            Destroy();
+                        }
+
                     }
-                    else
+                    else if (!isLocked)
                     {
                         MaxBorderChangeRect = mc.mainHolder.GetMaxRectForPanel(this, border);
 
@@ -122,6 +151,7 @@ namespace RedPaint
 
             (baseRect.visual[0] as Sprite).scale = size - outlineSize;
             (outline.visual[0] as Sprite).scale = size;
+            (setRect.visual[0] as Sprite).scale = new Vector2(size.X - outlineSize.X, 32);
 
             base.Update(deltaTime);
         }
@@ -130,6 +160,7 @@ namespace RedPaint
         {
             mc._entityManager.AddEntity(baseRect);
             mc._entityManager.AddEntity(outline);
+            mc._entityManager.AddEntity(setRect);
         }
 
         public Panel(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
@@ -138,6 +169,7 @@ namespace RedPaint
 
             baseRect = new Drawrect(mc, this);
             outline = new Drawrect(mc, baseRect);
+            setRect = new PanelSetRect(mc, baseRect);
 
             baseRect.position = outlineSize / 2f;
 
@@ -155,6 +187,8 @@ namespace RedPaint
             (outline.visual[0] as Sprite).color =
             Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.25f);
             outline.depth = baseRect.depth - 1;
+
+            setRect.depth = baseRect.depth + 1;
 
             UpdateHitbox();
         }

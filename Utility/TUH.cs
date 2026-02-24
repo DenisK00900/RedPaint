@@ -16,6 +16,18 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static int GetHitboxCollideIndex(Hitbox[] hb, Vector2 pos)
+        {
+            if (hb != null)
+
+            for (int i = 0; i < hb.Length; i++)
+            {
+                if (hb[i].Check(pos)) return i;
+            }
+
+            return -1;
+        }
+
         public static Color GetRandomColor(int seed = -1)
         {
             Random random = seed == -1 ? new Random() : new Random(seed);

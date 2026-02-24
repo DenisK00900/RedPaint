@@ -77,3 +77,6 @@ E:\Dev\RedPaintDev\RedPaint\obj\Debug\net10.0\RedPaint.csproj.Up2Date
 E:\Dev\RedPaintDev\RedPaint\obj\Debug\net10.0\RedPaint.genruntimeconfig.cache
 E:\Dev\RedPaintDev\RedPaint\obj\Debug\net10.0\ref\RedPaint.dll
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Fonts\Haipapikuseru\Haipapikuseru2.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\cross.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\lock.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\unlock.xnb

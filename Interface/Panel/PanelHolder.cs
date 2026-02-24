@@ -176,7 +176,7 @@ namespace RedPaint
 
             panel.parent = this;
 
-            panel.UpdateHitbox(followRect);
+            panel.UpdateHitbox();
 
             UpdateCurrMap();
         }
@@ -186,7 +186,7 @@ namespace RedPaint
             panels.Remove(panel);
 
             panel.parent = null;
-            panel.hb = null;
+            panel.ClearHitbox();
 
             UpdateCurrMap();
         }
