@@ -19,8 +19,7 @@ namespace RedPaint
 
         public void Update(float deltaTime)
         {
-            MouseState mouseState = Mouse.GetState();
-            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+            Vector2 mousePosition = mc._input.GetMousePosition();
 
             if (mc._data.isDevToolsOn)
             {

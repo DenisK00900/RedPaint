@@ -141,6 +141,25 @@ namespace RedPaint
             return null;
         }
 
+        public List<Rect> GetRectsFromPanels()
+        {
+            List<Rect> rects = new List<Rect>();
+            
+            foreach (Panel item in panels)
+            {
+                rects.Add(item.targetRect);
+            }
+
+            return rects;
+        }
+         
+        public Rect GetMaxRectForPanel(Panel panel, string borderToChange)
+        {
+            if (!panels.Contains(panel)) throw new Exception("Данная панель не является элементом этого PanelHolder");
+
+            return RectBorderSolver.MaxRect(GetRect(), panel.lastRect, GetRectsFromPanels(), borderToChange);
+        }
+
         public void AddPanel(Panel panel, Vector2 pos)
         {
             AddPanel(panel, GetRectUnder(pos));

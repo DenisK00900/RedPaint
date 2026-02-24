@@ -46,6 +46,154 @@ namespace RedPaint
 
         public Vector2 Center => position + size * 0.5f;
 
+        public void SetBorder(string border, Vector2 pos, Vector2 minSize, Rect maxRect = null)
+        {
+            if (maxRect != null)
+            {
+                if (maxRect.size.X < minSize.X)
+                    throw new ArgumentException(
+                        $"maxRect width ({maxRect.size.X}) is smaller than minSize.X ({minSize.X})");
+                if (maxRect.size.Y < minSize.Y)
+                    throw new ArgumentException(
+                        $"maxRect height ({maxRect.size.Y}) is smaller than minSize.Y ({minSize.Y})");
+            }
+
+            if (border.Contains("Up"))
+            {
+                float newY = pos.Y;
+
+                if (maxRect != null)
+                {
+                    newY = Math.Max(newY, maxRect.position.Y);
+                }
+
+                float currentBottom = position.Y + size.Y;
+                float maxAllowedY = currentBottom - minSize.Y;
+                newY = Math.Min(newY, maxAllowedY);
+
+                newY = Math.Min(newY, currentBottom);
+
+                float deltaY = position.Y - newY;
+                size.Y += deltaY;
+                position.Y = newY;
+            }
+            else if (border.Contains("Down"))
+            {
+                float newBottom = pos.Y;
+
+                if (maxRect != null)
+                {
+                    newBottom = Math.Min(newBottom, maxRect.position.Y + maxRect.size.Y);
+                }
+
+                float minAllowedBottom = position.Y + minSize.Y;
+                newBottom = Math.Max(newBottom, minAllowedBottom);
+
+                newBottom = Math.Max(newBottom, position.Y);
+
+                size.Y = newBottom - position.Y;
+            }
+
+            if (border.Contains("Left"))
+            {
+                float newX = pos.X;
+
+                if (maxRect != null)
+                {
+                    newX = Math.Max(newX, maxRect.position.X);
+                }
+
+                float currentRight = position.X + size.X;
+                float maxAllowedX = currentRight - minSize.X;
+                newX = Math.Min(newX, maxAllowedX);
+
+                newX = Math.Min(newX, currentRight);
+
+                float deltaX = position.X - newX;
+                size.X += deltaX;
+                position.X = newX;
+            }
+            else if (border.Contains("Right"))
+            {
+                float newRight = pos.X;
+
+                if (maxRect != null)
+                {
+                    newRight = Math.Min(newRight, maxRect.position.X + maxRect.size.X);
+                }
+
+                float minAllowedRight = position.X + minSize.X;
+                newRight = Math.Max(newRight, minAllowedRight);
+
+                newRight = Math.Max(newRight, position.X);
+
+                size.X = newRight - position.X;
+            }
+
+            if (size.X < minSize.X) size.X = minSize.X;
+            if (size.Y < minSize.Y) size.Y = minSize.Y;
+        }
+
+        public void SetBorder(string border, Vector2 pos, Rect maxRect = null)
+        {
+            if (border.Contains("Up"))
+            {
+                float newY = pos.Y;
+
+                if (maxRect != null)
+                {
+                    newY = Math.Max(newY, maxRect.position.Y);
+                }
+                newY = Math.Min(newY, position.Y + size.Y);
+
+                float deltaY = position.Y - newY;
+                size.Y += deltaY;
+                position.Y = newY;
+            }
+            else if (border.Contains("Down"))
+            {
+                float newBottom = pos.Y;
+
+                if (maxRect != null)
+                {
+                    newBottom = Math.Min(newBottom, maxRect.position.Y + maxRect.size.Y);
+                }
+                newBottom = Math.Max(newBottom, position.Y);
+
+                size.Y = newBottom - position.Y;
+            }
+
+            if (border.Contains("Left"))
+            {
+                float newX = pos.X;
+
+                if (maxRect != null)
+                {
+                    newX = Math.Max(newX, maxRect.position.X);
+                }
+                newX = Math.Min(newX, position.X + size.X);
+
+                float deltaX = position.X - newX;
+                size.X += deltaX;
+                position.X = newX;
+            }
+            else if (border.Contains("Right"))
+            {
+                float newRight = pos.X;
+
+                if (maxRect != null)
+                {
+                    newRight = Math.Min(newRight, maxRect.position.X + maxRect.size.X);
+                }
+                newRight = Math.Max(newRight, position.X);
+
+                size.X = newRight - position.X;
+            }
+
+            if (size.X < 0) size.X = 0;
+            if (size.Y < 0) size.Y = 0;
+        }
+
         public Rect()
         {
 

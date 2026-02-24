@@ -29,6 +29,14 @@ namespace RedPaint
 
         public Rect lastRect = null;
 
+        public bool isBorderChange = false;
+
+        public string typeOfBorderChange = null;
+
+        public Rect MaxBorderChangeRect = null;
+
+        public Vector2 minSize = new Vector2(100f, 100f);
+
         public override AbstrEntity Clone()
         {
             throw new NotImplementedException();
@@ -55,8 +63,7 @@ namespace RedPaint
 
         public override void Update(float deltaTime)
         {
-            MouseState mouseState = Mouse.GetState();
-            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+            Vector2 mousePosition = mc._input.GetMousePosition();
 
             if (isTaken)
             {
@@ -71,13 +78,42 @@ namespace RedPaint
                     mc.mainHolder.AddPanel(this, targetRect);
                 }
             }
+            else if (isBorderChange)
+            {
+                targetRect.SetBorder(typeOfBorderChange, mousePosition, minSize, MaxBorderChangeRect);
+
+                if (mc._input.IsReleased(Button.LeftButton))
+                {
+                    mc.mainHolder.DeletePanel(this);
+                    mc.mainHolder.AddPanel(this, targetRect);
+
+                    MaxBorderChangeRect = null;
+
+                    typeOfBorderChange = null;
+
+                    isBorderChange = false;
+                }
+            }
             else
             {
                 if (mc._input.IsPressed(Button.LeftButton) && mouseOver)
                 {
-                    isTaken = true;
+                    string border = RectBorderSolver.GetBorder(lastRect, mousePosition, 20f);
 
-                    mc.mainHolder.DeletePanel(this);
+                    if (border == "In")
+                    {
+                        isTaken = true;
+
+                        mc.mainHolder.DeletePanel(this);
+                    }
+                    else
+                    {
+                        MaxBorderChangeRect = mc.mainHolder.GetMaxRectForPanel(this, border);
+
+                        typeOfBorderChange = border;
+
+                        isBorderChange = true;
+                    }
                 }
             }
 

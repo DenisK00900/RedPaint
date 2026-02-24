@@ -65,7 +65,7 @@ namespace RedPaint
                 _ => ButtonState.Released
             };
         }
-        public Point GetMousePosition() => new Point(_msCurrent.X, _msCurrent.Y);
+        public Vector2 GetMousePosition() => new Vector2(_msCurrent.X, _msCurrent.Y);
 
         public int GetMouseWheelValue() => _msCurrent.ScrollWheelValue;
 
@@ -75,6 +75,7 @@ namespace RedPaint
         public bool IsMouseWheelScrolledDown() =>
             _msCurrent.ScrollWheelValue < _msPrevious.ScrollWheelValue;
     }
+
     public enum Button
     {
         LeftButton,
