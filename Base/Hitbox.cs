@@ -16,6 +16,8 @@ namespace RedPaint
 
         public int depth { get; set; } = 0;
 
+        public bool isAbsoluite { get; set; } = false;
+
         public abstract bool CheckLine(Vector2 pos1, Vector2 pos2);
 
         public abstract Vector2 GetCenter();
@@ -24,6 +26,8 @@ namespace RedPaint
 
         public Vector2 GetGlobalPos()
         {
+            if (isAbsoluite) return pos;
+
             return parent != null ? parent.GetPos() + pos : pos;
         }
 

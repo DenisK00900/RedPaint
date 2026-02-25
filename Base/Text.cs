@@ -51,7 +51,7 @@ namespace RedPaint
                 sb.DrawString(
                     font,
                     text,
-                    parent.GetPos() + pos,
+                    isAbsolute ? pos : parent.GetPos() + pos,
                     color * alpha,
                     MathHelper.ToRadians(rotation),
                     lorigin,

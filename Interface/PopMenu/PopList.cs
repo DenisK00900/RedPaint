@@ -17,14 +17,15 @@ namespace RedPaint
 
         public void AddMenuElement(AbstrEntity entity)
         {
-            if (entity is IMenuElement)
+            if (entity is not IMenuElement)
             {
-                elements.Add(entity);
+                throw new ArgumentException(
+                    $"Элемент типа {entity.GetType().Name} должен реализовывать интерфейс IMenuElement",
+                    nameof(entity)
+                );
             }
-            else
-            {
-                throw new Exception("Элемент должен быть интерфейсом IMenuElement");
-            }
+
+            elements.Add(entity);
         }
 
         public void RemoveMenuElement(AbstrEntity entity)
@@ -101,9 +102,10 @@ namespace RedPaint
             {
                 Ypos = Ypos + 4 + (item as IMenuElement).GetSize().Y;
 
-                (item as IMenuElement).SetElementPos(new Vector2(size.X/2f, Ypos));
+                (item as IMenuElement).SetElementPos(new Vector2(size.X/2f, Ypos) + GetPos());
+                (item as IMenuElement).SetElementDepth(baseRect.depth);
 
-                item.parent = this;
+                item.parent = baseRect;
 
                 mc._entityManager.AddEntity(item);
             }

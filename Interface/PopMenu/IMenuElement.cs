@@ -14,5 +14,7 @@ namespace RedPaint
         public Vector2 GetSize();
 
         public void SetElementPos(Vector2 pos);
+
+        public void SetElementDepth(int depth);
     }
 }

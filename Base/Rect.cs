@@ -204,6 +204,12 @@ namespace RedPaint
 
         }
 
+        public Rect(Vector2 s)
+        {
+            position = Vector2.Zero;
+            size = s;
+        }
+
         public Rect(Vector2 pos, Vector2 s)
         {
             position = pos;

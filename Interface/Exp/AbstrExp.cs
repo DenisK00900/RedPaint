@@ -8,6 +8,7 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
 {
+    [Obsolete("Будет заменён на AbstrActButton или его потомков")]
     public abstract class AbstrExp : AbstrEntity, IDrawable, IReactToMouse
     {
         public VisualElement[] visual { get; set; }

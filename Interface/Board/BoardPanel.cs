@@ -82,9 +82,10 @@
 
             for (int i = 0; i < listtext.Length; i++)
             {
-                TextExpMenu el = new TextExpMenu(mc, listtext[i], null);
+                TextButton button = new TextButton(mc);
+                button.SetText(listtext[i]);
 
-                lists[0].AddMenuElement(el);
+                lists[0].AddMenuElement(button);
             }
 
             lists[1] = new PopList(mc, Vector2.Zero);

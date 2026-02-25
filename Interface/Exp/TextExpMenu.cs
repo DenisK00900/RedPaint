@@ -9,6 +9,7 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
 {
+    [Obsolete("Будет заменён на TextButton")]
     public class TextExpMenu : ExpMenu, IMenuElement
     {
         public Text text;
@@ -48,6 +49,11 @@ namespace RedPaint
         public void SetElementPos(Vector2 pos)
         {
             SetPos(pos);
+        }
+
+        public void SetElementDepth(int depth)
+        {
+
         }
 
         public Vector2 GetSize() 
