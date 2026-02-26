@@ -16,20 +16,22 @@ namespace RedPaint
 
         public Action action = null;
 
+        private float stanCurr = 0f;
+        public float stanHold = 0.05f;
+
         public override void Update(float deltaTime)
         {
-            if (mc._input.IsPressed(Button.LeftButton) && mouseOver)
+            if (stanCurr == 0f && mc._input.IsPressed(Button.LeftButton) && mouseOver)
             {
                 if (action != null) action.Act();
+
+                stanCurr = stanHold;
             }
+            
+            stanCurr = Math.Clamp(stanCurr - deltaTime, 0f, stanHold);
         }
 
         public abstract void UpdateHitbox();
-
-        public override void OnSpawn()
-        {
-            UpdateHitbox();
-        }
 
         public AbstrActButton(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {

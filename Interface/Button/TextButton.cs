@@ -82,11 +82,6 @@ namespace RedPaint
             base.Update(deltaTime);
         }
 
-        public override void OnSpawn()
-        {
-
-        }
-
         public Vector2 GetSize()
         {
             return (visual[0] as Text).GetRectSize();

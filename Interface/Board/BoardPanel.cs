@@ -80,13 +80,20 @@
             listtext[1].text = "Загрузить";
             listtext[2].text = "Сохранить";
 
-            for (int i = 0; i < listtext.Length; i++)
-            {
-                TextButton button = new TextButton(mc);
-                button.SetText(listtext[i]);
+            TextButton[] button = new TextButton[3];
 
-                lists[0].AddMenuElement(button);
-            }
+            button[0] = new TextButton(mc);
+            button[0].SetText(listtext[0]);
+            lists[0].AddMenuElement(button[0]);
+
+            button[1] = new TextButton(mc);
+            button[1].action = new ActionSpawn(mc, new DialogBox(mc));
+            button[1].SetText(listtext[1]);
+            lists[0].AddMenuElement(button[1]);
+
+            button[2] = new TextButton(mc);
+            button[2].SetText(listtext[2]);
+            lists[0].AddMenuElement(button[2]);
 
             lists[1] = new PopList(mc, Vector2.Zero);
             lists[2] = new PopList(mc, Vector2.Zero);
