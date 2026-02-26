@@ -16,7 +16,7 @@ namespace RedPaint
         public bool saveParent { get; set; } = false;
 
         public float mouseOverTime = 0f;
-        public float needTime = 0.01f;
+        public float needTime = 0.25f;
 
         public override TextButton Clone()
         {
@@ -35,6 +35,13 @@ namespace RedPaint
             visual = new VisualElement[1];
             visual[0] = it;
             visual[0].parent = this;
+
+            UpdateHitbox();
+        }
+
+        public void SetHitboxPos(Vector2 pos)
+        {
+            hb[0].pos = pos;
         }
 
         public override void UpdateHitbox()
@@ -91,7 +98,7 @@ namespace RedPaint
 
             UpdateHitbox();
 
-            hb[0].pos = pos - (visual[0] as Text).GetRectSize() / 2f;
+            SetHitboxPos(pos - (visual[0] as Text).GetRectSize() / 2f);
         }
 
         public void SetElementDepth(int depth)

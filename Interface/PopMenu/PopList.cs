@@ -113,9 +113,18 @@ namespace RedPaint
 
         public override void Update(float deltaTime)
         {
+            bool isAnyMouseOver = false;
+
             foreach (AbstrEntity item in elements)
             {
                 item.Update(deltaTime);
+
+                if ((item as IReactToMouse).mouseOver) isAnyMouseOver = true;
+            }
+
+            if ((mc._input.IsPressed(Button.LeftButton) || mc._input.IsPressed(Button.RightButton)) && !isAnyMouseOver)
+            {
+                Destroy();
             }
 
             base.Update(deltaTime);

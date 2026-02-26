@@ -10,7 +10,7 @@
         public class BoardPanel : AbstrEntity
         {
             Drawrect baseRect;
-            TextExpMenu[] menu;
+            TextButton[] menu;
 
             public override void OnSpawn()
             {
@@ -46,7 +46,7 @@
             mc._entityManager.AddEntity(baseRect);
 
             Text[] texts = new Text[5];
-            menu = new TextExpMenu[5];
+            menu = new TextButton[5];
             SpriteFont font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
 
             for (int i = 0; i < texts.Length; i++)
@@ -95,10 +95,16 @@
 
             for (int i = 0; i < menu.Length; i++)
             {
-                menu[i] = new TextExpMenu(mc, texts[i], lists[i]);
-                menu[i].parent = this;
+                menu[i] = new TextButton(mc);
+
                 menu[i].SetPos(new Vector2(currentX, 20));
                 currentX += texts[i].GetRectSize().X + spacing;
+
+                menu[i].SetText(texts[i]);
+                menu[i].action = new ActionSpawn(mc, lists[i]);
+                menu[i].parent = this;
+
+                menu[i].SetHitboxPos(menu[i].GetPos());
             }
         }
     }
