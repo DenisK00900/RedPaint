@@ -87,7 +87,7 @@
             lists[0].AddMenuElement(button[0]);
 
             button[1] = new TextButton(mc);
-            button[1].action = new ActionSpawn(mc, new DialogBox(mc));
+            button[1].action = new ActionSpawn(mc, new DialogFileLoad(mc));
             button[1].SetText(listtext[1]);
             lists[0].AddMenuElement(button[1]);
 

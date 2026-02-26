@@ -14,11 +14,11 @@ namespace RedPaint
 {
     public class DialogBox : AbstrEntity
     {
-        Drawrect baseRect;
-        Drawrect outline;
-        DialogBoxSetRect setRect;
+        public Drawrect baseRect;
+        public Drawrect outline;
+        public DialogBoxSetRect setRect;
 
-        bool isSetPanel = true;
+        public bool isSetPanel = true;
 
         bool isTaken = false;
 
