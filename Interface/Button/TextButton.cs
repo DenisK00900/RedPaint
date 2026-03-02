@@ -18,6 +18,9 @@ namespace RedPaint
         public float mouseOverTime = 0f;
         public float needTime = 0.25f;
 
+        public Color origColor;
+        public Color effColor;
+
         public override TextButton Clone()
         {
             TextButton clone = new TextButton(mc, parent);
@@ -53,6 +56,8 @@ namespace RedPaint
 
             hb[0].parent = this;
             hb[0].isAbsoluite = true;
+
+            hb[0].pos = GetPos();
         }
 
         public void Draw(SpriteBatch sb)
@@ -76,7 +81,7 @@ namespace RedPaint
 
             if (visual[0] != null)
             {
-                visual[0].color = Color.Lerp(mc._settings.GetCurrPalletre().textColor1, mc._settings.GetCurrPalletre().effectColor1, mouseOverTime / needTime);
+                visual[0].color = Color.Lerp(origColor, effColor, mouseOverTime / needTime);
             }
 
             base.Update(deltaTime);
@@ -104,6 +109,9 @@ namespace RedPaint
         public TextButton(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
             visual = new VisualElement[1];
+
+            origColor = mc._settings.GetCurrPalletre().textColor1;
+            effColor = mc._settings.GetCurrPalletre().effectColor1;
         }
     }
 }
