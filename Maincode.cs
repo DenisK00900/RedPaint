@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RedPaint;
 using System.Collections.Generic;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RedPaint
 {
@@ -21,6 +22,8 @@ namespace RedPaint
 
         public InputManager _input;
 
+        public ImageManager _image;
+
         public List<AbstrEntity> entities;
 
         public PanelHolder mainHolder;
@@ -36,6 +39,7 @@ namespace RedPaint
             _drawManager = new DrawManager(this);
             _entityManager = new EntityManager(this);
             _input = new InputManager(this);
+            _image = new ImageManager(this);
 
             entities = new List<AbstrEntity>();
         }

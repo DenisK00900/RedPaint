@@ -14,7 +14,7 @@ namespace RedPaint
         public Hitbox[] hb { get; set; }
         public bool mouseOver { get; set; }
 
-        public Action action = null;
+        public AbstrAction action = null;
 
         private float stanCurr = 0f;
         public float stanHold = 0.05f;

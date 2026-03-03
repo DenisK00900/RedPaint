@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RedPaint
 {
-    public class ActionFileBrowser : Action
+    public class ActionFileBrowser : AbstrAction
     {
         public DialogFileLoad fileLoad;
 

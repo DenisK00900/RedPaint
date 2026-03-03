@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RedPaint
 {
-    public class ActionFolderBack : Action
+    public class ActionFolderBack : AbstrAction
     {
         public DialogFileLoad fileLoad;
 

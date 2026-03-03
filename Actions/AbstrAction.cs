@@ -4,12 +4,12 @@ using System.Text;
 
 namespace RedPaint
 {
-    public abstract class Action
+    public abstract class AbstrAction
     {
         public Maincode mc;
         public abstract void Act();
 
-        public Action(Maincode imc)
+        public AbstrAction(Maincode imc)
         {
             mc = imc;
         }

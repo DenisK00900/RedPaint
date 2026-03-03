@@ -30,9 +30,25 @@ namespace RedPaint
             }
         }
 
+        public void UpdateImage()
+        {
+            visual = new VisualElement[1];
+
+            visual[0] = new Sprite(this);
+            (visual[0] as Sprite).texture = mc._image.GetCurrentImage();
+        }
+
+        public override void OnDestroy()
+        {
+            if (mc._image != null)
+                mc._image.ImageLoaded -= UpdateImage;
+        }
+
         public ImageViev(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
             visual = new VisualElement[0];
+
+            mc._image.ImageLoaded += UpdateImage;
         }
     }
 }

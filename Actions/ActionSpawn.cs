@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RedPaint
 {
-    public class ActionSpawn : Action
+    public class ActionSpawn : AbstrAction
     {
         public AbstrEntity follow;
 

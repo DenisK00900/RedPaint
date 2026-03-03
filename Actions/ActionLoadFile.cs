@@ -5,14 +5,14 @@ using System.Text;
 
 namespace RedPaint
 {
-    public class ActionLoadFile : Action
+    public class ActionLoadFile : AbstrAction
     {
         public string fullPath;
         public DialogFileLoad fileLoad;
 
         public override void Act()
         {
-            Debug.WriteLine($"Загрузка : {fullPath}");
+            fileLoad.mc._image.LoadImage(fullPath);
 
             fileLoad.Destroy();
         }

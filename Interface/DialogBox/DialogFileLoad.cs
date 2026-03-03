@@ -97,7 +97,7 @@ namespace RedPaint
                 Vector2 posType = new Vector2(baseX + columnOffsetType, baseY + currentY);
                 Vector2 posStatus = new Vector2(baseX + columnOffsetStatus, baseY + currentY);
 
-                Action btnNameAct;
+                AbstrAction btnNameAct;
                 if (FileBrowserSolver.GetTypeOfPath(cont) == "Изобр.")
                 {
                     btnNameAct = new ActionLoadFile(mc, this, currDir + cont);
@@ -199,7 +199,7 @@ namespace RedPaint
             return tx;
         }
 
-        private TextButton CreateButton(Vector2 position, Text text, string filePath, Action act = null)
+        private TextButton CreateButton(Vector2 position, Text text, string filePath, AbstrAction act = null)
         {
             TextButton button = new TextButton(mc, fileViewRect);
             button.action = act;
