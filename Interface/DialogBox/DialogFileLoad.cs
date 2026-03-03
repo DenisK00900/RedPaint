@@ -36,7 +36,7 @@ namespace RedPaint
         public override DialogFileLoad Clone()
         {
             DialogFileLoad clone = new DialogFileLoad(mc, parent);
-            clone.currDir = this.currDir;
+
             return clone;
         }
 
@@ -63,11 +63,7 @@ namespace RedPaint
 
         public void FolderUp()
         {
-            Debug.WriteLine("flag1 " + currDir);
-
             currDir = FileBrowserSolver.GetParentDirectory(currDir);
-
-            Debug.WriteLine("flag2 " + currDir);
 
             UpdateListInfo(currDir, true);
         }
@@ -101,7 +97,18 @@ namespace RedPaint
                 Vector2 posType = new Vector2(baseX + columnOffsetType, baseY + currentY);
                 Vector2 posStatus = new Vector2(baseX + columnOffsetStatus, baseY + currentY);
 
-                TextButton btnName = CreateButton(posName, textName, cont, new ActionFileBrowser(mc, this, cont));
+                Action btnNameAct;
+                if (FileBrowserSolver.GetTypeOfPath(cont) == "Изобр.")
+                {
+                    btnNameAct = new ActionLoadFile(mc, this, currDir + cont);
+                }
+                else
+                {
+                    btnNameAct = new ActionFileBrowser(mc, this, cont);
+                }
+
+                TextButton btnName = CreateButton(posName, textName, cont, btnNameAct);
+
                 TextButton btnType = CreateButton(posType, textType, cont);
                 TextButton btnStatus = CreateButton(posStatus, textStatus, cont);
 
@@ -115,27 +122,33 @@ namespace RedPaint
             AddListsToEntityManager();
         }
 
+        public override void OnDrop()
+        {
+            upFolderButton.UpdateHitbox();
+
+            UpdateListInfo();
+        }
+
         public DialogFileLoad(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
-            isSetPanel = false;
             _font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
 
             fileViewRect = new Drawrect(mc, baseRect);
             fileViewRectOutLine = new Drawrect(mc, fileViewRect);
+            
+            Vector2 size = DetermentSize();
+            Vector2 innerSize = size - new Vector2(40f, 72f);
+
+            fileViewRect.visual[0].scale = innerSize;
+            fileViewRect.visual[0].color = mc._settings.GetCurrPalletre().boxColor;
+            fileViewRect.position = size / 2f - outlineSize / 2f + new Vector2(0f, 16f);
+
             fileViewTop = new Drawrect(mc, fileViewRect);
             fileViewDecor1 = new Drawrect(mc, fileViewRect);
             fileViewDecor2 = new Drawrect(mc, fileViewRect);
             fileViewDecor3 = new Drawrect(mc, fileViewRect);
             fileViewSide = new Drawrect(mc, fileViewRect);
-
             upFolderButton = new FileLoadUpFolderButton(mc, fileViewTop);
-
-            Vector2 size = DetermentSize();
-            Vector2 innerSize = size - new Vector2(40f, 120f);
-
-            fileViewRect.visual[0].scale = innerSize;
-            fileViewRect.visual[0].color = mc._settings.GetCurrPalletre().boxColor;
-            fileViewRect.position = size / 2f - new Vector2(0f, 40f) - outlineSize / 2f;
 
             fileViewRectOutLine.visual[0].scale = innerSize + outlineSize;
             fileViewRectOutLine.visual[0].color = Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.25f);

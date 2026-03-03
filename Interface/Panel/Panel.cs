@@ -38,6 +38,8 @@ namespace RedPaint
 
         public bool isLocked = false;
 
+        public PanelActive panelActive = null;
+
         public override AbstrEntity Clone()
         {
             throw new NotImplementedException();
@@ -73,6 +75,11 @@ namespace RedPaint
             isLocked = !isLocked;
 
             setRect.ChangeLockerIcon(isLocked);
+        }
+
+        public Rect GetActiveRect()
+        {
+            return new Rect(position + new Vector2(0f,32f), size - new Vector2(0f, 32f));
         }
 
         public override void Update(float deltaTime)
@@ -161,6 +168,8 @@ namespace RedPaint
             mc._entityManager.AddEntity(baseRect);
             mc._entityManager.AddEntity(outline);
             mc._entityManager.AddEntity(setRect);
+
+            if (panelActive != null && !panelActive.isCreated) mc._entityManager.AddEntity(panelActive);
         }
 
         public Panel(Maincode imc, AbstrEntity pr = null) : base(imc, pr)

@@ -199,6 +199,8 @@ namespace RedPaint
         public override void OnSpawn()
         {
             UpdateCurrMap();
+
+            PanelHolderSettings.InitBasePanels(this);
         }
 
         public PanelHolder(Maincode imc, AbstrEntity pr = null) : base(imc, pr)

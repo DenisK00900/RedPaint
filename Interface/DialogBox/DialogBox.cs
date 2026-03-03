@@ -51,6 +51,16 @@ namespace RedPaint
             baseRect.SetPos(mc._data.res/2f - baseRect.visual[0].scale/2f);
         }
 
+        public virtual void OnTake()
+        {
+
+        }
+
+        public virtual void OnDrop()
+        {
+
+        }
+
         public override void Update(float deltaTime)
         {
             if (!isTaken)
@@ -62,6 +72,8 @@ namespace RedPaint
                         isTaken = true;
 
                         takenPos = mc._input.GetMousePosition() - GetPos();
+
+                        OnTake();
                     }
                     else if (TUH.GetHitboxCollideIndex(setRect.hb, mc._input.GetMousePosition()) == 1)
                     {
@@ -76,6 +88,8 @@ namespace RedPaint
                 if (mc._input.IsReleased(Button.LeftButton))
                 {
                     isTaken = false;
+
+                    OnDrop();
                 }
             }
         }
