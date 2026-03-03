@@ -167,6 +167,11 @@ namespace RedPaint
 
         public void AddPanel(Panel panel, Rect followRect)
         {
+            if (!panel.isCreated)
+            {
+                mc._entityManager.AddEntity(panel);
+            }
+
             if (followRect == null) throw new NullReferenceException("Целевая позиция отсутствует или не была правильно определена");
 
             panels.Add(panel);

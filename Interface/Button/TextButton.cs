@@ -30,6 +30,8 @@ namespace RedPaint
 
             clone.action = action;
 
+            SendCloneTo(clone);
+
             return clone;
         }
 

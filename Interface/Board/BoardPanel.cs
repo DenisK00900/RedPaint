@@ -67,6 +67,8 @@
 
             PopList[] lists = new PopList[5];
 
+            //1
+
             lists[0] = new PopList(mc, Vector2.Zero);
 
             Text[] listtext = new Text[3];
@@ -83,11 +85,14 @@
             TextButton[] button = new TextButton[3];
 
             button[0] = new TextButton(mc);
+            button[0].AddAction(new ActionSpawn(mc, new DialogCreateNewImage(mc)));
+            button[0].AddAction(new ActionDestroy(mc, lists[0]));
             button[0].SetText(listtext[0]);
             lists[0].AddMenuElement(button[0]);
 
             button[1] = new TextButton(mc);
-            button[1].action = new ActionSpawn(mc, new DialogFileLoad(mc));
+            button[1].AddAction(new ActionSpawn(mc, new DialogFileLoad(mc)));
+            button[1].AddAction(new ActionDestroy(mc, lists[0]));
             button[1].SetText(listtext[1]);
             lists[0].AddMenuElement(button[1]);
 
@@ -95,7 +100,32 @@
             button[2].SetText(listtext[2]);
             lists[0].AddMenuElement(button[2]);
 
+            //2
+
             lists[1] = new PopList(mc, Vector2.Zero);
+
+            listtext = new Text[2];
+            for (int i = 0; i < listtext.Length; i++)
+            {
+                listtext[i] = new Text(null);
+                listtext[i].font = font;
+            }
+
+            listtext[0].text = "Холст";
+            listtext[1].text = "Спрайт";
+
+            button = new TextButton[2];
+
+            button[0] = new TextButton(mc);
+            button[0].SetText(listtext[0]);
+            lists[1].AddMenuElement(button[0]);
+
+            button[1] = new TextButton(mc);
+            button[1].SetText(listtext[1]);
+            lists[1].AddMenuElement(button[1]);
+
+            //3-5
+
             lists[2] = new PopList(mc, Vector2.Zero);
             lists[3] = new PopList(mc, Vector2.Zero);
             lists[4] = new PopList(mc, Vector2.Zero);
@@ -108,7 +138,7 @@
                 currentX += texts[i].GetRectSize().X + spacing;
 
                 menu[i].SetText(texts[i]);
-                menu[i].action = new ActionSpawn(mc, lists[i]);
+                menu[i].AddAction(new ActionSpawn(mc, lists[i], menu[i].depth + 4));
                 menu[i].parent = this;
 
                 menu[i].SetHitboxPos(menu[i].GetPos());

@@ -17,16 +17,26 @@ namespace RedPaint
         {
             if (!ph.isCreated) throw new InvalidOperationException("PanelHolder должен быть добавлен как объект перед настройкой");
 
-            Panel vp = new Panel(ph.mc);
-            vp.ChangeLocker();
+            Panel[] panels = new Panel[5];
+            for (int i = 0; i < panels.Length; i++)
+            {
+                panels[i] = new Panel(ph.mc);
+                panels[i].ChangeLocker();
+            }
 
             ImageViev iv = new ImageViev(ph.mc);
 
-            iv.SetPanel(vp);
+            iv.SetPanel(panels[0]);
 
-            ph.mc._entityManager.AddEntity(vp);
+            ph.AddPanel(panels[0], ph.GetRect().GetSubrect(5, 4, 1, 0) + ph.GetRect().GetSubrect(5, 4, 3, 2));
 
-            ph.AddPanel(vp, ph.GetRect().GetSubrect(5, 4, 1, 0) + ph.GetRect().GetSubrect(5, 4, 3, 2));
+            ph.AddPanel(panels[1], ph.GetRect().GetSubrect(5, 6, 0, 0) + ph.GetRect().GetSubrect(5, 6, 0, 3));
+
+            ph.AddPanel(panels[2], ph.GetRect().GetSubrect(5, 6, 0, 4) + ph.GetRect().GetSubrect(5, 6, 0, 5));
+
+            ph.AddPanel(panels[3], ph.GetRect().GetSubrect(5, 1, 4, 0));
+
+            ph.AddPanel(panels[4], ph.GetRect().GetSubrect(5, 4, 1, 3) + ph.GetRect().GetSubrect(5, 4, 3, 3));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace RedPaint
         public Hitbox[] hb { get; set; }
         public bool mouseOver { get; set; }
 
-        public AbstrAction action = null;
+        public List<AbstrAction> action = new List<AbstrAction>();
 
         private float stanCurr = 0f;
         public float stanHold = 0.05f;
@@ -23,12 +23,20 @@ namespace RedPaint
         {
             if (stanCurr == 0f && mc._input.IsPressed(Button.LeftButton) && mouseOver)
             {
-                if (action != null) action.Act();
+                foreach (AbstrAction item in action)
+                {
+                    item.Act();
+                }
 
                 stanCurr = stanHold;
             }
             
             stanCurr = Math.Clamp(stanCurr - deltaTime, 0f, stanHold);
+        }
+
+        public void AddAction(AbstrAction ia)
+        {
+            action.Add(ia);
         }
 
         public abstract void UpdateHitbox();

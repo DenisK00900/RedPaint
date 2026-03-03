@@ -44,6 +44,21 @@ namespace RedPaint
 
         public bool isCreated = false;
 
+        public List<IUseCloneFollows> useCloneFollows = new List<IUseCloneFollows>();
+
+        protected void SendCloneTo(AbstrEntity clone)
+        {
+            foreach (IUseCloneFollows item in useCloneFollows)
+            {
+                item.NewClone(clone);
+            }
+        }
+
+        public virtual void SetDepth(int depth)
+        {
+            if (this is IDrawable d) d.depth = depth;
+        }
+
         public Vector2 GetPos()
         {
             if (!isAbsolute && parent != null) return parent.GetPos() + position;
@@ -77,7 +92,10 @@ namespace RedPaint
             }
         }
 
-        public abstract AbstrEntity Clone();
+        public virtual AbstrEntity Clone()
+        {
+            return null;
+        }
 
         public AbstrEntity(Maincode imc, AbstrEntity pr = null)
         {

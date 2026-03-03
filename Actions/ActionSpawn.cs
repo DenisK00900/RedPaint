@@ -9,14 +9,21 @@ namespace RedPaint
     {
         public AbstrEntity follow;
 
+        public int spawnDepth;
+
         public override void Act()
         {
-            mc._entityManager.AddEntity(follow.Clone());
+            AbstrEntity ae = follow.Clone();
+
+            ae.SetDepth(spawnDepth);
+
+            mc._entityManager.AddEntity(ae);
         }
 
-        public ActionSpawn(Maincode imc, AbstrEntity entity = null) : base(imc)
+        public ActionSpawn(Maincode imc, AbstrEntity entity = null, int sd = 0) : base(imc)
         {
             follow = entity;
+            spawnDepth = sd;
         }
     }
 }

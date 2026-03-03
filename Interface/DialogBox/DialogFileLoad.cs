@@ -169,7 +169,7 @@ namespace RedPaint
 
             upFolderButton.position = new Vector2(-fileViewTop.visual[0].scale.X / 2 + 16f, 0f);
             upFolderButton.UpdateHitbox();
-            upFolderButton.action = new ActionFolderBack(mc, this);
+            upFolderButton.AddAction(new ActionFolderBack(mc, this));
 
             int depthOffset = baseRect.depth;
             fileViewRect.depth = depthOffset + 2;
@@ -202,7 +202,7 @@ namespace RedPaint
         private TextButton CreateButton(Vector2 position, Text text, string filePath, AbstrAction act = null)
         {
             TextButton button = new TextButton(mc, fileViewRect);
-            button.action = act;
+            button.AddAction(act);
             button.SetPos(position);
             button.origColor = mc._settings.GetCurrPalletre().textColor2;
             button.effColor = mc._settings.GetCurrPalletre().effectColor2;

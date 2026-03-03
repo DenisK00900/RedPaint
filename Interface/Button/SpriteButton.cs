@@ -14,11 +14,6 @@ namespace RedPaint
         public VisualElement[] visual { get; set; }
         public int depth { get; set; }
 
-        public override AbstrEntity Clone()
-        {
-            throw new NotImplementedException();
-        }
-
         public override void UpdateHitbox()
         {
             Vector2 texSize = TUH.GetTextureSize((visual[0] as Sprite));

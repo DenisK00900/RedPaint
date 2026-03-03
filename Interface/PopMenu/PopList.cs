@@ -54,6 +54,8 @@ namespace RedPaint
             clone.size = size;
             clone.outlineSize = outlineSize;
 
+            SendCloneTo(clone);
+
             return clone;
         }
 
@@ -146,6 +148,13 @@ namespace RedPaint
             }
         }
 
+        public override void SetDepth(int depth)
+        {
+            base.SetDepth(depth);
+
+            baseRect.SetDepth(depth);
+            outline.SetDepth(depth - 1);
+        }
         public PopList(Maincode mc, Vector2 pos, AbstrEntity pr = null) : base(mc, pos, pr)
         {
             visual = new VisualElement[1];

@@ -30,5 +30,7 @@ namespace RedPaint
 
             return clone;
         }
+
+        public void SetDepth(int depth);
     }
 }
