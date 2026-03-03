@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 namespace RedPaint
 {
     public class DialogFileLoad : DialogBox
@@ -13,6 +14,9 @@ namespace RedPaint
         public Drawrect fileViewDecor2;
         public Drawrect fileViewDecor3;
         public Drawrect fileViewSide;
+
+        public FileLoadUpFolderButton upFolderButton;
+
         private readonly Vector2 fileViewOutLineSize = new Vector2(4, 4);
         private readonly float columnOffsetName = 0f;
         private readonly float columnOffsetType = 330f;
@@ -51,15 +55,28 @@ namespace RedPaint
             mc._entityManager.AddEntity(fileViewDecor3);
             mc._entityManager.AddEntity(fileViewSide);
 
+            mc._entityManager.AddEntity(upFolderButton);
+
             UpdateListInfo();
             base.OnSpawn();
         }
 
-        public void UpdateListInfo(string ch = "")
+        public void FolderUp()
+        {
+            Debug.WriteLine("flag1 " + currDir);
+
+            currDir = FileBrowserSolver.GetParentDirectory(currDir);
+
+            Debug.WriteLine("flag2 " + currDir);
+
+            UpdateListInfo(currDir, true);
+        }
+
+        public void UpdateListInfo(string ch = "", bool setMode = false)
         {
             ClearLists();
 
-            currDir = currDir + ch;
+            currDir = setMode ? ch : currDir + ch;
 
             Vector2 rectScale = fileViewRect.visual[0].scale;
             float currentY = listPadding;
@@ -84,7 +101,7 @@ namespace RedPaint
                 Vector2 posType = new Vector2(baseX + columnOffsetType, baseY + currentY);
                 Vector2 posStatus = new Vector2(baseX + columnOffsetStatus, baseY + currentY);
 
-                TextButton btnName = CreateButton(posName, textName, cont);
+                TextButton btnName = CreateButton(posName, textName, cont, new ActionFileBrowser(mc, this, cont));
                 TextButton btnType = CreateButton(posType, textType, cont);
                 TextButton btnStatus = CreateButton(posStatus, textStatus, cont);
 
@@ -111,6 +128,8 @@ namespace RedPaint
             fileViewDecor3 = new Drawrect(mc, fileViewRect);
             fileViewSide = new Drawrect(mc, fileViewRect);
 
+            upFolderButton = new FileLoadUpFolderButton(mc, fileViewTop);
+
             Vector2 size = DetermentSize();
             Vector2 innerSize = size - new Vector2(40f, 120f);
 
@@ -135,6 +154,10 @@ namespace RedPaint
             fileViewSide.visual[0].color = Color.Lerp(mc._settings.GetCurrPalletre().boxColor, mc._settings.GetCurrPalletre().baseColor2, 0.15f);
             fileViewSide.position = new Vector2(fileViewRect.visual[0].scale.X / 2 - 16f, 16f);
 
+            upFolderButton.position = new Vector2(-fileViewTop.visual[0].scale.X / 2 + 16f, 0f);
+            upFolderButton.UpdateHitbox();
+            upFolderButton.action = new ActionFolderBack(mc, this);
+
             int depthOffset = baseRect.depth;
             fileViewRect.depth = depthOffset + 2;
             fileViewRectOutLine.depth = depthOffset + 1;
@@ -143,6 +166,8 @@ namespace RedPaint
             fileViewDecor2.depth = fileViewRect.depth + 1;
             fileViewDecor3.depth = fileViewRect.depth + 1;
             fileViewSide.depth = fileViewRect.depth + 1;
+
+            upFolderButton.depth = fileViewTop.depth + 1;
         }
 
         private void SetupDecor(Drawrect decor, float width, float height, float xOffset, float lerpAmount)
@@ -161,10 +186,10 @@ namespace RedPaint
             return tx;
         }
 
-        private TextButton CreateButton(Vector2 position, Text text, string filePath)
+        private TextButton CreateButton(Vector2 position, Text text, string filePath, Action act = null)
         {
             TextButton button = new TextButton(mc, fileViewRect);
-            button.action = new ActionFileBrowser(mc, this, filePath);
+            button.action = act;
             button.SetPos(position);
             button.origColor = mc._settings.GetCurrPalletre().textColor2;
             button.effColor = mc._settings.GetCurrPalletre().effectColor2;

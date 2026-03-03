@@ -12,7 +12,22 @@ namespace RedPaint
 
         public override void Act()
         {
-            fileLoad.UpdateListInfo(text);
+            Exception ex = FileBrowserSolver.CanOpenPathEx(fileLoad.currDir + text);
+
+            if (ex == null)
+            {
+                fileLoad.UpdateListInfo(text);
+            }
+            else
+            {
+                fileLoad.mc._entityManager.AddEntity(
+                    new DialogMessage(
+                        fileLoad.mc,
+                        "Ошибка браузера файлов",
+                        FileBrowserSolver.TrimExceptionMessage(ex),
+                        null
+                        ));
+            }
         }
 
         public ActionFileBrowser(Maincode imc, DialogFileLoad fl, string tx) : base(imc)

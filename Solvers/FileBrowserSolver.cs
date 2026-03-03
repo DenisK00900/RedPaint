@@ -7,8 +7,41 @@ namespace RedPaint
 {
     public static class FileBrowserSolver
     {
-        public static string GetTypeOfPath(string path)
+        public static string GetParentDirectory(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return path;
+            }
+
+            if (GetTypeOfPath(path) == "Диск") return "";
+
+            path = path.TrimEnd('\\', '/');
+
+            int lastSeparatorIndex = path.LastIndexOfAny(new[] { '\\', '/' });
+
+            if (lastSeparatorIndex <= 0)
+            {
+                return lastSeparatorIndex == 0 ? string.Empty : path;
+            }
+
+            string result = path.Substring(0, lastSeparatorIndex);
+
+            if (result.Length == 2 && result[1] == ':')
+            {
+                return result + "\\";
+            }
+
+            return result;
+        }
+
+        public static string TrimExceptionMessage(Exception exception)
+        {
+            return exception.Message;
+        }
+
+        public static string GetTypeOfPath(string path)
+        { 
             if (string.IsNullOrEmpty(path))
                 return "Неопр.";
 
@@ -50,6 +83,53 @@ namespace RedPaint
             return path;
         }
 
+        public static Exception CanOpenPathEx(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return new ArgumentException("Путь не указан");
+
+            bool isDirectory = path.EndsWith("/") || path.EndsWith("\\");
+            string lowerPath = path.ToLowerInvariant();
+
+            if (isDirectory)
+            {
+                try
+                {
+                    var _ = Directory.GetFileSystemEntries(path);
+                    return null;
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    return new UnauthorizedAccessException($"{path}: Нет доступа к папке", ex);
+                }
+                catch (IOException ex)
+                {
+                    return new IOException($"{path}: Ошибка доступа к папке", ex);
+                }
+            }
+            else
+            {
+                if (!lowerPath.EndsWith(".png") && !lowerPath.EndsWith(".jpg"))
+                    return new NotSupportedException($"{path}: Неподдерживаемый тип файла");
+
+                try
+                {
+                    using (var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                    }
+                    return null;
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    return new UnauthorizedAccessException($"{path}: Нет доступа к файлу", ex);
+                }
+                catch (IOException ex)
+                {
+                    return new IOException($"{path}: Ошибка чтения файла", ex);
+                }
+            }
+        }
+
         public static string CanOpenPath(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -67,17 +147,17 @@ namespace RedPaint
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    return "Нет доступа";
+                    return $"Нет доступа";
                 }
                 catch (IOException)
                 {
-                    return $"Ошибка доступа";
+                    return $"Ошибка дост.";
                 }
             }
             else
             {
                 if (!lowerPath.EndsWith(".png") && !lowerPath.EndsWith(".jpg"))
-                    return "Неподд. тип";
+                    return $"Неподд. тип";
 
                 try
                 {
@@ -88,7 +168,7 @@ namespace RedPaint
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    return "Нет доступа";
+                    return $"Нет доступа";
                 }
                 catch (IOException)
                 {

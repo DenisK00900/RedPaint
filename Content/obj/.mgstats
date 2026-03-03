@@ -1,11 +1,12 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/DUP/DUP1.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/DUP/DUP1.xnb","FontDescriptionProcessor","SpriteFontContent",2099,186310,0,2204824
-"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Haipapikuseru/Haipapikuseru1.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Haipapikuseru/Haipapikuseru1.xnb","FontDescriptionProcessor","SpriteFontContent",2092,317382,0,1437728
-"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Haipapikuseru/Haipapikuseru2.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Haipapikuseru/Haipapikuseru2.xnb","FontDescriptionProcessor","SpriteFontContent",2092,317382,0,0479117
-"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati1.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati1.xnb","FontDescriptionProcessor","SpriteFontContent",2086,4249542,0,3034405
-"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati2.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati2.xnb","FontDescriptionProcessor","SpriteFontContent",2086,186310,0,1010328
-"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati3.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati3.xnb","FontDescriptionProcessor","SpriteFontContent",2086,1103814,0,1499072
-"E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/cross.png","E:/Dev/RedPaintDev/RedPaint/Content/bin/Texture/Icons/cross.xnb","TextureProcessor","Texture2DContent",351,16469,0,0150152
-"E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/lock.png","E:/Dev/RedPaintDev/RedPaint/Content/bin/Texture/Icons/lock.xnb","TextureProcessor","Texture2DContent",312,16469,0,0014449
-"E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/unlock.png","E:/Dev/RedPaintDev/RedPaint/Content/bin/Texture/Icons/unlock.xnb","TextureProcessor","Texture2DContent",331,16469,0,0025624
-"E:/Dev/RedPaintDev/RedPaint/Content/Texture/Misc/plane.png","E:/Dev/RedPaintDev/RedPaint/Content/bin/Texture/Misc/plane.xnb","TextureProcessor","Texture2DContent",70,89,0,0009587
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/DUP/DUP1.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/DUP/DUP1.xnb","FontDescriptionProcessor","SpriteFontContent",2099,186310,0,1579352
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Haipapikuseru/Haipapikuseru1.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Haipapikuseru/Haipapikuseru1.xnb","FontDescriptionProcessor","SpriteFontContent",2092,317382,0,1050404
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Haipapikuseru/Haipapikuseru2.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Haipapikuseru/Haipapikuseru2.xnb","FontDescriptionProcessor","SpriteFontContent",2092,317382,0,0486478
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati1.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati1.xnb","FontDescriptionProcessor","SpriteFontContent",2086,4249542,0,2427045
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati2.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati2.xnb","FontDescriptionProcessor","SpriteFontContent",2086,186310,0,0701899
+"E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati3.spritefont","E:/Dev/RedPaintDev/RedPaint/Content/bin/Fonts/Serati/Serati3.xnb","FontDescriptionProcessor","SpriteFontContent",2086,1103814,0,0989632
+"E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/cross.png","E:/Dev/RedPaintDev/RedPaint/Content/bin/Texture/Icons/cross.xnb","TextureProcessor","Texture2DContent",351,16469,0,0149676
+"E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/folderback.png","E:/Dev/RedPaintDev/RedPaint/Content/bin/Texture/Icons/folderback.xnb","TextureProcessor","Texture2DContent",256,16469,0,0110639
+"E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/lock.png","E:/Dev/RedPaintDev/RedPaint/Content/bin/Texture/Icons/lock.xnb","TextureProcessor","Texture2DContent",312,16469,0,0036223
+"E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/unlock.png","E:/Dev/RedPaintDev/RedPaint/Content/bin/Texture/Icons/unlock.xnb","TextureProcessor","Texture2DContent",331,16469,0,0016307
+"E:/Dev/RedPaintDev/RedPaint/Content/Texture/Misc/plane.png","E:/Dev/RedPaintDev/RedPaint/Content/bin/Texture/Misc/plane.xnb","TextureProcessor","Texture2DContent",70,89,0,0029512

@@ -80,3 +80,4 @@ E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Fonts\Haipapikuseru\Haipap
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\cross.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\lock.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\unlock.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\folderback.xnb

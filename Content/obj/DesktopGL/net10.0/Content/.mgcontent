@@ -11,6 +11,7 @@
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati2.spritefont</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati3.spritefont</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/cross.png</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/folderback.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/lock.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/unlock.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Misc/plane.png</File>
@@ -19,6 +20,7 @@
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File>Fonts/Haipapikuseru/Haipapikuseru2</File>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

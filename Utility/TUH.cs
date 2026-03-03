@@ -16,6 +16,21 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static Vector2 GetTextureSize(Sprite sprite)
+        {
+            if (sprite == null || sprite.texture == null)
+                return Vector2.Zero;
+
+            return new Vector2(sprite.texture.Width, sprite.texture.Height) * sprite.scale;
+        }
+
+        public static Vector2 GetTextureSize(Texture2D texture)
+        {
+            if (texture == null) return new Vector2(0, 0);
+
+            return new Vector2(texture.Width, texture.Height);
+        }
+
         public static int GetHitboxCollideIndex(Hitbox[] hb, Vector2 pos)
         {
             if (hb != null)
