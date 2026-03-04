@@ -22,14 +22,6 @@ namespace RedPaint
             depth = pl.baseRect.depth + 1;
         }
 
-        public void Draw(SpriteBatch sb)
-        {
-            foreach (VisualElement item in visual)
-            {
-                item.Draw(sb);
-            }
-        }
-
         public void UpdateImage()
         {
             visual = new VisualElement[1];

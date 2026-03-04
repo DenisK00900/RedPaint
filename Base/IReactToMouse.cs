@@ -11,5 +11,7 @@ namespace RedPaint
         public Hitbox[] hb { get; set; }
         
         public bool mouseOver { get; set; }
+
+        public void UpdateHitbox();
     }
 }

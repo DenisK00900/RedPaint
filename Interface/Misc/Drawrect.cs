@@ -12,14 +12,6 @@ namespace RedPaint
 
         public int depth { get; set; } = 0;
 
-        public void Draw(SpriteBatch sb)
-        {
-            foreach (VisualElement item in visual)
-            {
-                item.Draw(sb);
-            }
-        }
-
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);

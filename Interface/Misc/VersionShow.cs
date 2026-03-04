@@ -19,17 +19,10 @@ namespace RedPaint
             throw new NotImplementedException();
         }
 
-        public void Draw(SpriteBatch sb)
-        {
-            foreach (VisualElement item in visual)
-            {
-                item.Draw(sb);
-            }
-        }
 
         public VersionShow(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
-            depth = 99999;
+            depth = int.MaxValue;
 
             visual = new VisualElement[1];
 

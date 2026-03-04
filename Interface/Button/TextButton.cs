@@ -62,14 +62,6 @@ namespace RedPaint
             hb[0].pos = GetPos();
         }
 
-        public void Draw(SpriteBatch sb)
-        {
-            foreach(VisualElement item in visual)
-            {
-                item.Draw(sb);
-            }
-        }
-
         public override void Update(float deltaTime)
         {
             if (mouseOver)

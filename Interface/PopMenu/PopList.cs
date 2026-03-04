@@ -140,14 +140,6 @@ namespace RedPaint
             }
         }
 
-        public void Draw(SpriteBatch sb)
-        {
-            foreach (VisualElement item in visual)
-            {
-                item.Draw(sb);
-            }
-        }
-
         public override void SetDepth(int depth)
         {
             base.SetDepth(depth);

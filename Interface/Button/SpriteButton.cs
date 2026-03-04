@@ -27,14 +27,6 @@ namespace RedPaint
             hb[0].pos = GetPos() - texSize / 2f;
         }
 
-        public void Draw(SpriteBatch sb)
-        {
-            foreach (VisualElement item in visual)
-            {
-                item.Draw(sb);
-            }
-        }
-
         public SpriteButton(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
 
