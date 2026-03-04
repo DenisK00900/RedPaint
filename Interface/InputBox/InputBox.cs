@@ -9,12 +9,14 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
 {
-    public class InputBox : AbstrEntity, IDrawable, IReactToMouse
+    public class InputBox : AbstrEntity, IDrawable, IReactToMouse, IBlockInteraction
     {
         public VisualElement[] visual { get; set; }
         public int depth { get; set; }
         public Hitbox[] hb { get; set; }
         public bool mouseOver { get; set; }
+        public bool isHardBlock { get; set; } = false;
+        public bool isBlocking { get; set; } = false;
 
         public Drawrect box;
         public Drawrect outline;
@@ -25,6 +27,11 @@ namespace RedPaint
 
         public bool IsWriting = false;
 
+        private string shownString = "";
+
+        private float dashTimer = 0f;
+        private float dashCycle = 1.00f;
+
         public virtual Vector2 DetermentSize()
         {
             return new Vector2(96f, 32f);
@@ -34,21 +41,72 @@ namespace RedPaint
         {
             mc._entityManager.AddEntity(box);
             mc._entityManager.AddEntity(outline);
+
+            UpdateHitbox();
         }
 
         public override void SetDepth(int depth)
         {
             box.depth = depth;
             outline.depth = depth - 1;
+
+            base.SetDepth(depth + 1);
         }
 
         public void UpdateHitbox()
         {
-            
+            Vector2 texSize = TUH.GetTextureSize((box.visual[0] as Sprite));
+
+            hb = new Hitbox[1];
+            hb[0] = new PolygonHitbox(new Rect(texSize));
+
+            hb[0].parent = this;
+            hb[0].isAbsoluite = true;
+
+            hb[0].pos = GetPos() - texSize / 2f;
+        }
+
+        public override void Update(float deltaTime)
+        {
+            if (mouseOver && mc._input.IsPressed(Button.LeftButton))
+            {
+                IsWriting = true;
+            }
+            if (!mouseOver && (mc._input.IsPressed(Button.LeftButton) || mc._input.IsPressed(Button.RightButton)))
+            {
+                IsWriting = false;
+            }
+
+            if (IsWriting)
+            {
+                dashTimer = (dashTimer + deltaTime) % (dashCycle);
+            }
+            else
+            {
+                dashTimer = 0f;
+            }
+
+            isBlocking = IsWriting;
+
+            shownString = stringInput;
+
+            if (dashTimer > dashCycle/2f) shownString += "|";
+
+            (visual[0] as Text).text = shownString;
+
+            (visual[0] as Text).pos = new Vector2(
+                -40f + TUH.GetSizeFromText(shownString, (visual[0] as Text).font).X/2f, 0f);
         }
 
         public InputBox(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
+            visual = new VisualElement[1];
+
+            visual[0] = new Text(this);
+
+            (visual[0] as Text).font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
+            (visual[0] as Text).color = mc._settings.GetCurrPalletre().textColor2;
+
             box = new Drawrect(mc, this);
             outline = new Drawrect(mc, box);
 

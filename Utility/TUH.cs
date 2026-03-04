@@ -16,6 +16,15 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static Vector2 GetSizeFromText(string text, SpriteFont font)
+        {
+            Text t = new Text(null);
+            t.text = text;
+            t.font = font;
+
+            return t.GetRectSize();
+        }
+
         public static Vector2 GetTextureSize(Sprite sprite)
         {
             if (sprite == null || sprite.texture == null)

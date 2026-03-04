@@ -7,5 +7,7 @@ namespace RedPaint
     public interface IBlockInteraction
     {
         bool isHardBlock { get; set; }
+
+        bool isBlocking { get; set; }
     }
 }

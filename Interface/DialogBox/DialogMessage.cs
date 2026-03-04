@@ -13,6 +13,8 @@ namespace RedPaint
         public Text error;
 
         public bool isHardBlock { get; set; } = false;
+
+        public bool isBlocking { get; set; } = false;
         public VisualElement[] visual { get; set; }
         public int depth { get; set; }
 

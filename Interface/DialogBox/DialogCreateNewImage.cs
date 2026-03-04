@@ -37,6 +37,12 @@ namespace RedPaint
             base.OnSpawn();
         }
 
+        public override void OnTake()
+        {
+            InputW.IsWriting = false;
+            InputH.IsWriting = false;
+        }
+
         public override void OnDrop()
         {
             InputW.UpdateHitbox();
@@ -64,6 +70,9 @@ namespace RedPaint
 
             button.position = new Vector2(
                 size.X / 2f - 4f, pos2 + 48f);
+
+            InputW.stringInput = "128";
+            InputH.stringInput = "128";
 
             InputW.SetDepth(baseRect.depth + 1);
             InputH.SetDepth(baseRect.depth + 1);
