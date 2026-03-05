@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace RedPaint
         public DrawManager(Maincode parent)
         {
             mc = parent;
+
+            drawables = new List<IDrawable>();
         }
 
         public void Reorganaze()

@@ -28,6 +28,7 @@ namespace RedPaint
             texture.SetData(data);
             return texture;
         }
+
         public static Vector2 GetSizeFromText(string text, SpriteFont font)
         {
             Text t = new Text(null);

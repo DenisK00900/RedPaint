@@ -1,23 +1,36 @@
+//CheckerboardEffect
+
 sampler2D TextureSampler : register(s0);
 
-float4 WhiteOutPS(float4 color : COLOR0, float2 texCoord : TEXCOORD0) : COLOR0
+float4 Color1; // Первый цвет (верхний левый угол)
+float4 Color2; // Второй цвет
+float2 CellSize; // Размер одной клетки в пикселях (X, Y)
+float2 SurfaceSize; // Размер области рисования в пикселях (Ширина, Высота)
+
+float4 CheckeredPS(float4 color : COLOR0, float2 texCoord : TEXCOORD0) : COLOR0
 {
-    float4 texColor = tex2D(TextureSampler, texCoord);
+    float2 pos = texCoord * SurfaceSize;
+
+    float2 grid = floor(pos / CellSize);
     
-    if (texColor.a > 0)
+    float sum = grid.x + grid.y;
+    
+    float parity = frac(sum * 0.5);
+    
+    if (parity > 0.1)
     {
-        return float4(1, 1, 1, texColor.a);
+        return Color2;
     }
     else
     {
-        return texColor;
+        return Color1;
     }
 }
 
-technique WhiteOut
+technique Checkered
 {
     pass P0
     {
-        PixelShader = compile ps_2_0 WhiteOutPS();
+        PixelShader = compile ps_2_0 CheckeredPS();
     }
 }

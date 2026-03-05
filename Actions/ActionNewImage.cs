@@ -36,9 +36,7 @@ namespace RedPaint
                 return;
             }
 
-            mc._image.CanvasSize = size;
-
-            mc._image.SetImage(TUH.CreateTransparentTexture(mc.GraphicsDevice, (int)Math.Round(size.X), (int)Math.Round(size.Y)));
+            mc._image.CreateNew(TUH.CreateTransparentTexture(mc.GraphicsDevice, (int)Math.Round(size.X), (int)Math.Round(size.Y)));
         }
 
         public ActionNewImage(Maincode imc) : base(imc)
