@@ -37,10 +37,32 @@ namespace RedPaint
             base.OnSpawn();
         }
 
+        public override void Update(float deltaTime)
+        {
+            ActionNewImage newimage = new ActionNewImage(mc);
+
+            if (InputW.stringInput.Length > 0 && InputH.stringInput.Length > 0)
+            {
+                newimage.size = new Vector2(
+                    float.Parse(InputW.stringInput),
+                    float.Parse(InputH.stringInput)
+                    );
+            }
+            else
+            {
+                newimage.size = new Vector2(-1f, -1f);
+            }
+            button.action.Clear();
+            button.action.Add(newimage);
+            button.action.Add(new ActionDestroy(mc, this));
+
+            base.Update(deltaTime);
+        }
+
         public override void OnTake()
         {
-            InputW.IsWriting = false;
-            InputH.IsWriting = false;
+            InputW.isWriting = false;
+            InputH.isWriting = false;
         }
 
         public override void OnDrop()

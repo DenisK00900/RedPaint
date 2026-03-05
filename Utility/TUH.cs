@@ -16,6 +16,18 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static Texture2D CreateTransparentTexture(GraphicsDevice graphicsDevice,
+        int width = 1, int height = 1)
+        {
+            Texture2D texture = new Texture2D(graphicsDevice, width, height);
+            Color[] data = new Color[width * height];
+
+            for (int i = 0; i < data.Length; i++)
+                data[i] = Color.Transparent;
+
+            texture.SetData(data);
+            return texture;
+        }
         public static Vector2 GetSizeFromText(string text, SpriteFont font)
         {
             Text t = new Text(null);

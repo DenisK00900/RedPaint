@@ -16,6 +16,8 @@ namespace RedPaint
         private MouseState _msCurrent;
         private MouseState _msPrevious;
 
+        public bool isLockedOnWrite = false;
+        public IWritable writeTo = null;
         public InputManager(Maincode imc)
         {
             mc = imc;
@@ -33,6 +35,101 @@ namespace RedPaint
 
             _msPrevious = _msCurrent;
             _msCurrent = Mouse.GetState();
+
+            HandleTextInput();
+        }
+
+        public void LockOnWrite(IWritable write)
+        {
+            isLockedOnWrite = true;
+            writeTo = write;
+        }
+
+        public void UnlockWrite()
+        {
+            isLockedOnWrite = false;
+        }
+
+        public void HandleTextInput()
+        {
+            if (writeTo == null) return;
+
+            if (IsPressed(Keys.Back))
+            {
+                if (!string.IsNullOrEmpty(writeTo.stringInput))
+                {
+                    writeTo.stringInput = writeTo.stringInput.Substring(0, writeTo.stringInput.Length - 1);
+                }
+            }
+
+            if (IsPressed(Keys.Delete))
+            {
+                writeTo.stringInput = "";
+            }
+
+            foreach (Keys key in Enum.GetValues(typeof(Keys)))
+            {
+                if (IsPressed(key))
+                {
+                    string charStr = KeyToChar(key, _kbCurrent);
+                    if (string.IsNullOrEmpty(charStr)) continue;
+
+                    char c = charStr[0];
+
+                    if (char.IsLetter(c) && writeTo.includeAlp)
+                    {
+                        writeTo.stringInput += c;
+                    }
+                    else if (char.IsDigit(c) && writeTo.includeNum)
+                    {
+                        writeTo.stringInput += c;
+                    }
+                    else if (!char.IsLetterOrDigit(c) && writeTo.includeAlp)
+                    {
+                        writeTo.stringInput += c;
+                    }
+                }
+            }
+        }
+
+        private string KeyToChar(Keys key, KeyboardState kbState)
+        {
+            bool shift = kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift);
+
+            if (key >= Keys.A && key <= Keys.Z)
+            {
+                char c = (char)('a' + (key - Keys.A));
+                return shift ? c.ToString().ToUpper() : c.ToString();
+            }
+
+            if (key >= Keys.D0 && key <= Keys.D9)
+            {
+                if (shift)
+                {
+                    string[] shiftSymbols = new[] { "!", "@", "#", "$", "%", "^", "&", "*", "(", ")" };
+                    return shiftSymbols[key - Keys.D0];
+                }
+                return ((char)('0' + (key - Keys.D0))).ToString();
+            }
+
+            if (key >= Keys.NumPad0 && key <= Keys.NumPad9)
+            {
+                return ((char)('0' + (key - Keys.NumPad0))).ToString();
+            }
+
+            if (key == Keys.Space) return " ";
+            if (key == Keys.OemPeriod) return ".";
+            if (key == Keys.OemComma) return ",";
+            if (key == Keys.OemQuestion) return "?";
+            if (key == Keys.OemSemicolon) return ";";
+            if (key == Keys.OemQuotes) return "'";
+            if (key == Keys.OemOpenBrackets) return shift ? "{" : "[";
+            if (key == Keys.OemCloseBrackets) return shift ? "}" : "]";
+            if (key == Keys.OemPlus) return shift ? "+" : "=";
+            if (key == Keys.OemMinus) return shift ? "_" : "-";
+            if (key == Keys.OemBackslash) return shift ? "|" : "\\";
+
+            return "";
         }
 
         public bool IsDown(Keys key) => _kbCurrent.IsKeyDown(key);

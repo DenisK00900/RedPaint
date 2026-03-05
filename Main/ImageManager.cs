@@ -30,6 +30,11 @@ namespace RedPaint
             mc = imc;
         }
 
+        public void SetImage(Texture2D tex)
+        {
+            currImage = tex;
+        }
+
         public void LoadImage(string path)
         {
             if (!File.Exists(path))

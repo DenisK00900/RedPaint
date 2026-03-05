@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +10,7 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
 {
-    public class InputBox : AbstrEntity, IDrawable, IReactToMouse, IBlockInteraction
+    public class InputBox : AbstrEntity, IDrawable, IReactToMouse, IBlockInteraction, IWritable
     {
         public VisualElement[] visual { get; set; }
         public int depth { get; set; }
@@ -23,9 +24,13 @@ namespace RedPaint
 
         public Vector2 outlineSize = new Vector2(8f, 8f);
 
-        public string stringInput = "";
+        public string stringInput { get; set; } = "";
 
-        public bool IsWriting = false;
+        public bool isWriting { get; set; } = false;
+
+        public bool includeNum { get; set; } = true;
+
+        public bool includeAlp { get; set; } = false;
 
         private string shownString = "";
 
@@ -50,7 +55,7 @@ namespace RedPaint
             box.depth = depth;
             outline.depth = depth - 1;
 
-            base.SetDepth(depth + 1);
+            base.SetDepth(depth + 2);
         }
 
         public void UpdateHitbox()
@@ -70,14 +75,19 @@ namespace RedPaint
         {
             if (mouseOver && mc._input.IsPressed(Button.LeftButton))
             {
-                IsWriting = true;
+                isWriting = true;
+                mc._input.LockOnWrite(this);
             }
-            if (!mouseOver && (mc._input.IsPressed(Button.LeftButton) || mc._input.IsPressed(Button.RightButton)))
+            else if (
+                mc._input.IsPressed(Keys.Enter) ||
+                (!mouseOver && (mc._input.IsPressed(Button.LeftButton) || mc._input.IsPressed(Button.RightButton)))
+                )
             {
-                IsWriting = false;
+                isWriting = false;
+                mc._input.UnlockWrite();
             }
 
-            if (IsWriting)
+            if (isWriting)
             {
                 dashTimer = (dashTimer + deltaTime) % (dashCycle);
             }
@@ -86,7 +96,7 @@ namespace RedPaint
                 dashTimer = 0f;
             }
 
-            isBlocking = IsWriting;
+            isBlocking = isWriting;
 
             shownString = stringInput;
 
@@ -95,7 +105,9 @@ namespace RedPaint
             (visual[0] as Text).text = shownString;
 
             (visual[0] as Text).pos = new Vector2(
-                -40f + TUH.GetSizeFromText(shownString, (visual[0] as Text).font).X/2f, 0f);
+                (float)Math.Round(4f -DetermentSize().X/2 +
+                TUH.GetSizeFromText(shownString, (visual[0] as Text).font).X/2f),
+                0f);
         }
 
         public InputBox(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
