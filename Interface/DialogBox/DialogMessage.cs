@@ -50,7 +50,7 @@ namespace RedPaint
 
         public DialogMessage(Maincode imc, string mess, string err, AbstrEntity pr = null) : base(imc, pr)
         {
-            isSetPanel = true;
+            setRect.headText = "Ошибка";
 
             message = new Text(baseRect);
             error = new Text(baseRect);

@@ -131,6 +131,8 @@ namespace RedPaint
 
         public DialogFileLoad(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
+            setRect.headText = "Загрузить";
+
             _font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
 
             fileViewRect = new Drawrect(mc, baseRect);

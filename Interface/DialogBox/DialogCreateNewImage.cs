@@ -75,6 +75,8 @@ namespace RedPaint
 
         public DialogCreateNewImage(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
+            setRect.headText = "Создать";
+
             InputW = new InputBox(mc, baseRect);
             InputH = new InputBox(mc, baseRect);
 

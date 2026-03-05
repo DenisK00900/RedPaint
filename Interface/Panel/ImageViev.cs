@@ -32,6 +32,8 @@ namespace RedPaint
         {
             base.SetPanel(pl);
 
+            pl.setRect.headText = "Изображение";
+
             depth = pl.baseRect.depth + 1;
         }
 

@@ -19,6 +19,8 @@ namespace RedPaint
         private float timeUnderCloser = 0f;
         public float needTime = 0.25f;
 
+        public string headText = "Диалоговое окно";
+
         public Hitbox[] hb { get; set; }
         public bool mouseOver { get; set; }
 
@@ -56,6 +58,9 @@ namespace RedPaint
             visual[1].color =
                 Color.Lerp(mc._settings.GetCurrPalletre().textColor1, mc._settings.GetCurrPalletre().effectColor1, timeUnderCloser / needTime);
 
+            (visual[2] as Text).text = headText;
+            (visual[2] as Text).pos = new Vector2((visual[2] as Text).GetRectSize().X / 2f + 8f, 16f);
+
             base.Update(deltaTime);
         }
 
@@ -67,7 +72,7 @@ namespace RedPaint
 
         public DialogBoxSetRect(Maincode mc, AbstrEntity pr = null) : base(mc, pr)
         {
-            visual = new VisualElement[2];
+            visual = new VisualElement[3];
 
             visual[0] = new Sprite(this);
             (visual[0] as Sprite).texture = mc.Content.Load<Texture2D>("Texture/Misc/plane");
@@ -78,6 +83,12 @@ namespace RedPaint
             (visual[1] as Sprite).origin = new Vector2(0f, 0f);
             (visual[1] as Sprite).color = mc._settings.GetCurrPalletre().textColor1;
             (visual[1] as Sprite).scale = new Vector2(0.5f, 0.5f);
+
+            visual[2] = new Text(this);
+            (visual[2] as Text).text = headText;
+            (visual[2] as Text).font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
+            visual[2].color = Color.Lerp
+                (mc._settings.GetCurrPalletre().textColor1, mc._settings.GetCurrPalletre().baseColor2, 0.5f);
         }
     }
 }

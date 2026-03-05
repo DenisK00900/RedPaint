@@ -16,6 +16,7 @@ namespace RedPaint
 {
     public class PanelSetRect : Drawrect, IReactToMouse
     {
+        public string headText = "Панель";
 
         private Texture2D lockIcon;
 
@@ -84,13 +85,16 @@ namespace RedPaint
             visual[1].color =
                 Color.Lerp(mc._settings.GetCurrPalletre().textColor1, mc._settings.GetCurrPalletre().effectColor1, timeUnderCloser / needTime);
 
+            (visual[3] as Text).text = headText;
+            (visual[3] as Text).pos = new Vector2((visual[3] as Text).GetRectSize().X / 2f + 8f, 16f);
+
             base.Update(deltaTime);
         }
 
         public PanelSetRect(Maincode mc, AbstrEntity pr = null) : base(mc, pr)
         {
-            visual = new VisualElement[3];
-            for (int i = 0; i < visual.Length; i++)
+            visual = new VisualElement[4];
+            for (int i = 0; i < visual.Length-1; i++)
             {
                 visual[i] = new Sprite(this);
             }
@@ -112,6 +116,12 @@ namespace RedPaint
             (visual[2] as Sprite).origin = new Vector2(0f, 0f);
             (visual[2] as Sprite).color = mc._settings.GetCurrPalletre().textColor1;
             (visual[2] as Sprite).scale = new Vector2(0.5f, 0.5f);
+
+            visual[3] = new Text(this);
+            (visual[3] as Text).text = headText;
+            (visual[3] as Text).font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
+            visual[3].color = Color.Lerp
+                (mc._settings.GetCurrPalletre().textColor1, mc._settings.GetCurrPalletre().baseColor2, 0.5f);
         }
     }
 }
