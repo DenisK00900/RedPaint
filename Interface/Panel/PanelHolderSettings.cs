@@ -24,7 +24,7 @@ namespace RedPaint
                 panels[i].ChangeLocker();
             }
 
-            ImageViev iv = new ImageViev(ph.mc);
+            ImageView iv = new ImageView(ph.mc);
 
             iv.SetPanel(panels[0]);
 

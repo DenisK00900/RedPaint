@@ -39,7 +39,7 @@ namespace RedPaint
        
         public void Draw(SpriteBatch sb)
         {
-            if (!isActive) return;
+            if (!isActive || texture == null) return;
 
             if (TUH.InsideScreen(pos, parent.mc._data, Math.Max(texture.Width, texture.Height)))
             {

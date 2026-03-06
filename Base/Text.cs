@@ -42,9 +42,9 @@ namespace RedPaint
 
         public void Draw(SpriteBatch sb)
         { 
-            if (!isActive) return;
+            if (!isActive || text == "") return;
 
-            if (text != "" && TUH.InsideScreen(pos, parent.mc._data, Math.Max(font.MeasureString(text).X, font.MeasureString(text).Y)))
+            if (TUH.InsideScreen(pos, parent.mc._data, Math.Max(font.MeasureString(text).X, font.MeasureString(text).Y)))
             {
                 Vector2 lorigin = origin.HasValue ? origin.Value : font.MeasureString(text) / 2f;
 

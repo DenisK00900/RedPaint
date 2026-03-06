@@ -82,3 +82,4 @@ E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\lock.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\unlock.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\folderback.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\CheckerboardEffect.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\ChopEffect.xnb

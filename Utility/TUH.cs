@@ -6,16 +6,81 @@ using RedPaint;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
+using Color = Microsoft.Xna.Framework.Color;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
 {
     public static class TUH
     {
+        public static Texture2D ScaleTextureGPU(GraphicsDevice graphicsDevice, Texture2D source, float scale, SamplerState samplerState)
+        {
+            int newWidth = (int)(source.Width * scale);
+            int newHeight = (int)(source.Height * scale);
+
+            var target = new RenderTarget2D(graphicsDevice, newWidth, newHeight, false,
+                SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+
+            graphicsDevice.SetRenderTarget(target);
+            graphicsDevice.Clear(Color.Transparent);
+
+            using (var sb = new SpriteBatch(graphicsDevice))
+            {
+                sb.Begin(samplerState: samplerState);
+                sb.Draw(source, new Rectangle(0, 0, newWidth, newHeight), Color.White);
+                sb.End();
+            }
+
+            graphicsDevice.SetRenderTarget(null);
+            return target;
+        }
+
+        public static Vector4 CalculateCrop(Rect owner, Rect container)
+        {
+            float cropTop = 0f;
+            float cropRight = 0f;
+            float cropBottom = 0f;
+            float cropLeft = 0f;
+
+            float ownerLeft = owner.position.X;
+            float ownerRight = owner.position.X + owner.size.X;
+            float ownerTop = owner.position.Y;
+            float ownerBottom = owner.position.Y + owner.size.Y;
+
+            float containerLeft = container.position.X;
+            float containerRight = container.position.X + container.size.X;
+            float containerTop = container.position.Y;
+            float containerBottom = container.position.Y + container.size.Y;
+
+            if (containerLeft < ownerLeft)
+            {
+                cropLeft = ownerLeft - containerLeft;
+            }
+
+            if (containerRight > ownerRight)
+            {
+                cropRight = containerRight - ownerRight;
+            }
+
+            if (containerTop < ownerTop)
+            {
+                cropTop = ownerTop - containerTop;
+            }
+
+            if (containerBottom > ownerBottom)
+            {
+                cropBottom = containerBottom - ownerBottom;
+            }
+
+            return new Vector4(cropTop, cropRight, cropBottom, cropLeft);
+        }
+
         public static Texture2D CreateTransparentTexture(GraphicsDevice graphicsDevice,
         int width = 1, int height = 1)
         {

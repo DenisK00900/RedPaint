@@ -4,14 +4,8 @@ using System;
 
 namespace RedPaint
 {
-    public class CheckerTex : IDisposable
+    public class CheckerTex : AbstrShaderTex
     {
-        public Texture2D Tex;
-        public Effect Effect;
-        public RenderTarget2D Render;
-
-        public Maincode mc;
-
         private static Texture2D _whitePixel;
 
         public int sizeX = 256;
@@ -22,7 +16,7 @@ namespace RedPaint
         public Color color1;
         public Color color2;
 
-        public void Generate()
+        public override void Generate()
         {
             Generate(sizeX, sizeY, sizeChecker, color1, color2);
         }
@@ -87,20 +81,9 @@ namespace RedPaint
             device.SamplerStates[0] = oldSamplerState;
         }
 
-        public void Prerender(SpriteBatch sb)
+        public CheckerTex(Maincode imc) : base(imc)
         {
-            Generate(); 
-        }
 
-        public CheckerTex(Maincode imc)
-        {
-            mc = imc;
-        }
-
-        public void Dispose()
-        {
-            Render?.Dispose();
-            //Effect?.Dispose();
         }
     }
 }

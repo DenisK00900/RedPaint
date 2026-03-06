@@ -213,6 +213,38 @@ namespace RedPaint
             return new Rect(newPosition, newSize);
         }
 
+        public static Rect operator -(Rect left, Rect right)
+        {
+            float minX = Math.Max(left.position.X, right.position.X);
+            float minY = Math.Max(left.position.Y, right.position.Y);
+
+            float maxX = Math.Min(left.position.X + left.size.X, right.position.X + right.size.X);
+            float maxY = Math.Min(left.position.Y + left.size.Y, right.position.Y + right.size.Y);
+
+            float width = maxX - minX;
+            float height = maxY - minY;
+
+            if (width <= 0 || height <= 0)
+            {
+                return new Rect();
+            }
+
+            return new Rect(new Vector2(minX, minY), new Vector2(width, height));
+        }
+
+        public static Rect operator *(Rect rect, Vector2 scale)
+        {
+            Vector2 center = rect.Center;
+            Vector2 newSize = rect.size * scale;
+            Vector2 newPosition = center - (newSize * 0.5f);
+
+            return new Rect(newPosition, newSize);
+        }
+        public static Rect operator *(Vector2 scale, Rect rect)
+        {
+            return rect * scale;
+        }
+
         public Rect()
         {
 
