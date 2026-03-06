@@ -24,6 +24,8 @@ namespace RedPaint
         {
             if (source == null) return;
 
+            Dispose();
+
             SourceTexture = source;
             cropMargins = margins;
 

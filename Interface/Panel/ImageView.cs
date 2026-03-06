@@ -96,8 +96,10 @@ namespace RedPaint
             var mainRect = new Rect(activeRect.size - panel.outlineSize);
 
             Rect canvasRect = new Rect(canvasPosition, canvasSize);
+            Rect imageRect = new Rect(imagePosition, imageSize);
 
             chopCanvas.cropMargins = TUH.CalculateCrop(mainRect, canvasRect);
+            chopImage.cropMargins = TUH.CalculateCrop(mainRect, imageRect);
 
             chopCanvas.Generate();
             chopImage.Generate();
