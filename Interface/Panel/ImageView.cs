@@ -20,8 +20,8 @@ namespace RedPaint
         public float currScale = 0f;
         public float targetScale = 0f;
 
-        public ChopTex chopCanvas;
-        public ChopTex chopImage;
+        private ChopTex chopCanvas;
+        private ChopTex chopImage;
 
         public bool isTaken = false;
         private Vector2 takePos;
@@ -73,17 +73,12 @@ namespace RedPaint
 
         private void UpdateChop()
         {
-            Texture2D canvasTex = mc._image.GetCanvas();
-            Texture2D imageTex = mc._image.GetCurrentImage();
-
-            if (canvasTex != null) chopCanvas.SourceTexture = 
-                TUH.ScaleTextureGPU(mc.GraphicsDevice, canvasTex, currScale, SamplerState.PointClamp);
-
-            if (imageTex != null) chopImage.SourceTexture = 
-                TUH.ScaleTextureGPU(mc.GraphicsDevice, imageTex, currScale, SamplerState.PointClamp);
+            chopCanvas.SourceTexture = mc._image.GetCanvas();
+            chopImage.SourceTexture = mc._image.GetCurrentImage();
 
             var canvasSize = TUH.GetTextureSize(chopCanvas.SourceTexture);
             var imageSize = TUH.GetTextureSize(chopImage.SourceTexture);
+
             var halfOutline = panel.outlineSize / 2f;
             var centerOffset = activeRect.size / 2f + innerPos - halfOutline;
 
@@ -138,6 +133,8 @@ namespace RedPaint
 
             spriteCanvas.pos = commonPos;
             spriteImage.pos = commonPos;
+            spriteCanvas.scale = new Vector2(currScale);
+            spriteImage.scale = new Vector2(currScale);
         }
 
         public override void Update(float deltaTime)

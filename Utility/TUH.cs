@@ -19,28 +19,6 @@ namespace RedPaint
 {
     public static class TUH
     {
-        public static Texture2D ScaleTextureGPU(GraphicsDevice graphicsDevice, Texture2D source, float scale, SamplerState samplerState)
-        {
-            int newWidth = (int)(source.Width * scale);
-            int newHeight = (int)(source.Height * scale);
-
-            var target = new RenderTarget2D(graphicsDevice, newWidth, newHeight, false,
-                SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
-
-            graphicsDevice.SetRenderTarget(target);
-            graphicsDevice.Clear(Color.Transparent);
-
-            using (var sb = new SpriteBatch(graphicsDevice))
-            {
-                sb.Begin(samplerState: samplerState);
-                sb.Draw(source, new Rectangle(0, 0, newWidth, newHeight), Color.White);
-                sb.End();
-            }
-
-            graphicsDevice.SetRenderTarget(null);
-            return target;
-        }
-
         public static Vector4 CalculateCrop(Rect owner, Rect container)
         {
             float cropTop = 0f;

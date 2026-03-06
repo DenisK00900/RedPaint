@@ -36,13 +36,10 @@ namespace RedPaint
                 Effect = mc.Content.Load<Effect>("Shaders/ChopEffect");
             }
 
-            if (Render == null || Render.Width != source.Width || Render.Height != source.Height)
-            {
-                Render = new RenderTarget2D(device, source.Width, source.Height, false,
+            Render = new RenderTarget2D(device, source.Width, source.Height, false,
                     SurfaceFormat.Color, DepthFormat.None);
 
-                Tex = Render;
-            }
+            Tex = Render;
 
             var oldRenderTarget = device.GetRenderTargets();
             var oldRasterizerState = device.RasterizerState;
