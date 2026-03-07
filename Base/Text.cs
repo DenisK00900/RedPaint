@@ -44,7 +44,7 @@ namespace RedPaint
         { 
             if (!isActive || text == "") return;
 
-            if (TUH.InsideScreen(pos, parent.mc._data, Math.Max(font.MeasureString(text).X, font.MeasureString(text).Y)))
+            if (TUH.InsideScreen(pos, parent.mc._data, Math.Max(font.MeasureString(text).X * scale.X, font.MeasureString(text).Y * scale.Y)))
             {
                 Vector2 lorigin = origin.HasValue ? origin.Value : font.MeasureString(text) / 2f;
 

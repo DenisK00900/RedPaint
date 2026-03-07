@@ -41,7 +41,7 @@ namespace RedPaint
         {
             if (!isActive || texture == null) return;
 
-            if (TUH.InsideScreen(pos, parent.mc._data, Math.Max(texture.Width, texture.Height)))
+            if (TUH.InsideScreen(pos, parent.mc._data, Math.Max(texture.Width * scale.X, texture.Height * scale.Y)))
             {
                 Vector2 lorigin = origin.HasValue ? origin.Value : new Vector2(texture.Width / 2f, texture.Height / 2f);
 
