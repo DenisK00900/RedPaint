@@ -9,8 +9,8 @@ namespace RedPaint
     public class ImageView : PanelActive, IDrawable
     {
         private const float ZoomStep = 1f;
-        private const float MinZoom = -4f;
-        private const float MaxZoom = 8f;
+        private const float MinZoom = -3f;
+        private const float MaxZoom = 3f;
         private const float LerpFactor = 0.08f;
         private const float VisualOffsetY = 32f;
 
@@ -78,23 +78,27 @@ namespace RedPaint
 
             var canvasSize = TUH.GetTextureSize(chopCanvas.SourceTexture);
             var imageSize = TUH.GetTextureSize(chopImage.SourceTexture);
-
             var halfOutline = panel.outlineSize / 2f;
             var centerOffset = activeRect.size / 2f + innerPos - halfOutline;
 
-            var scaledCanvasSize = canvasSize;
-            var scaledImageSize = imageSize;
+            var canvasPosition = centerOffset - canvasSize / 2f;
+            var imagePosition = centerOffset - imageSize / 2f;
 
-            var canvasPosition = centerOffset - scaledCanvasSize / 2f;
-            var imagePosition = centerOffset - scaledImageSize / 2f;
+            var mainRect = new Rect(Vector2.Zero, activeRect.size - panel.outlineSize);
 
-            var mainRect = new Rect(activeRect.size - panel.outlineSize);
+            float multiplier = 0.5f * (currScale - 1f);
+            mainRect.position = canvasSize * multiplier;
+
+            mainRect.size += canvasSize - (canvasSize * currScale);
 
             Rect canvasRect = new Rect(canvasPosition, canvasSize);
-            Rect imageRect = new Rect(imagePosition, imageSize);
+            Rect imageRect = new Rect(imagePosition, canvasSize);
 
             chopCanvas.cropMargins = TUH.CalculateCrop(mainRect, canvasRect);
+            chopCanvas.cropMargins *= 1f / currScale;
+
             chopImage.cropMargins = TUH.CalculateCrop(mainRect, imageRect);
+            chopImage.cropMargins *= 1f / currScale;
 
             chopCanvas.Generate();
             chopImage.Generate();
@@ -124,7 +128,7 @@ namespace RedPaint
                 isTaken = false;
             }
 
-            currScale = MathHelper.Lerp(currScale, MathF.Pow(2f, targetScale), LerpFactor);
+            currScale = MathHelper.Lerp(currScale, MathF.Pow(2,targetScale), LerpFactor);
         }
 
         private void UpdateVisualElements()
