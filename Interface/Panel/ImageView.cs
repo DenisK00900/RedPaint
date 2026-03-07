@@ -29,6 +29,12 @@ namespace RedPaint
         private Sprite spriteCanvas;
         private Sprite spriteImage;
 
+        public int MouseOverPosX;
+        public int MouseOverPosY;
+
+        private float timeMouseIn = 0f;
+        private float timeMouseNeed = 0.4f;
+
         public ImageView(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
             mc._image.ImageLoaded += UpdateImage;
@@ -37,11 +43,17 @@ namespace RedPaint
             chopCanvas = new ChopTex(mc);
             chopImage = new ChopTex(mc);
 
-            visual = new VisualElement[2];
+            visual = new VisualElement[3];
             spriteCanvas = new Sprite(this);
             spriteImage = new Sprite(this);
             visual[0] = spriteCanvas;
             visual[1] = spriteImage;
+
+            visual[2] = new Text(this);
+
+            (visual[2] as Text).font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
+            (visual[2] as Text).text = "000 000";
+            visual[2].color = mc._settings.GetCurrPalletre().textColor1;
 
             UpdateImage();
         }
@@ -131,6 +143,29 @@ namespace RedPaint
             currScale = MathHelper.Lerp(currScale, MathF.Pow(2,targetScale), LerpFactor);
         }
 
+        private void UpdateMouseCoord(float deltaTime)
+        {
+            if (activeRect.CheckPoint(mc._input.GetMousePosition())) 
+                timeMouseIn = Math.Clamp(timeMouseIn + deltaTime, 0f, timeMouseNeed);
+            else 
+                timeMouseIn = Math.Clamp(timeMouseIn - deltaTime, 0f, timeMouseNeed);
+
+            Vector2 centerOffset = activeRect.size / 2f + innerPos - panel.outlineSize / 2f;
+
+            centerOffset -= TUH.GetTextureSize(spriteCanvas);
+
+            MouseOverPosX = (int)Math.Round(centerOffset.X);
+            MouseOverPosY = (int)Math.Round(centerOffset.Y);
+
+            visual[2].alpha = timeMouseIn / timeMouseNeed;
+            (visual[2] as Text).text = MouseOverPosX.ToString() + " " + MouseOverPosY.ToString();
+            (visual[2] as Text).pos =
+                new Vector2(
+                    (visual[2] as Text).GetRectSize().X / 2f + panel.outlineSize.X + 4f,
+                    activeRect.size.Y + (visual[2] as Text).GetRectSize().Y - panel.outlineSize.Y / 2f
+                    );
+        }
+
         private void UpdateVisualElements()
         {
             var commonPos = activeRect.size / 2f + innerPos + new Vector2(0f, VisualOffsetY);
@@ -151,6 +186,7 @@ namespace RedPaint
                 innerPos = mc._input.GetMousePosition() - takePos;
 
             UpdateChop();
+            UpdateMouseCoord(deltaTime);
             UpdateVisualElements();
         }
     }
