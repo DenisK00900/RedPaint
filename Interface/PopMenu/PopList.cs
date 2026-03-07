@@ -121,7 +121,7 @@ namespace RedPaint
             {
                 item.Update(deltaTime);
 
-                if ((item as IReactToMouse).mouseOver) isAnyMouseOver = true;
+                if ((item is IReactToMouse i) && i.mouseOver) isAnyMouseOver = true;
             }
 
             if ((mc._input.IsPressed(Button.LeftButton) || mc._input.IsPressed(Button.RightButton)) && !isAnyMouseOver)

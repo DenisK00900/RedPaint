@@ -25,8 +25,20 @@ namespace RedPaint
             }
 
             ImageView iv = new ImageView(ph.mc);
+            ToolsBox tb = new ToolsBox(ph.mc);
+            PaletteBox pb = new PaletteBox(ph.mc);
+            ToolSettings ts = new ToolSettings(ph.mc);
+            LayerSettings ls = new LayerSettings(ph.mc);
 
             iv.SetPanel(panels[0]);
+
+            ts.SetPanel(panels[1]);
+
+            pb.SetPanel(panels[2]);
+
+            tb.SetPanel(panels[3]);
+
+            ls.SetPanel(panels[4]);
 
             ph.AddPanel(panels[0], ph.GetRect().GetSubrect(5, 4, 1, 0) + ph.GetRect().GetSubrect(5, 4, 3, 2));
 

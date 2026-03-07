@@ -40,7 +40,7 @@ namespace RedPaint
             checkerTex.sizeX = currImage.Width; 
             checkerTex.sizeY = currImage.Height;
 
-            checkerTex.sizeChecker = 32;
+            checkerTex.sizeChecker = 16;
 
             checkerTex.color1 = Color.Lerp(Color.Gray, mc._settings.GetCurrPalletre().baseColor1, 0.9f);
             checkerTex.color2 = Color.Lerp(Color.Gray, mc._settings.GetCurrPalletre().baseColor2, 0.9f);

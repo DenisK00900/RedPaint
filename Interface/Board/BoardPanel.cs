@@ -71,7 +71,7 @@
 
             lists[0] = new PopList(mc, Vector2.Zero);
 
-            Text[] listtext = new Text[3];
+            Text[] listtext = new Text[4];
             for (int i = 0; i < listtext.Length; i++)
             {
                 listtext[i] = new Text(null);
@@ -81,8 +81,9 @@
             listtext[0].text = "Создать";
             listtext[1].text = "Загрузить";
             listtext[2].text = "Сохранить";
+            listtext[3].text = "Сохранить как";
 
-            TextButton[] button = new TextButton[3];
+            TextButton[] button = new TextButton[4];
 
             button[0] = new TextButton(mc);
             button[0].AddAction(new ActionSpawn(mc, new DialogCreateNewImage(mc)));
@@ -100,11 +101,17 @@
             button[2].SetText(listtext[2]);
             lists[0].AddMenuElement(button[2]);
 
+            button[3] = new TextButton(mc);
+            button[3].SetText(listtext[3]);
+            lists[0].AddMenuElement(button[3]);
+
+            lists[0].AddMenuElement(new DelayMenuElement(mc));
+
             //2
 
             lists[1] = new PopList(mc, Vector2.Zero);
 
-            listtext = new Text[2];
+            listtext = new Text[3];
             for (int i = 0; i < listtext.Length; i++)
             {
                 listtext[i] = new Text(null);
@@ -113,8 +120,9 @@
 
             listtext[0].text = "Холст";
             listtext[1].text = "Спрайт";
+            listtext[2].text = "Настройки";
 
-            button = new TextButton[2];
+            button = new TextButton[3];
 
             button[0] = new TextButton(mc);
             button[0].SetText(listtext[0]);
@@ -123,6 +131,12 @@
             button[1] = new TextButton(mc);
             button[1].SetText(listtext[1]);
             lists[1].AddMenuElement(button[1]);
+
+            lists[1].AddMenuElement(new DelayMenuElement(mc));
+
+            button[2] = new TextButton(mc);
+            button[2].SetText(listtext[2]);
+            lists[1].AddMenuElement(button[2]);
 
             //3-5
 

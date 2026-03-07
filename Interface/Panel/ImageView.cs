@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 using System.Numerics;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
@@ -10,8 +11,8 @@ namespace RedPaint
     {
         private const float ZoomStep = 1f;
         private const float MinZoom = -3f;
-        private const float MaxZoom = 3f;
-        private const float LerpFactor = 0.08f;
+        private const float MaxZoom = 5f;
+        private const float LerpFactor = 0.12f;
         private const float VisualOffsetY = 32f;
 
         public VisualElement[] visual { get; set; }
@@ -143,6 +144,11 @@ namespace RedPaint
             currScale = MathHelper.Lerp(currScale, MathF.Pow(2,targetScale), LerpFactor);
         }
 
+        public Vector2 GetCurrTexPos()
+        {
+            return new Vector2(MouseOverPosX, MouseOverPosY);
+        }
+
         private void UpdateMouseCoord(float deltaTime)
         {
             if (activeRect.CheckPoint(mc._input.GetMousePosition())) 
@@ -150,9 +156,18 @@ namespace RedPaint
             else 
                 timeMouseIn = Math.Clamp(timeMouseIn - deltaTime, 0f, timeMouseNeed);
 
-            Vector2 centerOffset = activeRect.size / 2f + innerPos - panel.outlineSize / 2f;
+            Vector2 mousePos = mc._input.GetMousePosition();
+            Vector2 textureSize = TUH.GetTextureSize(visual[0] as Sprite);
+            Vector2 scaleVector = Vector2.One * currScale;
 
-            centerOffset -= TUH.GetTextureSize(spriteCanvas);
+            Vector2 centerOffset = (
+                mousePos
+                - activeRect.position
+                - activeRect.size * 0.5f
+                - scaleVector * 0.5f
+                + textureSize * 0.5f
+                - innerPos
+            ) / currScale;
 
             MouseOverPosX = (int)Math.Round(centerOffset.X);
             MouseOverPosY = (int)Math.Round(centerOffset.Y);
