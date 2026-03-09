@@ -6,7 +6,7 @@ namespace RedPaint
 {
     public class ActionFileBrowser : AbstrAction
     {
-        public DialogFileLoad fileLoad;
+        public IFileBrowser fileLoad;
 
         public string text;
 
@@ -20,9 +20,9 @@ namespace RedPaint
             }
             else
             {
-                fileLoad.mc._entityManager.AddEntity(
+                mc._entityManager.AddEntity(
                     new DialogMessage(
-                        fileLoad.mc,
+                        mc,
                         "Ошибка браузера файлов",
                         FileBrowserSolver.TrimExceptionMessage(ex),
                         null
@@ -30,7 +30,7 @@ namespace RedPaint
             }
         }
 
-        public ActionFileBrowser(Maincode imc, DialogFileLoad fl, string tx) : base(imc)
+        public ActionFileBrowser(Maincode imc, IFileBrowser fl, string tx) : base(imc)
         {
             fileLoad = fl;
             text = tx;

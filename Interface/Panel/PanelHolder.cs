@@ -196,6 +196,22 @@ namespace RedPaint
             UpdateCurrMap();
         }
 
+        public void ClearPanels()
+        {
+            var panelsCopy = new List<Panel>(panels);
+
+            panels.Clear();
+
+            foreach (var panel in panelsCopy)
+            {
+                panel.parent = null;
+                panel.ClearHitbox();
+                panel.Destroy();
+            }
+
+            UpdateCurrMap();
+        }
+
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);

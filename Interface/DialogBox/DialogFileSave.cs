@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 namespace RedPaint
 {
-    public class DialogFileLoad : DialogBox, IFileBrowser
+    public class DialogFileSave : DialogBox, IFileBrowser
     {
         public Drawrect fileViewRect;
         public Drawrect fileViewRectOutLine;
@@ -25,7 +25,6 @@ namespace RedPaint
         private readonly float listPadding = 40f;
         private readonly float listSpacing = 4f;
         private readonly float listStartXOffset = 8f;
-
         public string currDir { get; set; } = "";
 
         public List<TextButton> dir = new List<TextButton>();
@@ -34,9 +33,9 @@ namespace RedPaint
 
         private SpriteFont _font;
 
-        public override DialogFileLoad Clone()
+        public override DialogFileSave Clone()
         {
-            DialogFileLoad clone = new DialogFileLoad(mc, parent);
+            DialogFileSave clone = new DialogFileSave(mc, parent);
 
             return clone;
         }
@@ -101,7 +100,7 @@ namespace RedPaint
                 AbstrAction btnNameAct;
                 if (FileBrowserSolver.GetTypeOfPath(cont) == "Изобр.")
                 {
-                    btnNameAct = new ActionLoadFile(mc, this, currDir + cont);
+                    btnNameAct = null;
                 }
                 else
                 {
@@ -130,15 +129,15 @@ namespace RedPaint
             UpdateListInfo();
         }
 
-        public DialogFileLoad(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
+        public DialogFileSave(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
-            setRect.headText = "Загрузить";
+            setRect.headText = "Сохранить как";
 
             _font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
 
             fileViewRect = new Drawrect(mc, baseRect);
             fileViewRectOutLine = new Drawrect(mc, fileViewRect);
-            
+
             Vector2 size = DetermentSize();
             Vector2 innerSize = size - new Vector2(40f, 72f);
 

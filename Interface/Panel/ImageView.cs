@@ -11,7 +11,7 @@ namespace RedPaint
     {
         private const float ZoomStep = 1f;
         private const float MinZoom = -3f;
-        private const float MaxZoom = 5f;
+        private const float MaxZoom = 6f;
         private const float LerpFactor = 0.12f;
         private const float VisualOffsetY = 32f;
 
@@ -44,7 +44,7 @@ namespace RedPaint
             chopCanvas = new ChopTex(mc);
             chopImage = new ChopTex(mc);
 
-            visual = new VisualElement[3];
+            visual = new VisualElement[4];
             spriteCanvas = new Sprite(this);
             spriteImage = new Sprite(this);
             visual[0] = spriteCanvas;
@@ -55,6 +55,10 @@ namespace RedPaint
             (visual[2] as Text).font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
             (visual[2] as Text).text = "000 000";
             visual[2].color = mc._settings.GetCurrPalletre().textColor1;
+
+            visual[3] = new Sprite(this);
+            (visual[3] as Sprite).texture = mc.Content.Load<Texture2D>("Texture/Icons/pixelselect");
+            visual[3].origin = new Vector2(0f, 0f);
 
             UpdateImage();
         }
@@ -149,6 +153,34 @@ namespace RedPaint
             return new Vector2(MouseOverPosX, MouseOverPosY);
         }
 
+        private void UpdateSelectPixel()
+        {
+            if (activeRect.CheckPoint(mc._input.GetMousePosition()))
+            {
+                visual[3].isActive = true;
+
+                if (TUH.GetPixelColor(spriteImage.texture, GetCurrTexPos()) != null)
+                {
+                    visual[3].color =
+                        TUH.GetBrightness(TUH.GetPixelColor(spriteImage.texture, GetCurrTexPos()).Value) < 0.5f ?
+                        Color.White : Color.Black;
+                }
+                else
+                {
+                    visual[3].color = Color.White;
+                }
+
+                visual[3].pos = (GetCurrTexPos() - TUH.GetTextureSize(spriteCanvas.texture)/2f) * currScale + innerPos + activeRect.size * 0.5f + new Vector2(0f,32f);
+            }
+            else
+            {
+                visual[3].isActive = false;
+                visual[3].pos = Vector2.Zero;
+            }
+
+            visual[3].scale = new Vector2(currScale / 64f);
+        }
+
         private void UpdateMouseCoord(float deltaTime)
         {
             if (activeRect.CheckPoint(mc._input.GetMousePosition())) 
@@ -202,6 +234,7 @@ namespace RedPaint
 
             UpdateChop();
             UpdateMouseCoord(deltaTime);
+            UpdateSelectPixel();
             UpdateVisualElements();
         }
     }

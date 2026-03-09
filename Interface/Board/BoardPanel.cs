@@ -35,9 +35,7 @@
 
         public BoardPanel(Maincode mc) : base(mc)
         {
-            baseRect = new Drawrect(mc);
-
-            baseRect.parent = this;
+            baseRect = new Drawrect(mc, this);
 
             (baseRect.visual[0] as Sprite).origin = Vector2.Zero;
             (baseRect.visual[0] as Sprite).color = mc._settings.GetCurrPalletre().baseColor2;
@@ -102,6 +100,8 @@
             lists[0].AddMenuElement(button[2]);
 
             button[3] = new TextButton(mc);
+            button[3].AddAction(new ActionSpawn(mc, new DialogFileSave(mc)));
+            button[3].AddAction(new ActionDestroy(mc, lists[0]));
             button[3].SetText(listtext[3]);
             lists[0].AddMenuElement(button[3]);
 
@@ -138,24 +138,62 @@
             button[2].SetText(listtext[2]);
             lists[1].AddMenuElement(button[2]);
 
-            //3-5
+            //3
 
             lists[2] = new PopList(mc, Vector2.Zero);
+
+            listtext = new Text[3];
+            for (int i = 0; i < listtext.Length; i++)
+            {
+                listtext[i] = new Text(null);
+                listtext[i].font = font;
+            }
+
+            listtext[0].text = "Новая панель";
+            listtext[1].text = "Восстановить";
+            listtext[2].text = "Очистить";
+
+            button = new TextButton[3];
+
+            button[0] = new TextButton(mc);
+            button[0].AddAction(new ActionNewPanel(mc));
+            button[0].AddAction(new ActionDestroy(mc, lists[2]));
+            button[0].SetText(listtext[0]);
+            lists[2].AddMenuElement(button[0]);
+
+            button[1] = new TextButton(mc);
+            button[1].AddAction(new ActionPanelHolderDef(mc));
+            button[1].AddAction(new ActionDestroy(mc, lists[2]));
+            button[1].SetText(listtext[1]);
+            lists[2].AddMenuElement(button[1]);
+
+            button[2] = new TextButton(mc);
+            button[2].AddAction(new ActionClearPanels(mc));
+            button[2].AddAction(new ActionDestroy(mc, lists[2]));
+            button[2].SetText(listtext[2]);
+            lists[2].AddMenuElement(button[2]);
+
+            lists[2].AddMenuElement(new DelayMenuElement(mc));
+
+            //4-5
+
             lists[3] = new PopList(mc, Vector2.Zero);
             lists[4] = new PopList(mc, Vector2.Zero);
 
+            baseRect.SetDepth(1);
+
             for (int i = 0; i < menu.Length; i++)
             {
-                menu[i] = new TextButton(mc);
+                menu[i] = new TextButton(mc, this);
 
                 menu[i].SetPos(new Vector2(currentX, 20));
                 currentX += texts[i].GetRectSize().X + spacing;
 
                 menu[i].SetText(texts[i]);
                 menu[i].AddAction(new ActionSpawn(mc, lists[i], menu[i].depth + 4));
-                menu[i].parent = this;
 
                 menu[i].SetHitboxPos(menu[i].GetPos());
+                menu[i].SetDepth(baseRect.depth + 1);
             }
         }
     }

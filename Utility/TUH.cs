@@ -19,6 +19,44 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static Color? GetPixelColor(this Texture2D texture, Vector2 position)
+        {
+            return GetPixelColor(texture, (int)position.X, (int)position.Y);
+        }
+
+        public static Color? GetPixelColor(this Texture2D texture, int x, int y)
+        {
+            if (texture == null)
+                return null;
+
+            if (x < 0 || x >= texture.Width || y < 0 || y >= texture.Height)
+                return null;
+
+            Color[] pixelData = new Color[1];
+
+            texture.GetData(0, new Rectangle(x, y, 1, 1), pixelData, 0, 1);
+
+            return pixelData[0];
+        }
+
+
+        public static Color GetNegative(this Color color)
+        {
+            return new Color(
+                255 - color.R,
+                255 - color.G,
+                255 - color.B,
+                color.A
+            );
+        }
+        public static float GetBrightness(Color color)
+        {
+            float r = color.R / 255f;
+            float g = color.G / 255f;
+            float b = color.B / 255f;
+
+            return 0.2126f * r + 0.7152f * g + 0.0722f * b;
+        }
         public static Vector4 CalculateCrop(Rect owner, Rect container)
         {
             float cropTop = 0f;

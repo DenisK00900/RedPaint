@@ -6,14 +6,14 @@ namespace RedPaint
 {
     public class ActionFolderBack : AbstrAction
     {
-        public DialogFileLoad fileLoad;
+        public IFileBrowser fileLoad;
 
         public override void Act()
         {
             fileLoad.FolderUp();
         }
 
-        public ActionFolderBack(Maincode imc, DialogFileLoad fl) : base(imc)
+        public ActionFolderBack(Maincode imc, IFileBrowser fl) : base(imc)
         {
             fileLoad = fl;
         }

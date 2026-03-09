@@ -17,6 +17,8 @@ namespace RedPaint
         {
             if (!ph.isCreated) throw new InvalidOperationException("PanelHolder должен быть добавлен как объект перед настройкой");
 
+            ph.ClearPanels();
+
             Panel[] panels = new Panel[5];
             for (int i = 0; i < panels.Length; i++)
             {
