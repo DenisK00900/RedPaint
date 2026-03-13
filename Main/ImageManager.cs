@@ -7,7 +7,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-using RedPaint;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,6 +26,8 @@ namespace RedPaint
         public Vector2 CanvasSize;
 
         public CheckerTex checkerTex;
+
+        public AbstrTool currTool = null;
 
         public ImageManager(Maincode imc)
         {
