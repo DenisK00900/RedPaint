@@ -115,6 +115,18 @@
 /processorParam:TextureFormat=Color
 /build:Texture/Icons/pixelselect.png
 
+#begin Texture/Icons/Tools/IconCircle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/Icons/Tools/IconCircle.png
+
 #begin Texture/Icons/Tools/IconErase.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -139,6 +151,18 @@
 /processorParam:TextureFormat=Color
 /build:Texture/Icons/Tools/IconFill.png
 
+#begin Texture/Icons/Tools/IconLine.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/Icons/Tools/IconLine.png
+
 #begin Texture/Icons/Tools/IconPencil.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -150,6 +174,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Texture/Icons/Tools/IconPencil.png
+
+#begin Texture/Icons/Tools/IconRect.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/Icons/Tools/IconRect.png
 
 #begin Texture/Icons/Tools/IconRectSelect.png
 /importer:TextureImporter

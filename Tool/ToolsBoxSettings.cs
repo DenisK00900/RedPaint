@@ -24,6 +24,13 @@ namespace RedPaint
             baseTools.AddTool(new Erase(tb.mc));
             tb.AddRegion(baseTools);
 
+            ToolsRegion figureTools = new ToolsRegion(tb.mc, tb);
+            figureTools.SetHeadText("Фигуры");
+            figureTools.AddTool(new LineDraw(tb.mc));
+            figureTools.AddTool(new RectDraw(tb.mc));
+            figureTools.AddTool(new CircleDraw(tb.mc));
+            tb.AddRegion(figureTools);
+
             ToolsRegion SelectTools = new ToolsRegion(tb.mc, tb);
             SelectTools.SetHeadText("Выделение");
             SelectTools.AddTool(new RectSelect(tb.mc));
@@ -33,6 +40,8 @@ namespace RedPaint
             otherTools.SetHeadText("Другое");
             otherTools.AddTool(new See(tb.mc));
             tb.AddRegion(otherTools);
+
+            tb.mc._image.currTool = otherTools.toolList[0].tool;
         }
     }
 }
