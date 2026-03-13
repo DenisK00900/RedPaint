@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RedPaint.Base;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,6 +30,8 @@ namespace RedPaint
             clone.saveParent = saveParent;
 
             clone.action = action;
+
+            clone.hint = hint.Clone();
 
             SendCloneTo(clone);
 
@@ -67,10 +70,20 @@ namespace RedPaint
             if (mouseOver)
             {
                 mouseOverTime = Math.Clamp(mouseOverTime + deltaTime, 0f, needTime);
+
+                if (mc._input.IsMouseMoved())
+                {
+                    mouseOverStopTime = 0f;
+                }
+                else
+                {
+                    mouseOverStopTime += deltaTime;
+                }
             }
             else
             {
                 mouseOverTime = Math.Clamp(mouseOverTime - deltaTime, 0f, needTime);
+                mouseOverStopTime = 0f;
             }
 
             if (visual[0] != null)

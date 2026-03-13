@@ -149,6 +149,10 @@ namespace RedPaint
             GetButtonState(_msCurrent, button) == ButtonState.Released &&
             GetButtonState(_msPrevious, button) == ButtonState.Pressed;
 
+        public bool IsMouseMoved()
+        {
+            return _msCurrent.X != _msPrevious.X || _msCurrent.Y != _msPrevious.Y;
+        }
 
         private ButtonState GetButtonState(MouseState state, Button button)
         {

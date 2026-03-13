@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Reflection.Emit;
 using Color = Microsoft.Xna.Framework.Color;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
+using System.Diagnostics;
 
 namespace RedPaint
 {
@@ -21,7 +22,7 @@ namespace RedPaint
 
         public Vector2 outlineSize = new Vector2(8f, 8f);
 
-        public List<AbstrTool> toolList = new List<AbstrTool>();
+        public List<ToolViewBox> toolList = new List<ToolViewBox>();
 
         public new ToolsBox parent;
 
@@ -37,6 +38,19 @@ namespace RedPaint
             clone.outlineSize = outlineSize;
 
             return clone;
+        }
+
+        public void AddTool(AbstrTool tool)
+        {
+            ToolViewBox box = new ToolViewBox(mc);
+            box.SetTool(tool, iconSize);
+            box.parent = baseRect;
+            box.SetDepth(baseRect.depth + 6);
+            box.isAbsolute = true;
+
+            mc._entityManager.AddEntity(box);
+
+            toolList.Add(box);
         }
 
         public void SetHeadText(string text)
@@ -55,17 +69,44 @@ namespace RedPaint
 
         public Vector2 DetermentSize()
         {
-            float sizeY = 1f;
+            float contentWidth = parent.panel.size.X - outlineSize.X - parent.panel.outlineSize.X;
 
+            int itemsPerRow = Math.Max(1, (int)(contentWidth / iconSize));
+
+            int rows = 0;
             if (toolList.Count > 0)
             {
-                sizeY = (toolList.Count * iconSize) % parent.panel.size.X;
+                rows = (int)Math.Ceiling((float)toolList.Count / itemsPerRow);
             }
 
+            float contentHeight = rows * iconSize + 32f;
+
             return new Vector2(
-                parent.panel.size.X, 
-                sizeY * iconSize + 32f)
-                - outlineSize;
+                parent.panel.size.X - parent.panel.outlineSize.X,
+                contentHeight + outlineSize.Y
+            );
+        }
+
+        public void UpdateBoxPos(int index)
+        {
+            ToolViewBox box = toolList[index];
+
+
+            float contentWidth = baseRect.visual[0].scale.X;
+
+            int itemsPerRow = Math.Max(1, (int)(contentWidth / iconSize));
+
+            int row = index / itemsPerRow;
+            int col = index % itemsPerRow;
+
+            Vector2 topLeft = baseRect.GetPos() - baseRect.visual[0].scale / 2f;
+
+            float offsetX = iconSize / 2f;
+            float offsetY = 32f + iconSize / 2f;
+
+            Vector2 newPos = topLeft + new Vector2(offsetX, offsetY) + new Vector2(col * iconSize, row * iconSize);
+
+            box.targetPos = newPos;
         }
 
         public override void Update(float deltaTime)
@@ -79,6 +120,11 @@ namespace RedPaint
 
             (setRect.visual[1] as Text).pos = 
                 new Vector2(-setRect.visual[0].scale.X/2f + (setRect.visual[1] as Text).GetRectSize().X / 2f + outlineSize.X, 0f);
+
+            for(int i = 0; i < toolList.Count; i++)
+            {
+                UpdateBoxPos(i);
+            }
 
             base.Update(deltaTime);
         }

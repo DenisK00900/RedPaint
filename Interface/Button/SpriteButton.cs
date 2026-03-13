@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RedPaint.Base;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +10,7 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
 {
-    public class SpriteButton : AbstrActButton, IDrawable
+    public class SpriteButton : AbstrActButton, IDrawable, IHint
     {
         public VisualElement[] visual { get; set; }
         public int depth { get; set; }

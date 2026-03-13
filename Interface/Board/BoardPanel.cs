@@ -86,22 +86,26 @@
             button[0] = new TextButton(mc);
             button[0].AddAction(new ActionSpawn(mc, new DialogCreateNewImage(mc)));
             button[0].AddAction(new ActionDestroy(mc, lists[0]));
+            button[0].SetHintText("Создать пустое изображение\nзаданного размера\n\nCtrl+N");
             button[0].SetText(listtext[0]);
             lists[0].AddMenuElement(button[0]);
 
             button[1] = new TextButton(mc);
             button[1].AddAction(new ActionSpawn(mc, new DialogFileLoad(mc)));
             button[1].AddAction(new ActionDestroy(mc, lists[0]));
+            button[1].SetHintText("Выбрать и загрузить\nизображение из проводника\n\nCtrl+O");
             button[1].SetText(listtext[1]);
             lists[0].AddMenuElement(button[1]);
 
             button[2] = new TextButton(mc);
             button[2].SetText(listtext[2]);
+            button[2].SetHintText("Сохранить изображение как\n{название файла}\n\nCtrl+S");
             lists[0].AddMenuElement(button[2]);
 
             button[3] = new TextButton(mc);
             button[3].AddAction(new ActionSpawn(mc, new DialogFileSave(mc)));
             button[3].AddAction(new ActionDestroy(mc, lists[0]));
+            button[3].SetHintText("Выбрать как сохранить\nизображение в проводнике\n\nCtrl+Shift+S");
             button[3].SetText(listtext[3]);
             lists[0].AddMenuElement(button[3]);
 
@@ -111,32 +115,49 @@
 
             lists[1] = new PopList(mc, Vector2.Zero);
 
-            listtext = new Text[3];
+            listtext = new Text[5];
             for (int i = 0; i < listtext.Length; i++)
             {
                 listtext[i] = new Text(null);
                 listtext[i].font = font;
             }
 
-            listtext[0].text = "Холст";
-            listtext[1].text = "Спрайт";
-            listtext[2].text = "Настройки";
+            listtext[0].text = "Откат";
+            listtext[1].text = "Вперёд";
+            listtext[2].text = "Холст";
+            listtext[3].text = "Спрайт";
+            listtext[4].text = "Настройки";
 
-            button = new TextButton[3];
+            button = new TextButton[5];
 
             button[0] = new TextButton(mc);
             button[0].SetText(listtext[0]);
+            button[0].SetHintText("Откатить последнее изменение\n\nCtrl+Z");
             lists[1].AddMenuElement(button[0]);
 
             button[1] = new TextButton(mc);
             button[1].SetText(listtext[1]);
+            button[1].SetHintText("Вернуть последнее изменение\n\nCtrl+Y");
             lists[1].AddMenuElement(button[1]);
 
             lists[1].AddMenuElement(new DelayMenuElement(mc));
 
             button[2] = new TextButton(mc);
             button[2].SetText(listtext[2]);
+            button[2].SetHintText("Изменить холст");
             lists[1].AddMenuElement(button[2]);
+
+            button[3] = new TextButton(mc);
+            button[3].SetText(listtext[3]);
+            button[3].SetHintText("Изменить изображение");
+            lists[1].AddMenuElement(button[3]);
+
+            lists[1].AddMenuElement(new DelayMenuElement(mc));
+
+            button[4] = new TextButton(mc);
+            button[4].SetText(listtext[4]);
+            button[4].SetHintText("Открыть настройки приложения\n\nCtrl+K");
+            lists[1].AddMenuElement(button[4]);
 
             //3
 
@@ -158,18 +179,21 @@
             button[0] = new TextButton(mc);
             button[0].AddAction(new ActionNewPanel(mc));
             button[0].AddAction(new ActionDestroy(mc, lists[2]));
+            button[0].SetHintText("Создать новую пустую\nпанель");
             button[0].SetText(listtext[0]);
             lists[2].AddMenuElement(button[0]);
 
             button[1] = new TextButton(mc);
             button[1].AddAction(new ActionPanelHolderDef(mc));
             button[1].AddAction(new ActionDestroy(mc, lists[2]));
+            button[1].SetHintText("Восстановить исходное\nсостояние панелей");
             button[1].SetText(listtext[1]);
             lists[2].AddMenuElement(button[1]);
 
             button[2] = new TextButton(mc);
             button[2].AddAction(new ActionClearPanels(mc));
             button[2].AddAction(new ActionDestroy(mc, lists[2]));
+            button[2].SetHintText("Удалить все панели");
             button[2].SetText(listtext[2]);
             lists[2].AddMenuElement(button[2]);
 
@@ -182,6 +206,13 @@
 
             baseRect.SetDepth(1);
 
+            string[] menuHints = new string[5];
+            menuHints[0] = "Управление файлами";
+            menuHints[1] = "Настройки текущего изображения\nи приложения";
+            menuHints[2] = "Настройка вида приложения и панелей";
+            menuHints[3] = "Настройка слоёв";
+            menuHints[4] = "Настройка анимации";
+
             for (int i = 0; i < menu.Length; i++)
             {
                 menu[i] = new TextButton(mc, this);
@@ -189,6 +220,7 @@
                 menu[i].SetPos(new Vector2(currentX, 20));
                 currentX += texts[i].GetRectSize().X + spacing;
 
+                menu[i].SetHintText(menuHints[i]);
                 menu[i].SetText(texts[i]);
                 menu[i].AddAction(new ActionSpawn(mc, lists[i], menu[i].depth + 4));
 

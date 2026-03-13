@@ -84,3 +84,4 @@ E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\folderback.x
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\CheckerboardEffect.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\ChopEffect.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\pixelselect.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconPencil.xnb
