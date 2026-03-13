@@ -85,3 +85,7 @@ E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\CheckerboardEffect
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\ChopEffect.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\pixelselect.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconPencil.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconErase.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconFill.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconRectSelect.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconSee.xnb

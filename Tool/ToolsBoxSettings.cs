@@ -19,16 +19,19 @@ namespace RedPaint
 
             ToolsRegion baseTools = new ToolsRegion(tb.mc, tb);
             baseTools.SetHeadText("Базовое");
-            //for (int i = 0; i < 16; i++)
             baseTools.AddTool(new Pencil(tb.mc));
+            baseTools.AddTool(new Fill(tb.mc));
+            baseTools.AddTool(new Erase(tb.mc));
             tb.AddRegion(baseTools);
 
             ToolsRegion SelectTools = new ToolsRegion(tb.mc, tb);
             SelectTools.SetHeadText("Выделение");
+            SelectTools.AddTool(new RectSelect(tb.mc));
             tb.AddRegion(SelectTools);
 
             ToolsRegion otherTools = new ToolsRegion(tb.mc, tb);
             otherTools.SetHeadText("Другое");
+            otherTools.AddTool(new See(tb.mc));
             tb.AddRegion(otherTools);
         }
     }
