@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
 using System.Numerics;
+using System.Reflection;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
@@ -21,9 +22,6 @@ namespace RedPaint
         public float currScale = 0f;
         public float targetScale = 0f;
 
-        private ChopTex chopCanvas;
-        private ChopTex chopImage;
-
         public bool isTaken = false;
         private Vector2 takePos;
 
@@ -36,13 +34,13 @@ namespace RedPaint
         private float timeMouseIn = 0f;
         private float timeMouseNeed = 0.4f;
 
+        private Drawrect[] border = new Drawrect[4];
+
         public ImageView(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
             mc._image.ImageLoaded += UpdateImage;
 
             innerPos = Vector2.Zero;
-            chopCanvas = new ChopTex(mc);
-            chopImage = new ChopTex(mc);
 
             visual = new VisualElement[4];
             spriteCanvas = new Sprite(this);
@@ -60,6 +58,11 @@ namespace RedPaint
             (visual[3] as Sprite).texture = mc.Content.Load<Texture2D>("Texture/Icons/pixelselect");
             visual[3].origin = new Vector2(0f, 0f);
 
+            border[0] = new Drawrect(mc, this);
+            border[1] = new Drawrect(mc, this);
+            border[2] = new Drawrect(mc, this);
+            border[3] = new Drawrect(mc, this);
+
             UpdateImage();
         }
 
@@ -70,6 +73,11 @@ namespace RedPaint
             base.SetPanel(pl);
             pl.setRect.headText = "Изображение";
             depth = pl.baseRect.depth + 2;
+
+            panel.baseRect.visual[0].isActive = false;
+
+            panel.outline.visual[0].color = panel.baseRect.visual[0].color;
+            panel.outline.depth = -3;
         }
 
         public void UpdateImage()
@@ -86,42 +94,6 @@ namespace RedPaint
         {
             if (mc._image != null)
                 mc._image.ImageLoaded -= UpdateImage;
-        }
-
-        private void UpdateChop()
-        {
-            chopCanvas.SourceTexture = mc._image.GetCanvas();
-            chopImage.SourceTexture = mc._image.GetCurrentImage();
-
-            var canvasSize = TUH.GetTextureSize(chopCanvas.SourceTexture);
-            var imageSize = TUH.GetTextureSize(chopImage.SourceTexture);
-            var halfOutline = panel.outlineSize / 2f;
-            var centerOffset = activeRect.size / 2f + innerPos - halfOutline;
-
-            var canvasPosition = centerOffset - canvasSize / 2f;
-            var imagePosition = centerOffset - imageSize / 2f;
-
-            var mainRect = new Rect(Vector2.Zero, activeRect.size - panel.outlineSize);
-
-            float multiplier = 0.5f * (currScale - 1f);
-            mainRect.position = canvasSize * multiplier;
-
-            mainRect.size += canvasSize - (canvasSize * currScale);
-
-            Rect canvasRect = new Rect(canvasPosition, canvasSize);
-            Rect imageRect = new Rect(imagePosition, canvasSize);
-
-            chopCanvas.cropMargins = TUH.CalculateCrop(mainRect, canvasRect);
-            chopCanvas.cropMargins *= 1f / currScale;
-
-            chopImage.cropMargins = TUH.CalculateCrop(mainRect, imageRect);
-            chopImage.cropMargins *= 1f / currScale;
-
-            chopCanvas.Generate();
-            chopImage.Generate();
-
-            spriteCanvas.texture = chopCanvas.Tex;
-            spriteImage.texture = chopImage.Tex;
         }
 
         private void UpdateMovement()
@@ -223,6 +195,44 @@ namespace RedPaint
             spriteImage.scale = new Vector2(currScale);
         }
 
+        public override void OnSpawn()
+        {
+            for (int i = 0; i < 4;  i++)
+            {
+                mc._entityManager.AddEntity(border[i]);
+            }
+        }
+        private void UpdateBorder()
+        {
+            border[0].visual[0].scale = new Vector2(panel.size.X, panel.outlineSize.Y/2f);
+            border[0].visual[0].color =
+                Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.25f);
+            border[0].visual[0].origin = Vector2.Zero;
+            border[0].visual[0].pos = new Vector2(0, 0);
+            border[0].depth = -1;
+
+            border[1].visual[0].scale = new Vector2(panel.size.X, panel.outlineSize.Y / 2f);
+            border[1].visual[0].color =
+                Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.25f);
+            border[1].visual[0].origin = Vector2.Zero;
+            border[1].visual[0].pos = new Vector2(0, panel.size.Y - panel.outlineSize.Y/2f);
+            border[1].depth = -1;
+
+            border[2].visual[0].scale = new Vector2(panel.outlineSize.X / 2f, panel.size.Y);
+            border[2].visual[0].color =
+                Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.25f);
+            border[2].visual[0].origin = Vector2.Zero;
+            border[2].visual[0].pos = new Vector2(0, 0);
+            border[2].depth = -1;
+
+            border[3].visual[0].scale = new Vector2(panel.outlineSize.X / 2f, panel.size.Y);
+            border[3].visual[0].color =
+                Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.25f);
+            border[3].visual[0].origin = Vector2.Zero;
+            border[3].visual[0].pos = new Vector2(panel.size.X - panel.outlineSize.X / 2f, 0);
+            border[3].depth = -1;
+        }
+
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
@@ -232,10 +242,13 @@ namespace RedPaint
             if (isTaken)
                 innerPos = mc._input.GetMousePosition() - takePos;
 
-            UpdateChop();
             UpdateMouseCoord(deltaTime);
             UpdateSelectPixel();
             UpdateVisualElements();
+
+            depth = -2;
+
+            UpdateBorder();
         }
     }
 }

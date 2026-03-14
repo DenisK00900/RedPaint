@@ -16,10 +16,9 @@ namespace RedPaint
             dest = "Простой инструмент, который\nкрасит пиксели в определённый цвет";
         }
 
-        public override void Execute()
+        public override void Update(float deltaTime)
         {
-
+            
         }
-
     }
 }

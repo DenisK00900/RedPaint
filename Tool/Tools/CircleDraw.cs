@@ -15,11 +15,5 @@ namespace RedPaint
 
             dest = "Рисование круга";
         }
-
-        public override void Execute()
-        {
-
-        }
-
     }
 }

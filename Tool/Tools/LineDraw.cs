@@ -15,11 +15,5 @@ namespace RedPaint
 
             dest = "Рисование прямой линии";
         }
-
-        public override void Execute()
-        {
-
-        }
-
     }
 }

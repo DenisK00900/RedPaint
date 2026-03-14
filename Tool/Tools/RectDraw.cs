@@ -15,11 +15,5 @@ namespace RedPaint
 
             dest = "Рисование прямоугольника";
         }
-
-        public override void Execute()
-        {
-
-        }
-
     }
 }

@@ -19,6 +19,58 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static int GetTextureSizeInBytes(Texture2D texture)
+        {
+            if (texture == null)
+                throw new ArgumentNullException(nameof(texture));
+
+            int pixelsCount = texture.Width * texture.Height;
+            int bytesPerPixel = GetBytesPerPixel(texture.Format);
+
+            return pixelsCount * bytesPerPixel;
+        }
+
+        private static int GetBytesPerPixel(SurfaceFormat format)
+        {
+            return format switch
+            {
+                SurfaceFormat.Color => 4,
+                SurfaceFormat.Bgr32 => 4,
+                SurfaceFormat.Bgra32 => 4,
+                SurfaceFormat.Rgba1010102 => 4,
+                SurfaceFormat.NormalizedByte4 => 4,
+
+                SurfaceFormat.Rg32 => 2,
+                SurfaceFormat.NormalizedByte2 => 2,
+
+                SurfaceFormat.Rgba64 => 8,
+
+                SurfaceFormat.Single => 4,
+
+                SurfaceFormat.Alpha8 => 1,
+
+                SurfaceFormat.Dxt3 => 1,
+                SurfaceFormat.Dxt5 => 1,
+
+                _ => 4
+            };
+        }
+
+        public static float GetTextureSizeInKB(Texture2D texture)
+        {
+            return GetTextureSizeInBytes(texture) / 1024f;
+        }
+
+        public static float GetTextureSizeInMB(Texture2D texture)
+        {
+            return GetTextureSizeInBytes(texture) / (1024f * 1024f);
+        }
+
+        public static float GetTextureSizeInGB(Texture2D texture)
+        {
+            return GetTextureSizeInBytes(texture) / (1024f * 1024f * 1024f);
+        }
+
         public static Color? GetPixelColor(this Texture2D texture, Vector2 position)
         {
             return GetPixelColor(texture, (int)position.X, (int)position.Y);

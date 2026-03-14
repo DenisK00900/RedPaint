@@ -67,6 +67,19 @@ namespace RedPaint
             ImageLoaded?.Invoke();
         }
 
+        public Vector2 GetTexPos()
+        {
+            foreach (Panel pl in mc.mainHolder.panels)
+            {
+                if (pl.panelActive is ImageView iv)
+                {
+                    return iv.GetCurrTexPos();
+                }
+            }
+
+            return Vector2.Zero;
+        }
+
         public void LoadImage(string path)
         {
             if (!File.Exists(path))
@@ -95,7 +108,13 @@ namespace RedPaint
             }
             catch (Exception ex)
             {
-                throw new Exception($"Ошибка при загрузке изображения: {ex.Message}", ex);
+                mc._entityManager.AddEntity(
+                    new DialogMessage(
+                        mc,
+                        "Ошибка загрузки изображения",
+                        FileBrowserSolver.TrimExceptionMessage(ex),
+                        null
+                        ));
             }
         }
 

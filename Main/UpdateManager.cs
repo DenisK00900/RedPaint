@@ -66,6 +66,11 @@ namespace RedPaint
             {
                 entity.Update(deltaTime);
             }
+
+            if (mc._image.currTool != null)
+            {
+                mc._image.currTool.Update(deltaTime);
+            }
         }
     }
 }

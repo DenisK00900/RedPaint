@@ -13,13 +13,7 @@ namespace RedPaint
 
             icon = mc.Content.Load<Texture2D>("Texture/Icons/Tools/IconRectSelect");
 
-            dest = "Выделить указаную область\n прямоугольником";
+            dest = "Выделить указаную область\nпрямоугольником";
         }
-
-        public override void Execute()
-        {
-
-        }
-
     }
 }

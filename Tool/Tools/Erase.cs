@@ -15,11 +15,5 @@ namespace RedPaint
 
             dest = "Стирает цвет пикселя,\nвозвращая его к прозрачности\nили цвету фона";
         }
-
-        public override void Execute()
-        {
-
-        }
-
     }
 }

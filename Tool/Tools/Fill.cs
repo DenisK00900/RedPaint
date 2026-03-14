@@ -15,11 +15,5 @@ namespace RedPaint
 
             dest = "Закрашивает область в\nопределённый цвет";
         }
-
-        public override void Execute()
-        {
-
-        }
-
     }
 }

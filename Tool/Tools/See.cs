@@ -15,11 +15,5 @@ namespace RedPaint
 
             dest = "Просмотр изображения\nбез изменений";
         }
-
-        public override void Execute()
-        {
-
-        }
-
     }
 }

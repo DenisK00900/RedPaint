@@ -195,8 +195,8 @@ namespace RedPaint
             (outline.visual[0] as Sprite).origin = Vector2.Zero;
             (outline.visual[0] as Sprite).color =
             Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.25f);
-            outline.depth = baseRect.depth - 1;
 
+            outline.depth = baseRect.depth - 1;
             setRect.depth = baseRect.depth + 1;
 
             UpdateHitbox();

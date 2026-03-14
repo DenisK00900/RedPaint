@@ -21,11 +21,19 @@ namespace RedPaint
 
         public string dest = "Описание инструмента";
 
-        public abstract void Execute();
-
         public AbstrTool (Maincode imc)
         {
             mc = imc;
+        }
+
+        public Vector2 GetTexPos()
+        {
+            return mc._image.GetTexPos();
+        }
+
+        public virtual void Update(float deltaTime)
+        {
+
         }
     }
 }
