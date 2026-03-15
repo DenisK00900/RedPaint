@@ -70,6 +70,7 @@ namespace RedPaint
             if (mc._image.currTool != null)
             {
                 mc._image.currTool.Update(deltaTime);
+                mc._image.Apply();
             }
         }
     }
