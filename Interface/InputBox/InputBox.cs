@@ -37,9 +37,19 @@ namespace RedPaint
         private float dashTimer = 0f;
         private float dashCycle = 1.00f;
 
+        public float boxSize = 96f;
+
         public virtual Vector2 DetermentSize()
         {
-            return new Vector2(96f, 32f);
+            return new Vector2(boxSize, 32f);
+        }
+
+        public void SetSize(float newsize = 96f)
+        {
+            boxSize = newsize;
+
+            box.visual[0].scale = DetermentSize();
+            outline.visual[0].scale = DetermentSize() + outlineSize;
         }
 
         public override void OnSpawn()
@@ -52,8 +62,8 @@ namespace RedPaint
 
         public override void SetDepth(int depth)
         {
-            box.depth = depth;
-            outline.depth = depth - 1;
+            box.depth = depth + 1;
+            outline.depth = depth;
 
             base.SetDepth(depth + 2);
         }
@@ -122,12 +132,10 @@ namespace RedPaint
             box = new Drawrect(mc, this);
             outline = new Drawrect(mc, box);
 
-            Vector2 size = DetermentSize();
-
-            box.visual[0].scale = size;
+            box.visual[0].scale = DetermentSize();
             box.visual[0].color = mc._settings.GetCurrPalletre().boxColor;
 
-            outline.visual[0].scale = size + outlineSize;
+            outline.visual[0].scale = DetermentSize() + outlineSize;
             outline.visual[0].color =
                 Color.Lerp(mc._settings.GetCurrPalletre().baseColor1, mc._settings.GetCurrPalletre().boxColor, 0.25f);
         }

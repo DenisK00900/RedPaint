@@ -33,6 +33,11 @@ namespace RedPaint
 
         private SpriteFont _font;
 
+        public InputBox InputFileName;
+
+        public SaveImageButton saveButton;
+        public ActionSaveImage saveAct;
+
         public override DialogFileSave Clone()
         {
             DialogFileSave clone = new DialogFileSave(mc, parent);
@@ -42,11 +47,26 @@ namespace RedPaint
 
         public override Vector2 DetermentSize()
         {
-            return new Vector2(1000f, 750f);
+            return new Vector2(1000f, 850f);
         }
 
         public override void OnSpawn()
         {
+            if (mc._image.GetCurrentImage() == null)
+            {
+                mc._entityManager.AddEntity(
+                    new DialogMessage(
+                        mc,
+                        "Ошибка сохранения",
+                        "Нет изображения для сохранения",
+                        null
+                        ));
+
+                Destroy();
+
+                return;
+            }
+
             mc._entityManager.AddEntity(fileViewRect);
             mc._entityManager.AddEntity(fileViewRectOutLine);
             mc._entityManager.AddEntity(fileViewTop);
@@ -56,6 +76,10 @@ namespace RedPaint
             mc._entityManager.AddEntity(fileViewSide);
 
             mc._entityManager.AddEntity(upFolderButton);
+
+            mc._entityManager.AddEntity(InputFileName);
+
+            mc._entityManager.AddEntity(saveButton);
 
             UpdateListInfo();
             base.OnSpawn();
@@ -127,6 +151,30 @@ namespace RedPaint
             upFolderButton.UpdateHitbox();
 
             UpdateListInfo();
+
+            saveButton.UpdateHitbox();
+            InputFileName.UpdateHitbox();
+        }
+
+        public override void SetDepth(int depth)
+        {
+            depth += 10;
+
+            fileViewRect.SetDepth(depth + 2);
+            fileViewRectOutLine.SetDepth(depth + 1);
+            fileViewTop.SetDepth(depth + 3);
+            fileViewDecor1.SetDepth(depth + 3);
+            fileViewDecor2.SetDepth(depth + 3);
+            fileViewDecor3.SetDepth(depth + 3);
+            fileViewSide.SetDepth(depth + 3);
+
+            upFolderButton.SetDepth(depth + 4);
+
+            InputFileName.SetDepth(depth + 2);
+
+            saveButton.SetDepth(depth + 2);
+
+            base.SetDepth(depth);
         }
 
         public DialogFileSave(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
@@ -139,11 +187,11 @@ namespace RedPaint
             fileViewRectOutLine = new Drawrect(mc, fileViewRect);
 
             Vector2 size = DetermentSize();
-            Vector2 innerSize = size - new Vector2(40f, 72f);
+            Vector2 innerSize = size - new Vector2(40f, 72f) - new Vector2(0f,80f);
 
             fileViewRect.visual[0].scale = innerSize;
             fileViewRect.visual[0].color = mc._settings.GetCurrPalletre().boxColor;
-            fileViewRect.position = size / 2f - outlineSize / 2f + new Vector2(0f, 16f);
+            fileViewRect.position = size / 2f - outlineSize / 2f + new Vector2(0f, 16f) - new Vector2(0f, 40f);
 
             fileViewTop = new Drawrect(mc, fileViewRect);
             fileViewDecor1 = new Drawrect(mc, fileViewRect);
@@ -173,16 +221,20 @@ namespace RedPaint
             upFolderButton.UpdateHitbox();
             upFolderButton.AddAction(new ActionFolderBack(mc, this));
 
-            int depthOffset = baseRect.depth;
-            fileViewRect.depth = depthOffset + 2;
-            fileViewRectOutLine.depth = depthOffset + 1;
-            fileViewTop.depth = fileViewRect.depth + 1;
-            fileViewDecor1.depth = fileViewRect.depth + 1;
-            fileViewDecor2.depth = fileViewRect.depth + 1;
-            fileViewDecor3.depth = fileViewRect.depth + 1;
-            fileViewSide.depth = fileViewRect.depth + 1;
+            InputFileName = new InputBox(mc, baseRect);
+            InputFileName.SetSize(256f);
+            InputFileName.SetPos(new Vector2(20f + InputFileName.DetermentSize().X/2f, size.Y-40f));
+            InputFileName.includeNum = true;
+            InputFileName.includeAlp = true;
 
-            upFolderButton.depth = fileViewTop.depth + 1;
+            saveAct = new ActionSaveImage(mc, this);
+
+            saveButton = new SaveImageButton(mc, baseRect);
+            saveButton.AddAction(saveAct);
+            saveButton.AddAction(new ActionDestroy(mc, this));
+            saveButton.SetPos(new Vector2(size.X - saveButton.visual[0].scale.X / 2f - 20f, size.Y - 40f));
+
+            SetDepth(4);
         }
 
         private void SetupDecor(Drawrect decor, float width, float height, float xOffset, float lerpAmount)

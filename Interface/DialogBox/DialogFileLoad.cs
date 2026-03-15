@@ -130,6 +130,23 @@ namespace RedPaint
             UpdateListInfo();
         }
 
+        public override void SetDepth(int depth)
+        {
+            depth += 10;
+
+            fileViewRect.SetDepth(depth + 2);
+            fileViewRectOutLine.SetDepth(depth + 1);
+            fileViewTop.SetDepth(depth + 3);
+            fileViewDecor1.SetDepth(depth + 3);
+            fileViewDecor2.SetDepth(depth + 3);
+            fileViewDecor3.SetDepth(depth + 3);
+            fileViewSide.SetDepth(depth + 3);
+
+            upFolderButton.SetDepth(depth + 4);
+
+            base.SetDepth(depth);
+        }
+
         public DialogFileLoad(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
             setRect.headText = "Загрузить";
@@ -174,16 +191,7 @@ namespace RedPaint
             upFolderButton.UpdateHitbox();
             upFolderButton.AddAction(new ActionFolderBack(mc, this));
 
-            int depthOffset = baseRect.depth;
-            fileViewRect.depth = depthOffset + 2;
-            fileViewRectOutLine.depth = depthOffset + 1;
-            fileViewTop.depth = fileViewRect.depth + 1;
-            fileViewDecor1.depth = fileViewRect.depth + 1;
-            fileViewDecor2.depth = fileViewRect.depth + 1;
-            fileViewDecor3.depth = fileViewRect.depth + 1;
-            fileViewSide.depth = fileViewRect.depth + 1;
-
-            upFolderButton.depth = fileViewTop.depth + 1;
+            SetDepth(4);
         }
 
         private void SetupDecor(Drawrect decor, float width, float height, float xOffset, float lerpAmount)

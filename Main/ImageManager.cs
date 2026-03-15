@@ -166,7 +166,7 @@ namespace RedPaint
                 if (pl.panelActive is ImageView iv)
                     return iv.GetCurrTexPos();
             }
-            return Vector2.Zero;
+            return new Vector2(-1f, -1f);
         }
 
         public void UpdateCanvas()
@@ -182,6 +182,19 @@ namespace RedPaint
             canvasImage = checkerTex.Tex;
         }
 
-        public void Apply() => ApplyChanges();
+        public void Apply()
+        {
+            foreach (Panel pl in mc.mainHolder.panels)
+            {
+                if (pl.panelActive is ImageView iv)
+                {
+                    if (pl.GetActiveRect().CheckPoint(mc._input.GetMousePosition()))
+                    {
+                        ApplyChanges();
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
