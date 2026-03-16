@@ -42,15 +42,15 @@ namespace RedPaint
 
             ls.SetPanel(panels[4]);
 
-            ph.AddPanel(panels[0], ph.GetRect().GetSubrect(5, 4, 1, 0) + ph.GetRect().GetSubrect(5, 4, 3, 2));
+            ph.AddPanel(panels[0], ph.GetRect().GetSubrect(7, 4, 2, 0) + ph.GetRect().GetSubrect(7, 4, 5, 2));
 
-            ph.AddPanel(panels[1], ph.GetRect().GetSubrect(5, 6, 0, 0) + ph.GetRect().GetSubrect(5, 6, 0, 3));
+            ph.AddPanel(panels[1], ph.GetRect().GetSubrect(7, 6, 0, 0) + ph.GetRect().GetSubrect(7, 6, 1, 2));
 
-            ph.AddPanel(panels[2], ph.GetRect().GetSubrect(5, 6, 0, 4) + ph.GetRect().GetSubrect(5, 6, 0, 5));
+            ph.AddPanel(panels[2], ph.GetRect().GetSubrect(7, 6, 0, 3) + ph.GetRect().GetSubrect(7, 6, 1, 5));
 
-            ph.AddPanel(panels[3], ph.GetRect().GetSubrect(5, 1, 4, 0));
+            ph.AddPanel(panels[3], ph.GetRect().GetSubrect(7, 1, 6, 0));
 
-            ph.AddPanel(panels[4], ph.GetRect().GetSubrect(5, 4, 1, 3) + ph.GetRect().GetSubrect(5, 4, 3, 3));
+            ph.AddPanel(panels[4], ph.GetRect().GetSubrect(7, 4, 2, 3) + ph.GetRect().GetSubrect(7, 4, 5, 3));
         }
     }
 }

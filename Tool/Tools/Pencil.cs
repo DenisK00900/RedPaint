@@ -31,6 +31,8 @@ namespace RedPaint
 
         public override void Update(float deltaTime)
         {
+            brushColor = mc._image.GetColor();
+
             if (mc._input.IsDown(Button.LeftButton))
             {
                 var texture = mc._image.GetCurrentImage();
@@ -103,8 +105,6 @@ namespace RedPaint
                    pos.X >= 0 && pos.X < tex.Width &&
                    pos.Y >= 0 && pos.Y < tex.Height;
         }
-
-        public void SetBrushColor(Color color) => brushColor = color;
         public void SetBrushSize(int size) => brushSize = Math.Max(1, size);
     }
 }

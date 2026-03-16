@@ -6,11 +6,8 @@ using System.Text;
 
 namespace RedPaint
 {
-    public class ColorBox : PanelActive, IDrawable
+    public class ColorBox : PanelActive
     {
-        public VisualElement[] visual { get; set; }
-        public int depth { get; set; }
-
         public ColorSelectButton HueSelectButton;
         public ColorSelectButton WheelSelectButton;
         public ColorSelectButton RGBSelectButton;
@@ -18,6 +15,9 @@ namespace RedPaint
         public Drawrect uppanel;
 
         public AbstrEntity colorSelect = null;
+
+        public float alphaPoint = 1.0f;
+        public float colorPoint = 1.0f;
 
         public override void SetPanel(Panel pl)
         {
@@ -79,15 +79,22 @@ namespace RedPaint
                 h.SetAlphaSize(
                     new Vector2(30f, activeRect.size.Y - HueSelectButton.size - panel.outlineSize.Y));
 
-                h.alpha.SetPos(new Vector2(- activeRect.size.X / 2f + panel.outlineSize.X/2f,
-                    -(activeRect.size.Y - HueSelectButton.size - panel.outlineSize.Y)/2f));
+                h.alpha.SetPos(new Vector2(- activeRect.size.X / 2f + panel.outlineSize.X/2f - 30f,
+                    -(activeRect.size.Y - HueSelectButton.size - panel.outlineSize.Y)/2f) +
+                    h.alpha.size/2f);
 
                 h.SetColorSize(
                     new Vector2(30f, activeRect.size.Y - HueSelectButton.size - panel.outlineSize.Y));
 
-                h.color.SetPos(new Vector2(-activeRect.size.X / 2f + panel.outlineSize.X / 2f - 30f,
-                    -(activeRect.size.Y - HueSelectButton.size - panel.outlineSize.Y) / 2f));
+                h.color.SetPos(new Vector2(-activeRect.size.X / 2f + panel.outlineSize.X / 2f,
+                    -(activeRect.size.Y - HueSelectButton.size - panel.outlineSize.Y) / 2f) +
+                    h.color.size / 2f);
+
+                h.UpdateHitbox();
             }
+
+            (uppanel.visual[1] as Text).text = 
+                $"R:{mc._image.GetColor().R} G:{mc._image.GetColor().G} B:{mc._image.GetColor().B} A:{mc._image.GetColor().A}";
         }
 
         public override void SetDepth(int depth)
@@ -108,9 +115,22 @@ namespace RedPaint
             colorSelect = new HUEColorBox(mc, this);
 
             uppanel = new Drawrect(mc, this);
+
+            uppanel.visual = new VisualElement[2];
+
+            uppanel.visual[0] = new Sprite(uppanel);
+            (uppanel.visual[0] as Sprite).texture = mc.Content.Load<Texture2D>("Texture/Misc/plane");
             uppanel.visual[0].origin = Vector2.Zero;
             uppanel.visual[0].color = 
                 Color.Lerp(mc._settings.GetCurrPalletre().baseColor1, mc._settings.GetCurrPalletre().baseColor2, 0.9f);
+
+            uppanel.visual[1] = new Text(uppanel);
+            (uppanel.visual[1] as Text).font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
+            (uppanel.visual[1] as Text).text = "R:255 G:255 B:255 A:255";
+            uppanel.visual[1].origin = Vector2.Zero;
+            uppanel.visual[1].pos = new Vector2(8f, 8f);
+            uppanel.visual[1].color =
+                Color.Lerp(mc._settings.GetCurrPalletre().textColor1, mc._settings.GetCurrPalletre().baseColor2, 0.5f);
 
             HueSelectButton = new ColorSelectButton(mc, this);
             WheelSelectButton = new ColorSelectButton(mc, this);

@@ -90,6 +90,48 @@ namespace RedPaint
             spriteImage.texture = mc._image.GetCurrentImage();
         }
 
+        public virtual void Draw(SpriteBatch sb)
+        {
+            if (visual == null) return;
+
+            var device = mc.GraphicsDevice;
+
+            var oldRenderTarget = device.GetRenderTargets();
+            var oldRasterizerState = device.RasterizerState;
+            var oldBlendState = device.BlendState;
+            var oldSamplerState = device.SamplerStates[0];
+
+            sb.End();
+
+            sb.Begin(
+                    SpriteSortMode.Immediate,
+                    BlendState.NonPremultiplied,
+                    SamplerState.PointClamp,
+                    null,
+                    null
+                    );
+
+            foreach (VisualElement item in visual)
+            {
+                item.Draw(sb);
+            }
+
+            sb.End();
+
+            device.SetRenderTargets(oldRenderTarget);
+            device.RasterizerState = oldRasterizerState;
+            device.BlendState = oldBlendState;
+            device.SamplerStates[0] = oldSamplerState;
+
+            sb.Begin(
+                SpriteSortMode.Deferred,
+                BlendState.AlphaBlend,
+                SamplerState.PointClamp,
+                null,
+                null
+            );
+        }
+
         public override void OnDestroy()
         {
             if (mc._image != null)

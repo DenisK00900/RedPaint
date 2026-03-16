@@ -26,6 +26,8 @@ namespace RedPaint
 
         public override void Update(float deltaTime)
         {
+            base.Update(deltaTime);
+
             if (mouseOver)
             {
                 mouseOverTime = Math.Clamp(mouseOverTime + deltaTime, 0f, needTime);

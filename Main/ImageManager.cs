@@ -33,11 +33,31 @@ namespace RedPaint
         public CheckerTex checkerTex;
         public AbstrTool currTool = null;
 
+        private Color paintColor = Color.Red;
+
         public ImageManager(Maincode imc)
         {
             mc = imc;
             checkerTex = new CheckerTex(mc);
         }
+
+        public void SetColor(Color newcolor)
+        {
+            paintColor.R = ((byte)newcolor.R);
+            paintColor.G = ((byte)newcolor.G);
+            paintColor.B = ((byte)newcolor.B);
+        }
+
+        public void SetAlpha(float newalpha)
+        {
+            paintColor.A = ((byte)(newalpha*255));
+        }
+
+        public Color GetColor()
+        {
+            return paintColor;
+        }
+
         public void SetImage(Texture2D tex)
         {
             currImage = tex;
@@ -173,7 +193,7 @@ namespace RedPaint
         {
             if (currImage == null) return;
 
-            checkerTex.Dispose();
+            //checkerTex.Dispose();
 
             checkerTex.sizeX = currImage.Width;
             checkerTex.sizeY = currImage.Height;

@@ -28,11 +28,18 @@ namespace RedPaint
             mc._entityManager.AddEntity(color);
         }
 
+        public void UpdateHitbox()
+        {
+            alpha.UpdateHitbox();
+            color.UpdateHitbox();
+            box.UpdateHitbox();
+        }
+
         public override void SetDepth(int depth)
         {
             base.SetDepth(depth);
 
-            box.SetDepth(depth + 1);
+            box.SetDepth(depth + 2);
 
             alpha.SetDepth(depth + 2);
 
