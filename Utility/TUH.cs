@@ -19,6 +19,13 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static void PrintEffectParam(Effect eff)
+        {
+            foreach (var param in eff.Parameters)
+            {
+                Debug.WriteLine($"Параметр: {param.Name}, Тип: {param.ParameterType}");
+            }
+        }
         public static int GetTextureSizeInBytes(Texture2D texture)
         {
             if (texture == null)

@@ -23,8 +23,6 @@ namespace RedPaint
 
         public void Generate(int width, int height, int cellSize, Color color1, Color color2)
         {
-            Dispose();
-
             var device = mc.GraphicsDevice;
 
             if (_whitePixel == null)

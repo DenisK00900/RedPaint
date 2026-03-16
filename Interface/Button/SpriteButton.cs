@@ -15,6 +15,19 @@ namespace RedPaint
         public VisualElement[] visual { get; set; }
         public int depth { get; set; }
 
+        public override SpriteButton Clone()
+        {
+            SpriteButton clone = new SpriteButton(mc, parent);
+
+            clone.visual = ((IDrawable)this).CloneVisual();
+
+            clone.depth = depth;
+
+            clone.hint = hint.Clone();
+
+            return clone;
+        }
+
         public override void UpdateHitbox()
         {
             Vector2 texSize = TUH.GetTextureSize((visual[0] as Sprite));

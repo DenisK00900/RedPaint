@@ -12,6 +12,12 @@
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati3.spritefont</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/CheckerboardEffect.fx</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/ChopEffect.fx</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/Fade.fx</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/HueRect.fx</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/Rainbow.fx</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/ColorHUE.png</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/ColorRGB.png</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/ColorWheel.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/cross.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/folderback.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/lock.png</File>
@@ -31,6 +37,12 @@
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File>Fonts/Haipapikuseru/Haipapikuseru2</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

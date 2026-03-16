@@ -28,7 +28,7 @@ namespace RedPaint
 
             ImageView iv = new ImageView(ph.mc);
             ToolsBox tb = new ToolsBox(ph.mc);
-            PaletteBox pb = new PaletteBox(ph.mc);
+            ColorBox pb = new ColorBox(ph.mc);
             ToolSettings ts = new ToolSettings(ph.mc);
             LayerSettings ls = new LayerSettings(ph.mc);
 

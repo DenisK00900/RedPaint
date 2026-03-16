@@ -92,3 +92,9 @@ E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconSe
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconCircle.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconLine.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconRect.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\HueRect.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\ColorHUE.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\ColorRGB.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\ColorWheel.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\Fade.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\Rainbow.xnb

@@ -173,6 +173,8 @@ namespace RedPaint
         {
             if (currImage == null) return;
 
+            checkerTex.Dispose();
+
             checkerTex.sizeX = currImage.Width;
             checkerTex.sizeY = currImage.Height;
             checkerTex.sizeChecker = 16;
