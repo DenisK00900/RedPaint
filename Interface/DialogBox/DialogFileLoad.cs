@@ -132,19 +132,19 @@ namespace RedPaint
 
         public override void SetDepth(int depth)
         {
-            depth += 10;
+            baseRect.SetDepth(depth + 1);
+            outline.SetDepth(depth);
+            setRect.SetDepth(depth + 2);
 
-            fileViewRect.SetDepth(depth + 2);
-            fileViewRectOutLine.SetDepth(depth + 1);
-            fileViewTop.SetDepth(depth + 3);
-            fileViewDecor1.SetDepth(depth + 3);
-            fileViewDecor2.SetDepth(depth + 3);
-            fileViewDecor3.SetDepth(depth + 3);
-            fileViewSide.SetDepth(depth + 3);
+            fileViewRect.SetDepth(depth + 4);
+            fileViewRectOutLine.SetDepth(depth + 3);
+            fileViewTop.SetDepth(depth + 5);
+            fileViewDecor1.SetDepth(depth + 5);
+            fileViewDecor2.SetDepth(depth + 5);
+            fileViewDecor3.SetDepth(depth + 5);
+            fileViewSide.SetDepth(depth + 5);
 
-            upFolderButton.SetDepth(depth + 4);
-
-            base.SetDepth(depth);
+            upFolderButton.SetDepth(depth + 6);
         }
 
         public DialogFileLoad(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
@@ -191,7 +191,7 @@ namespace RedPaint
             upFolderButton.UpdateHitbox();
             upFolderButton.AddAction(new ActionFolderBack(mc, this));
 
-            SetDepth(4);
+            SetDepth(20);
         }
 
         private void SetupDecor(Drawrect decor, float width, float height, float xOffset, float lerpAmount)

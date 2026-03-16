@@ -35,6 +35,8 @@ namespace RedPaint
 
         private Color paintColor = Color.Red;
 
+        public bool isModified = false;
+
         public ImageManager(Maincode imc)
         {
             mc = imc;
@@ -71,6 +73,8 @@ namespace RedPaint
             InitPixelBuffer();
             UpdateCanvas();
             ImageLoaded?.Invoke();
+
+            isModified = false;
         }
 
         public void LoadImage(string path)
@@ -90,11 +94,13 @@ namespace RedPaint
                 CanvasSize = TUH.GetTextureSize(currImage);
                 UpdateCanvas();
                 ImageLoaded?.Invoke();
+
+                isModified = false;
             }
             catch (Exception ex)
             {
                 mc._entityManager.AddEntity(
-                    new DialogMessage(mc, "Ошибка загрузки изображения",
+                    new DialogError(mc, "Ошибка загрузки изображения",
                     FileBrowserSolver.TrimExceptionMessage(ex), null));
             }
         }
@@ -120,6 +126,9 @@ namespace RedPaint
 
             pixelBuffer[index] = color;
             MarkDirty(x, y);
+
+            isModified = true;
+
             return true;
         }
 

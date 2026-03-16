@@ -18,6 +18,8 @@ namespace RedPaint
 
         public Hint hintclone = null;
 
+        public bool chainBlock = false;
+
         public Hitbox[] hb { get; set; }
         public bool mouseOver { get; set; }
 
@@ -61,9 +63,21 @@ namespace RedPaint
 
             if (stanCurr == 0f && mc._input.IsPressed(Button.LeftButton) && mouseOver)
             {
-                foreach (AbstrAction item in action)
+                if (chainBlock)
                 {
-                    item.Act();
+                    foreach (AbstrAction item in action)
+                    {
+                        item.Call();
+
+                        if (!item.succCall) break;
+                    }
+                }
+                else
+                {
+                    foreach (AbstrAction item in action)
+                    {
+                        item.Act();
+                    }
                 }
 
                 stanCurr = stanHold;

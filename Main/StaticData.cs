@@ -24,7 +24,7 @@ namespace RedPaint
             LoadedPalletres = new AppPalletre[1];
             LoadedPalletres[0] = new AppPalletre();
 
-            version = "Alpha v0.0.2 Build 46-53";
+            version = "Alpha v0.0.2 Build 47-88";
 
             isDevToolsOn = true;
         }

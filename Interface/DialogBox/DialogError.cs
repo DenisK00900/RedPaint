@@ -7,7 +7,7 @@ using System.Text;
 
 namespace RedPaint
 {
-    public class DialogMessage : DialogBox, IDrawable, IBlockInteraction
+    public class DialogError : DialogBox, IDrawable, IBlockInteraction
     {
         public Text message;
         public Text error;
@@ -18,9 +18,9 @@ namespace RedPaint
         public VisualElement[] visual { get; set; }
         public int depth { get; set; }
 
-        public override DialogMessage Clone()
+        public override DialogError Clone()
         {
-            DialogMessage clone = new DialogMessage(mc, message.text, error.text, parent);
+            DialogError clone = new DialogError(mc, message.text, error.text, parent);
 
             return clone;
         }
@@ -48,7 +48,7 @@ namespace RedPaint
             }
         }
 
-        public DialogMessage(Maincode imc, string mess, string err, AbstrEntity pr = null) : base(imc, pr)
+        public DialogError(Maincode imc, string mess, string err, AbstrEntity pr = null) : base(imc, pr)
         {
             setRect.headText = "Ошибка";
 

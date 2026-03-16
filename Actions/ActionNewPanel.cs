@@ -15,7 +15,7 @@ namespace RedPaint
             else
             {
                 mc._entityManager.AddEntity(
-                    new DialogMessage(
+                    new DialogError(
                         mc,
                         "Ошибка панелей",
                         "Нет доступного места. Освободите место, прежде чем создать новую панель",

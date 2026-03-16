@@ -21,7 +21,7 @@ namespace RedPaint
             else
             {
                 mc._entityManager.AddEntity(
-                    new DialogMessage(
+                    new DialogError(
                         mc,
                         "Ошибка браузера файлов",
                         FileBrowserSolver.TrimExceptionMessage(ex),

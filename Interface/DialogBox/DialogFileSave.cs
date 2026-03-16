@@ -55,7 +55,7 @@ namespace RedPaint
             if (mc._image.GetCurrentImage() == null)
             {
                 mc._entityManager.AddEntity(
-                    new DialogMessage(
+                    new DialogError(
                         mc,
                         "Ошибка сохранения",
                         "Нет изображения для сохранения",
@@ -158,23 +158,23 @@ namespace RedPaint
 
         public override void SetDepth(int depth)
         {
-            depth += 10;
+            baseRect.SetDepth(depth + 1);
+            outline.SetDepth(depth);
+            setRect.SetDepth(depth + 2);
 
-            fileViewRect.SetDepth(depth + 2);
-            fileViewRectOutLine.SetDepth(depth + 1);
-            fileViewTop.SetDepth(depth + 3);
-            fileViewDecor1.SetDepth(depth + 3);
-            fileViewDecor2.SetDepth(depth + 3);
-            fileViewDecor3.SetDepth(depth + 3);
-            fileViewSide.SetDepth(depth + 3);
+            fileViewRect.SetDepth(depth + 4);
+            fileViewRectOutLine.SetDepth(depth + 3);
+            fileViewTop.SetDepth(depth + 5);
+            fileViewDecor1.SetDepth(depth + 5);
+            fileViewDecor2.SetDepth(depth + 5);
+            fileViewDecor3.SetDepth(depth + 5);
+            fileViewSide.SetDepth(depth + 5);
 
-            upFolderButton.SetDepth(depth + 4);
+            upFolderButton.SetDepth(depth + 6);
 
-            InputFileName.SetDepth(depth + 2);
+            InputFileName.SetDepth(depth + 4);
 
-            saveButton.SetDepth(depth + 2);
-
-            base.SetDepth(depth);
+            saveButton.SetDepth(depth + 4);
         }
 
         public DialogFileSave(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
@@ -234,7 +234,7 @@ namespace RedPaint
             saveButton.AddAction(new ActionDestroy(mc, this));
             saveButton.SetPos(new Vector2(size.X - saveButton.visual[0].scale.X / 2f - 20f, size.Y - 40f));
 
-            SetDepth(4);
+            SetDepth(20);
         }
 
         private void SetupDecor(Drawrect decor, float width, float height, float xOffset, float lerpAmount)

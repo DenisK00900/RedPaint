@@ -10,96 +10,128 @@ namespace RedPaint
     {
         DialogFileSave fileSave;
 
+        bool forse = false;
+
         public override void Act()
         {
             Texture2D image = mc._image.GetCurrentImage();
 
-            if (image == null)
-            {
-                mc._entityManager.AddEntity(
-                    new DialogMessage(
-                        mc,
-                        "Ошибка при сохранении файла",
-                        "Нет изображения для сохранения",
-                        null));
-                return;
-            }
-
-            if (FileBrowserSolver.GetTypeOfPath(fileSave.currDir) == "Диск")
-            {
-                mc._entityManager.AddEntity(
-                    new DialogMessage(
-                        mc,
-                        "Ошибка при сохранении файла",
-                        "Сохранение в корневую папку диска не допускается",
-                        null));
-                return;
-            }
-
             string fileName = fileSave.InputFileName.stringInput;
+            string fullPath = Path.Combine(fileSave.currDir, fileName);
 
-            if (!string.IsNullOrEmpty(fileName) && char.IsDigit(fileName[0]))
+            if (!forse)
             {
-                mc._entityManager.AddEntity(
-                    new DialogMessage(
-                        mc,
-                        "Ошибка при сохранении файла",
-                        "Имя файла не может начинаться с цифры",
-                        null));
-                return;
-            }
-
-            char[] invalidChars = Path.GetInvalidFileNameChars();
-            foreach (char c in fileName)
-            {
-                if (Array.IndexOf(invalidChars, c) >= 0)
+                if (image == null)
                 {
-                    string invalidList = string.Join(" ", invalidChars);
                     mc._entityManager.AddEntity(
-                        new DialogMessage(
+                        new DialogError(
                             mc,
                             "Ошибка при сохранении файла",
-                            $"Имя файла содержит недопустимые символы: {invalidList}",
+                            "Нет изображения для сохранения",
                             null));
+                    succCall = false;
                     return;
                 }
-            }
 
-            string nameWithoutExt = Path.GetFileNameWithoutExtension(fileName).ToUpperInvariant();
-            string[] reservedNames = { "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
-            if (Array.IndexOf(reservedNames, nameWithoutExt) >= 0)
-            {
-                mc._entityManager.AddEntity(
-                    new DialogMessage(
-                        mc,
-                        "Ошибка при сохранении файла",
-                        $"Имя \"{nameWithoutExt}\" является зарезервированным в Windows и не может быть использовано",
-                        null));
-                return;
-            }
+                if (FileBrowserSolver.GetTypeOfPath(fileSave.currDir) == "Диск")
+                {
+                    mc._entityManager.AddEntity(
+                        new DialogError(
+                            mc,
+                            "Ошибка при сохранении файла",
+                            "Сохранение в корневую папку диска не допускается",
+                            null));
+                    succCall = false;
+                    return;
+                }
 
-            string ext = Path.GetExtension(fileName).ToLowerInvariant();
-            if (ext != ".png" && ext != ".jpg" && ext != ".jpeg")
-            {
-                mc._entityManager.AddEntity(
-                    new DialogMessage(
-                        mc,
-                        "Ошибка при сохранении файла",
-                        "Файл должен иметь расширение .png или .jpg",
-                        null));
-                return;
-            }
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    mc._entityManager.AddEntity(
+                        new DialogError(
+                            mc,
+                            "Ошибка при сохранении файла",
+                            "Пустое имя файла. Введите название и расширение файла.",
+                            null));
+                    succCall = false;
+                    return;
+                }
 
-            string fullPath = Path.Combine(fileSave.currDir, fileName);
-            if (File.Exists(fullPath))
-            {
-                mc._entityManager.AddEntity(
-                    new DialogMessage(
-                        mc,
-                        "Ошибка при сохранении файла",
-                        "Файл с таким названием уже есть в папке. Перезапись не допускается",
-                        null));
-                return;
+                char[] invalidChars = Path.GetInvalidFileNameChars();
+                foreach (char c in fileName)
+                {
+                    if (Array.IndexOf(invalidChars, c) >= 0)
+                    {
+                        string invalidList = string.Join(" ", invalidChars);
+                        mc._entityManager.AddEntity(
+                            new DialogError(
+                                mc,
+                                "Ошибка при сохранении файла",
+                                $"Имя файла содержит недопустимые символы: {invalidList}",
+                                null));
+                        succCall = false;
+                        return;
+                    }
+                }
+
+                string nameWithoutExt = Path.GetFileNameWithoutExtension(fileName).ToUpperInvariant();
+                string[] reservedNames = { "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
+                if (Array.IndexOf(reservedNames, nameWithoutExt) >= 0)
+                {
+                    mc._entityManager.AddEntity(
+                        new DialogError(
+                            mc,
+                            "Ошибка при сохранении файла",
+                            $"Имя \"{nameWithoutExt}\" является зарезервированным в Windows и не может быть использовано",
+                            null));
+                    succCall = false;
+                    return;
+                }
+
+                string ext = Path.GetExtension(fileName).ToLowerInvariant();
+                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg")
+                {
+                    mc._entityManager.AddEntity(
+                        new DialogError(
+                            mc,
+                            "Ошибка при сохранении файла",
+                            "Файл должен иметь расширение .png или .jpg",
+                            null));
+                    succCall = false;
+                    return;
+                }
+
+                if (File.Exists(fullPath))
+                {
+                    DialogWarning dw = new DialogWarning(
+                            mc,
+                            "Ошибка при сохранении файла",
+                            "Файл с таким названием уже есть в папке. Хотите перезаписать файл?",
+                            null);
+
+                    dw.SetAgreeText("Перезаписать");
+
+                    ActionSaveImage forseSave = new ActionSaveImage(mc, fileSave);
+                    forseSave.forse = true;
+
+                    dw.agree.AddAction(forseSave);
+                    dw.agree.AddAction(new ActionDestroy(mc, dw));
+                    dw.disagree.AddAction(new ActionDestroy(mc, fileSave));
+
+                    dw.agree.hint = new Hint(mc, "Перезаписать файл " + fileName + ".\nСодержимое текущего файла будет уничтожено");
+
+                    dw.SetDisagreeText("Отмена");
+
+                    dw.disagree.AddAction(new ActionDestroy(mc, dw));
+                    dw.disagree.AddAction(new ActionDestroy(mc, fileSave));
+
+                    dw.disagree.hint = new Hint(mc, "Отменить действие и не перезаписывать файл.\nВы можете сохранить его под другим именем");
+
+                    mc._entityManager.AddEntity(dw);
+
+                    succCall = false;
+                    return;
+                }
             }
 
             try
@@ -110,15 +142,18 @@ namespace RedPaint
                 {
                     image.SaveAsPng(stream, image.Width, image.Height);
                 }
+
+                mc._image.isModified = false;
             }
             catch (Exception ex)
             {
                 mc._entityManager.AddEntity(
-                    new DialogMessage(
+                    new DialogError(
                         mc,
                         "Ошибка при сохранении файла",
                         FileBrowserSolver.TrimExceptionMessage(ex),
                         null));
+                succCall = false;
             }
         }
 

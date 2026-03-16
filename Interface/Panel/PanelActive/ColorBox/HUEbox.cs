@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Reflection.Emit;
 using Color = Microsoft.Xna.Framework.Color;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
+using System.Diagnostics;
 
 namespace RedPaint
 {

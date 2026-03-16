@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,6 +19,16 @@ namespace RedPaint
     public abstract class AbstrAction
     {
         public Maincode mc;
+
+        public bool succCall;
+
+        public void Call()
+        {
+            succCall = true;
+
+            Act();
+        }
+
         public abstract void Act();
 
         public AbstrAction(Maincode imc)
