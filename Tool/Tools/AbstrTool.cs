@@ -21,6 +21,8 @@ namespace RedPaint
 
         public string dest = "Описание инструмента";
 
+        public List<ToolSet> setters = new List<ToolSet>();
+
         public AbstrTool (Maincode imc)
         {
             mc = imc;

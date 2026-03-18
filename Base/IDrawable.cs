@@ -23,7 +23,7 @@ namespace RedPaint
 
             foreach (VisualElement item in visual)
             {
-                item.Draw(sb);
+                if (item != null) item.Draw(sb);
             }
         }
 
