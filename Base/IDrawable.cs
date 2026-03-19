@@ -27,13 +27,14 @@ namespace RedPaint
             }
         }
 
-        public VisualElement[] CloneVisual()
+        public VisualElement[] CloneVisual(IDrawable newparent = null)
         {
             VisualElement[] clone = new VisualElement[visual.Length];
 
             for (int i = 0; i < clone.Length; i++)
             {
                 clone[i] = visual[i].Clone();
+                if (newparent != null) clone[i].parent = newparent;
             }
 
             return clone;

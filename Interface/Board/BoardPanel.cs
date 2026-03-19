@@ -199,9 +199,28 @@
 
             lists[2].AddMenuElement(new DelayMenuElement(mc));
 
-            //4-5
+            //4
 
             lists[3] = new PopList(mc, Vector2.Zero);
+
+            listtext = new Text[1];
+            for (int i = 0; i < listtext.Length; i++)
+            {
+                listtext[i] = new Text(null);
+                listtext[i].font = font;
+            }
+
+            listtext[0].text = "Новый слой";
+
+            button = new TextButton[1];
+
+            button[0] = new TextButton(mc);
+            button[0].SetHintText("Добавить новый пустой слой");
+            button[0].SetText(listtext[0]);
+            lists[3].AddMenuElement(button[0]);
+
+            //5
+
             lists[4] = new PopList(mc, Vector2.Zero);
 
             baseRect.SetDepth(1);

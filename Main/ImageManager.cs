@@ -31,7 +31,22 @@ namespace RedPaint
 
         public Vector2 CanvasSize;
         public CheckerTex checkerTex;
-        public AbstrTool currTool = null;
+
+        public event Action ToolChanged;
+
+        private AbstrTool _currTool;
+        public AbstrTool currTool
+        {
+            get => _currTool;
+            set
+            {
+                if (_currTool != value)
+                {
+                    _currTool = value;
+                    ToolChanged?.Invoke();
+                }
+            }
+        }
 
         private Color paintColor = Color.Red;
 

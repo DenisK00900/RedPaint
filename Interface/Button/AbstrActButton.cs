@@ -25,7 +25,7 @@ namespace RedPaint
 
         public List<AbstrAction> action = new List<AbstrAction>();
 
-        private float stanCurr = 0f;
+        public float stanCurr = 0f;
         public float stanHold = 0.05f;
 
         public override void Update(float deltaTime)

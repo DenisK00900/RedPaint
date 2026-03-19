@@ -22,16 +22,35 @@ namespace RedPaint
         public int brushSize = 1;
         public Color brushColor = Color.Black;
 
+        public ToolSetSliderInt brushSizeSlider;
         public Pencil(Maincode imc) : base(imc)
         {
             name = "Карандаш";
             icon = mc.Content.Load<Texture2D>("Texture/Icons/Tools/IconPencil");
             dest = "Простой инструмент, который\nкрасит пиксели в определённый цвет";
+
+            brushSizeSlider = new ToolSetSliderInt(mc);
+            brushSizeSlider.name = "Размер кисти";
+        }
+
+        public override List<ToolSet> GetSets()
+        {
+            List<ToolSet> sets = new List<ToolSet>();
+
+            ToolSetSliderInt brushSizeSliderClone = brushSizeSlider.Clone();
+
+            NewClone(brushSizeSliderClone);
+
+            sets.Add(brushSizeSliderClone);
+
+            return sets;
         }
 
         public override void Update(float deltaTime)
         {
             brushColor = mc._image.GetColor();
+
+            brushSize = GetValue<int>("Размер кисти");
 
             if (mc._input.IsDown(Button.LeftButton))
             {
@@ -64,7 +83,7 @@ namespace RedPaint
         {
             int cx = (int)Math.Round(pos.X);
             int cy = (int)Math.Round(pos.Y);
-            int radius = brushSize;
+            int radius = brushSize-1;
 
             for (int dy = -radius; dy <= radius; dy++)
             {
@@ -105,6 +124,5 @@ namespace RedPaint
                    pos.X >= 0 && pos.X < tex.Width &&
                    pos.Y >= 0 && pos.Y < tex.Height;
         }
-        public void SetBrushSize(int size) => brushSize = Math.Max(1, size);
     }
 }

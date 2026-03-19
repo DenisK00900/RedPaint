@@ -13,17 +13,57 @@ namespace RedPaint
 
         private AbstrTool tool = null;
 
+        private List<ToolSet> sets = new List<ToolSet>();
+
+        public void UpdateTool()
+        {
+            foreach (ToolSet s in sets)
+            {
+                s.Destroy();
+            }
+
+            tool = mc._image.currTool;
+
+            sets = tool.GetSets();
+
+            foreach (ToolSet s in sets)
+            {
+                s.parent = this;
+                mc._entityManager.AddEntity(s);
+            }
+        }
+
         public override void SetPanel(Panel pl)
         {
             base.SetPanel(pl);
             pl.setRect.headText = "Настройка";
             depth = pl.baseRect.depth + 2;
         }
+
+        private void UpdateSets()
+        {
+            float posY = 32f;
+            Vector2 size;
+
+            for (int i = 0; i < sets.Count; i++)
+            {
+                size = sets[i].DetermentSize();
+
+                sets[i].DetermentPos(new Vector2(0f, posY) + size/2f + panel.outlineSize);
+
+                sets[i].UpdateHitbox();
+
+                sets[i].SetDepth(depth + 1);
+
+                posY += size.Y;
+            }
+        }
+
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
 
-            tool = mc._image.currTool;
+            UpdateSets();
 
             SetPos(new Vector2(0f,32f) + panel.outlineSize / 2f);
             visual[0].scale = new Vector2(activeRect.size.X - panel.outlineSize.X, 32f);
@@ -31,11 +71,6 @@ namespace RedPaint
             SetPos(new Vector2(0f, 32f) + panel.outlineSize / 2f);
 
             (visual[1] as Text).text = tool.name;
-        }
-
-        public override void OnSpawn()
-        {
-            base.OnSpawn();
         }
 
         public ToolSettings(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
@@ -56,6 +91,8 @@ namespace RedPaint
             visual[1].pos = new Vector2(8f, 8f);
             visual[1].color =
                 Color.Lerp(mc._settings.GetCurrPalletre().textColor1, mc._settings.GetCurrPalletre().baseColor2, 0.5f);
+
+            mc._image.ToolChanged += UpdateTool;
         }
     }
 }
