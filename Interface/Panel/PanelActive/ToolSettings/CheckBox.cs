@@ -16,9 +16,9 @@ namespace RedPaint
         public VisualElement[] visual { get; set; }
         public int depth { get; set; }
 
-        private Texture2D onIcon;
+        public Texture2D onIcon;
 
-        private Texture2D offIcon;
+        public Texture2D offIcon;
 
         public List<AbstrAction> offAction = new List<AbstrAction>();
 
@@ -26,7 +26,7 @@ namespace RedPaint
 
         public bool status = false;
 
-        private void ChangeIcon()
+        public void ChangeIcon()
         {
             (visual[0] as Sprite).texture = status ? onIcon : offIcon;
         }

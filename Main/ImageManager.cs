@@ -18,7 +18,10 @@ namespace RedPaint
     public class ImageManager
     {
         Maincode mc;
-        private Texture2D currImage = null;
+
+        public List<Layer> layers = new List<Layer>();
+        public int workingLayer = 0;
+
         private Texture2D canvasImage = null;
 
         private Color[] pixelBuffer = null;
@@ -28,6 +31,7 @@ namespace RedPaint
 
         public event Action ImageLoaded;
         public event Action ChangesApplied;
+        public event Action ChangesLayers;
 
         public Vector2 CanvasSize;
         public CheckerTex checkerTex;
@@ -58,6 +62,43 @@ namespace RedPaint
             checkerTex = new CheckerTex(mc);
         }
 
+        public void AddLayer(Layer lr = null)
+        {
+            if (lr != null)
+            {
+                layers.Add(lr);
+
+                ChangesLayers.Invoke();
+
+                return;
+            }
+
+            AddBlankLayer();
+        }
+
+        public void AddBlankLayer()
+        {
+            var newLayer = new Layer(mc);
+            newLayer.tex = new Texture2D(mc.GraphicsDevice, canvasImage.Width, canvasImage.Height);
+
+            Color[] transparentPixels = new Color[canvasImage.Width * canvasImage.Height];
+            for (int i = 0; i < transparentPixels.Length; i++)
+                transparentPixels[i] = Color.Transparent;
+            newLayer.tex.SetData(transparentPixels);
+
+            layers.Add(newLayer);
+            ChangesLayers.Invoke();
+        }
+
+        public void RemoveLayer(int index)
+        {
+            layers.RemoveAt(index);
+
+            SetWorkingLayer(0);
+
+            ChangesLayers.Invoke();
+        }
+
         public void SetColor(Color newcolor)
         {
             paintColor.R = ((byte)newcolor.R);
@@ -75,16 +116,17 @@ namespace RedPaint
             return paintColor;
         }
 
-        public void SetImage(Texture2D tex)
+        public void SetImage(Texture2D tex, int layerIndex = 0)
         {
-            currImage = tex;
+            layers[layerIndex].tex = tex;
             InitPixelBuffer();
             UpdateCanvas();
         }
 
         public void CreateNew(Texture2D t)
         {
-            currImage = t;
+            AddLayer(new Layer(mc));
+            layers[0].tex = t;
             InitPixelBuffer();
             UpdateCanvas();
             ImageLoaded?.Invoke();
@@ -97,16 +139,17 @@ namespace RedPaint
             if (!File.Exists(path))
                 throw new FileNotFoundException($"Файл изображения не найден: {path}");
 
-            currImage?.Dispose();
+            layers.Clear();
 
             try
             {
+                AddLayer(new Layer(mc));
                 using (var stream = File.OpenRead(path))
                 {
-                    currImage = Texture2D.FromStream(mc.GraphicsDevice, stream);
+                    layers[0].tex = Texture2D.FromStream(mc.GraphicsDevice, stream);
                 }
                 InitPixelBuffer();
-                CanvasSize = TUH.GetTextureSize(currImage);
+                CanvasSize = TUH.GetTextureSize(layers[0].tex);
                 UpdateCanvas();
                 ImageLoaded?.Invoke();
 
@@ -122,20 +165,20 @@ namespace RedPaint
 
         private void InitPixelBuffer()
         {
-            if (currImage == null) return;
+            if (layers[workingLayer].tex == null) return;
 
-            pixelBuffer = new Color[currImage.Width * currImage.Height];
-            currImage.GetData(pixelBuffer);
+            pixelBuffer = new Color[layers[workingLayer].tex.Width * layers[workingLayer].tex.Height];
+            layers[workingLayer].tex.GetData(pixelBuffer);
             isDirty = false;
             dirtyRect = Rectangle.Empty;
         }
 
         public bool SetPixel(int x, int y, Color color)
         {
-            if (currImage == null || pixelBuffer == null) return false;
-            if (x < 0 || x >= currImage.Width || y < 0 || y >= currImage.Height) return false;
+            if (layers[workingLayer].tex == null || pixelBuffer == null) return false;
+            if (x < 0 || x >= layers[workingLayer].tex.Width || y < 0 || y >= layers[workingLayer].tex.Height) return false;
 
-            int index = y * currImage.Width + x;
+            int index = y * layers[workingLayer].tex.Width + x;
 
             if (pixelBuffer[index] == color) return true;
 
@@ -149,10 +192,10 @@ namespace RedPaint
 
         public Color GetPixel(int x, int y)
         {
-            if (currImage == null || pixelBuffer == null) return Color.Transparent;
-            if (x < 0 || x >= currImage.Width || y < 0 || y >= currImage.Height) return Color.Transparent;
+            if (layers[workingLayer].tex == null || pixelBuffer == null) return Color.Transparent;
+            if (x < 0 || x >= layers[workingLayer].tex.Width || y < 0 || y >= layers[workingLayer].tex.Height) return Color.Transparent;
 
-            return pixelBuffer[y * currImage.Width + x];
+            return pixelBuffer[y * layers[workingLayer].tex.Width + x];
         }
 
         private void MarkDirty(int x, int y)
@@ -168,9 +211,9 @@ namespace RedPaint
         }
         public void ApplyChanges()
         {
-            if (!isDirty || currImage == null || pixelBuffer == null) return;
+            if (!isDirty || layers[workingLayer].tex == null || pixelBuffer == null) return;
 
-            currImage.SetData(pixelBuffer);
+            layers[workingLayer].tex.SetData(pixelBuffer);
 
             isDirty = false;
             dirtyRect = Rectangle.Empty;
@@ -185,7 +228,7 @@ namespace RedPaint
                 {
                     int srcX = rect.X + dx;
                     int srcY = rect.Y + dy;
-                    result[dy * rect.Width + dx] = pixelBuffer[srcY * currImage.Width + srcX];
+                    result[dy * rect.Width + dx] = pixelBuffer[srcY * layers[workingLayer].tex.Width + srcX];
                 }
             }
             return result;
@@ -198,7 +241,7 @@ namespace RedPaint
             dirtyRect = Rectangle.Empty;
         }
 
-        public Texture2D GetCurrentImage() => currImage;
+        public Texture2D GetCurrentImage() => layers[workingLayer].tex;
         public Texture2D GetCanvas() => canvasImage;
         public Color[] GetPixelBuffer() => pixelBuffer;
         public bool HasUnappliedChanges() => isDirty;
@@ -213,14 +256,25 @@ namespace RedPaint
             return new Vector2(-1f, -1f);
         }
 
+        public void SetWorkingLayer(int index)
+        {
+            if (index < 0 || index >= layers.Count) return;
+
+            if (isDirty) ApplyChanges();
+
+            workingLayer = index;
+            InitPixelBuffer();
+            ChangesLayers?.Invoke();
+        }
+
         public void UpdateCanvas()
         {
-            if (currImage == null) return;
+            if (layers[workingLayer].tex == null) return;
 
             //checkerTex.Dispose();
 
-            checkerTex.sizeX = currImage.Width;
-            checkerTex.sizeY = currImage.Height;
+            checkerTex.sizeX = layers[workingLayer].tex.Width;
+            checkerTex.sizeY = layers[workingLayer].tex.Height;
             checkerTex.sizeChecker = 16;
             checkerTex.color1 = Color.Lerp(Color.Gray, mc._settings.GetCurrPalletre().baseColor1, 0.9f);
             checkerTex.color2 = Color.Lerp(Color.Gray, mc._settings.GetCurrPalletre().baseColor2, 0.9f);

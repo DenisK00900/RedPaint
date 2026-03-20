@@ -32,7 +32,7 @@ namespace RedPaint
                     new DialogError(
                                 mc,
                                 "Ошибка создания изображения",
-                                FileBrowserSolver.TrimExceptionMessage(new Exception("Размер должен быть больше 0")),
+                                "Размер должен быть больше 0",
                                 null
                                 ));
 

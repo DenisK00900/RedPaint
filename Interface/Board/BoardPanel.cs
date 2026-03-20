@@ -203,7 +203,7 @@
 
             lists[3] = new PopList(mc, Vector2.Zero);
 
-            listtext = new Text[1];
+            listtext = new Text[2];
             for (int i = 0; i < listtext.Length; i++)
             {
                 listtext[i] = new Text(null);
@@ -211,13 +211,21 @@
             }
 
             listtext[0].text = "Новый слой";
+            listtext[1].text = "Соединить";
 
-            button = new TextButton[1];
+            button = new TextButton[2];
 
             button[0] = new TextButton(mc);
+            button[0].AddAction(new ActionNewLayer(mc));
+            button[0].AddAction(new ActionDestroy(mc, lists[3]));
             button[0].SetHintText("Добавить новый пустой слой");
             button[0].SetText(listtext[0]);
             lists[3].AddMenuElement(button[0]);
+
+            button[1] = new TextButton(mc);
+            button[1].SetHintText("Соединить все слои в один слой");
+            button[1].SetText(listtext[1]);
+            lists[3].AddMenuElement(button[1]);
 
             //5
 
