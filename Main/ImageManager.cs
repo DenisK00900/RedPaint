@@ -163,6 +163,11 @@ namespace RedPaint
             }
         }
 
+        public bool CanWrite()
+        {
+            return layers.Count > 0 && !layers[workingLayer].isLocked;
+        }
+
         private void InitPixelBuffer()
         {
             if (layers[workingLayer].tex == null) return;

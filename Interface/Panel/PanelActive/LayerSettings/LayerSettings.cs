@@ -19,25 +19,44 @@ namespace RedPaint
 
         public List<LayerBox> layers = new List<LayerBox>();
 
-        public void AddLayer(Layer lr)
+        public void AddLayer(Layer lr, Vector2? pos = null)
         {
             LayerBox lb = new LayerBox(mc, lr, this);
+
+            if (pos.HasValue)
+            {
+                lb.currPos = pos.Value;
+                lb.targetPos = pos.Value;
+            }
 
             mc._entityManager.AddEntity(lb);
 
             layers.Add(lb);
         }
 
-        private void UpdateBoxesPos()
+        public void BoxesRepos(int movementIndex)
         {
+            if (movementIndex < 0 || movementIndex >= layers.Count || layers.Count <= 1)
+                return;
+
+            
+        }
+
+        private void UpdateBoxesPos()
+        { 
             for (int i = 0; i < layers.Count; i++)
             {
-                layers[i].SetPos(new Vector2(0f, i * (32f + layers[i].outlineSize.Y)) + new Vector2(0,32f) + panel.outlineSize/2f);
+                int visualIndex = layers.Count - 1 - i;
+
+                layers[i].DetermentPos(
+                    new Vector2(0f, visualIndex * (32f + layers[i].outlineSize.Y))
+                    + new Vector2(0, 32f)
+                    + panel.outlineSize / 2f
+                );
 
                 layers[i].SetNum(i);
 
                 layers[i].SetDepth(depth + 1);
-
                 layers[i].UpdateHitbox();
             }
         }
@@ -53,21 +72,42 @@ namespace RedPaint
         {
             UpdateBoxesPos();
 
+            for (int i = 0; i < layers.Count; i++)
+            {
+                if (layers[i].isTaken)
+                {
+                    BoxesRepos(i);
+                    break;
+                }
+            }
+
             base.Update(deltaTime);
         }
 
         public void UpdateLayers()
         {
+            List<Vector2> savedPos = new List<Vector2>();
+
+            int count = layers.Count;
+
             foreach (LayerBox lb in layers)
             {
+                savedPos.Add(lb.currPos);
                 lb.Destroy();
             }
 
             layers.Clear();
 
-            foreach (Layer lr in mc._image.layers)
+            for (int i = 0; i < mc._image.layers.Count; i++)
             {
-                AddLayer(lr);
+                if (count == mc._image.layers.Count)
+                {
+                    AddLayer(mc._image.layers[i], savedPos[i]);
+                }
+                else
+                {
+                    AddLayer(mc._image.layers[i]);
+                }
             }
         }
 

@@ -69,7 +69,7 @@
 
             lists[0] = new PopList(mc, Vector2.Zero);
 
-            Text[] listtext = new Text[4];
+            Text[] listtext = new Text[5];
             for (int i = 0; i < listtext.Length; i++)
             {
                 listtext[i] = new Text(null);
@@ -80,8 +80,9 @@
             listtext[1].text = "Загрузить";
             listtext[2].text = "Сохранить";
             listtext[3].text = "Сохранить как";
+            listtext[4].text = "Недавние";
 
-            TextButton[] button = new TextButton[4];
+            TextButton[] button = new TextButton[5];
 
             button[0] = new TextButton(mc);
             button[0].AddAction(new ActionSpawn(mc, new DialogCreateNewImage(mc)));
@@ -111,11 +112,16 @@
 
             lists[0].AddMenuElement(new DelayMenuElement(mc));
 
+            button[4] = new TextButton(mc);
+            button[4].SetHintText("Открыть один из последних\nизменённых файлов");
+            button[4].SetText(listtext[4]);
+            lists[0].AddMenuElement(button[4]);
+
             //2
 
             lists[1] = new PopList(mc, Vector2.Zero);
 
-            listtext = new Text[5];
+            listtext = new Text[7];
             for (int i = 0; i < listtext.Length; i++)
             {
                 listtext[i] = new Text(null);
@@ -126,9 +132,11 @@
             listtext[1].text = "Вперёд";
             listtext[2].text = "Холст";
             listtext[3].text = "Спрайт";
-            listtext[4].text = "Настройки";
+            listtext[4].text = "Вращать";
+            listtext[5].text = "Отразить";
+            listtext[6].text = "Настройки";
 
-            button = new TextButton[5];
+            button = new TextButton[7];
 
             button[0] = new TextButton(mc);
             button[0].SetText(listtext[0]);
@@ -156,8 +164,20 @@
 
             button[4] = new TextButton(mc);
             button[4].SetText(listtext[4]);
-            button[4].SetHintText("Открыть настройки приложения\n\nCtrl+K");
+            button[4].SetHintText("Повернуть изображение");
             lists[1].AddMenuElement(button[4]);
+
+            button[5] = new TextButton(mc);
+            button[5].SetText(listtext[5]);
+            button[5].SetHintText("Отразить изображение");
+            lists[1].AddMenuElement(button[5]);
+
+            lists[1].AddMenuElement(new DelayMenuElement(mc));
+
+            button[6] = new TextButton(mc);
+            button[6].SetText(listtext[6]);
+            button[6].SetHintText("Открыть настройки приложения\n\nCtrl+K");
+            lists[1].AddMenuElement(button[6]);
 
             //3
 

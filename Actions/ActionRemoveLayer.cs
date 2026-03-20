@@ -30,7 +30,7 @@ namespace RedPaint
                 DialogWarning dw = new DialogWarning(
                                 mc,
                                 "Ошибка удаления слоя",
-                                $"Вы уверены, что хотите удалить слой {index}?",
+                                $"Вы уверены, что хотите удалить слой '" + mc._image.layers[index].name + $"' (номер {index})?",
                                 null);
 
                 dw.SetAgreeText("Удалить");
@@ -42,7 +42,7 @@ namespace RedPaint
                 dw.agree.AddAction(forseLoad);
                 dw.agree.AddAction(new ActionDestroy(mc, dw));
 
-                dw.agree.hint = new Hint(mc, "Удалить этот слой слой");
+                dw.agree.hint = new Hint(mc, "Удалить этот слой");
 
                 dw.SetDisagreeText("Отмена");
 

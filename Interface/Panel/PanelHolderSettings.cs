@@ -51,6 +51,8 @@ namespace RedPaint
             ph.AddPanel(panels[3], ph.GetRect().GetSubrect(7, 1, 6, 0));
 
             ph.AddPanel(panels[4], ph.GetRect().GetSubrect(7, 4, 2, 3) + ph.GetRect().GetSubrect(7, 4, 5, 3));
+
+            ph.UpdateCurrMap();
         }
     }
 }

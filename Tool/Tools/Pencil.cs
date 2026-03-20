@@ -48,6 +48,8 @@ namespace RedPaint
 
         public override void Update(float deltaTime)
         {
+            if (!mc._image.CanWrite()) return;
+
             brushColor = mc._image.GetColor();
 
             brushSize = GetValue<int>("Размер кисти");

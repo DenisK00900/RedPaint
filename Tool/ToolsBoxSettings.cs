@@ -24,6 +24,10 @@ namespace RedPaint
             baseTools.AddTool(new Erase(tb.mc));
             tb.AddRegion(baseTools);
 
+            ToolsRegion brushTools = new ToolsRegion(tb.mc, tb);
+            brushTools.SetHeadText("Кисти");
+            tb.AddRegion(brushTools);
+
             ToolsRegion figureTools = new ToolsRegion(tb.mc, tb);
             figureTools.SetHeadText("Фигуры");
             figureTools.AddTool(new LineDraw(tb.mc));

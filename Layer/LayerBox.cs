@@ -40,6 +40,12 @@ namespace RedPaint
 
         public int layerIndex = -1;
 
+        public Vector2 targetPos;
+
+        public Vector2 currPos;
+
+        public bool isTaken;
+
         public void SetThisLayer()
         {
             mc._image.SetWorkingLayer(layerIndex);
@@ -101,13 +107,40 @@ namespace RedPaint
 
         public override void Update(float deltaTime)
         {
+            if (showName.mouseOver && mc._input.IsPressed(Button.LeftButton))
+            {
+                isTaken = true;
+            }
+            if (mc._input.IsReleased(Button.LeftButton))
+            {
+                isTaken = false;
+            }
+
+            if (isTaken)
+            {
+
+            }
+
+            currPos = TUH.Lerp(currPos, targetPos, 0.15f);
+
+            SetPos(currPos);
+
             outline.visual[0].color = mc._image.workingLayer == layerIndex ?
                 mc._settings.GetCurrPalletre().effectColor2 :
                 Color.Lerp(
                     Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.25f),
                     mc._settings.GetCurrPalletre().boxColor, 0.15f);
 
+            layer.isLocked = locker.status;
+
+            (showName.visual[0] as Text).text = layer.name;
+
             base.Update(deltaTime);
+        }
+
+        public void DetermentPos(Vector2 pos)
+        {
+            targetPos = pos;
         }
 
         public LayerBox(Maincode imc, Layer ilayer, AbstrEntity pr = null) : base(imc, pr)
@@ -155,6 +188,8 @@ namespace RedPaint
             showRemove.SetPos(new Vector2(leight - 16f, 16f));
             showRemove.visual[0].color = mc._settings.GetCurrPalletre().textColor1;
 
+            showRemove.SetHintText("Удалить этот слой и всё его содержимое");
+
             locker = new CheckBox(mc, baseRect);
 
             locker.SetPos(new Vector2(leight - 32f - 16f, 16f));
@@ -166,6 +201,8 @@ namespace RedPaint
 
             locker.ChangeIcon();
 
+            locker.SetHintText("Заблокировать или разблокировать слой.\nЗаблокированные слои не могут быть изменены");
+
             showEdit = new SpriteButton(mc, baseRect);
 
             showEdit.visual = new VisualElement[1];
@@ -175,6 +212,8 @@ namespace RedPaint
 
             showEdit.SetPos(new Vector2(leight - 64 - 16f, 16f));
             showEdit.visual[0].color = mc._settings.GetCurrPalletre().textColor1;
+
+            showEdit.SetHintText("Открыть настройки этого слоя");
         }
     }
 }

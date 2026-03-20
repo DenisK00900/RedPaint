@@ -21,6 +21,9 @@ namespace RedPaint
         public VisualElement[] visual { get; set; }
         public int depth { get; set; }
         public Vector2 innerPos;
+
+        public Vector2 targetPos;
+
         public float currScale = 0f;
         public float targetScale = 0f;
 
@@ -83,6 +86,7 @@ namespace RedPaint
         public void UpdateImage()
         {
             innerPos = Vector2.Zero;
+            targetPos = Vector2.Zero;
             currScale = 0f;
             targetScale = 0f;
 
@@ -162,9 +166,13 @@ namespace RedPaint
             {
 
                 if (mc._input.IsMouseWheelScrolledUp())
+                {
                     targetScale = Math.Clamp(targetScale + ZoomStep, MinZoom, MaxZoom);
+                }
                 else if (mc._input.IsMouseWheelScrolledDown())
+                {
                     targetScale = Math.Clamp(targetScale - ZoomStep, MinZoom, MaxZoom);
+                }
 
                 if (mc._input.IsPressed(Button.MiddleButton) && !isTaken)
                 {
@@ -190,10 +198,8 @@ namespace RedPaint
             if (activeRect.CheckPoint(mc._input.GetMousePosition()))
             {
                 visual[2].isActive = true;
-                
 
-
-                if (false && TUH.GetPixelColor(mc._image.GetCurrentImage(), GetCurrTexPos()) != null)
+                if (mc._image.layers.Count >0 && TUH.GetPixelColor(mc._image.GetCurrentImage(), GetCurrTexPos()) != null)
                 {
                     visual[2].color =
                         TUH.GetBrightness(TUH.GetPixelColor(mc._image.GetCurrentImage(), GetCurrTexPos()).Value) < 0.5f ?
@@ -300,7 +306,9 @@ namespace RedPaint
             UpdateMovement();
 
             if (isTaken)
-                innerPos = mc._input.GetMousePosition() - takePos;
+                targetPos = mc._input.GetMousePosition() - takePos;
+
+            innerPos = TUH.Lerp(innerPos, targetPos, 0.50f);
 
             UpdateMouseCoord(deltaTime);
             UpdateSelectPixel();
