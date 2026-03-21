@@ -81,6 +81,19 @@ namespace RedPaint
             return new Vector2(w + 8f, h + 8f);
         }
 
+        public override void SetDepth(int depth)
+        {
+            base.SetDepth(depth + 2);
+
+            baseRect.SetDepth(depth + 1);
+            outline.SetDepth(depth);
+
+            foreach (AbstrEntity item in elements)
+            {
+                item.SetDepth(depth + 3);
+            }
+        }
+
         public override void OnSpawn()
         {
             size = DetermentSize();
@@ -95,8 +108,6 @@ namespace RedPaint
             visual[0].isActive = elements.Count == 0;
 
             base.OnSpawn();
-
-            depth = baseRect.depth + 2;
 
             float Ypos = -4;
 
@@ -115,6 +126,8 @@ namespace RedPaint
 
         public override void Update(float deltaTime)
         {
+            SetDepth(200);
+
             bool isAnyMouseOver = false;
 
             foreach (AbstrEntity item in elements)
@@ -140,13 +153,6 @@ namespace RedPaint
             }
         }
 
-        public override void SetDepth(int depth)
-        {
-            base.SetDepth(depth);
-
-            baseRect.SetDepth(depth);
-            outline.SetDepth(depth - 1);
-        }
         public PopList(Maincode mc, Vector2 pos, AbstrEntity pr = null) : base(mc, pos, pr)
         {
             visual = new VisualElement[1];
@@ -157,6 +163,8 @@ namespace RedPaint
             (visual[0] as Text).font = mc.Content.Load<SpriteFont>("Fonts/Haipapikuseru/Haipapikuseru1");
             (visual[0] as Text).color =
             Color.Lerp(mc._settings.GetCurrPalletre().textColor1, mc._settings.GetCurrPalletre().baseColor1, 0.75f);
+
+            SetDepth(100);
         }
     }
 }

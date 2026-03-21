@@ -19,6 +19,20 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static Texture2D GetCombineBeforeSave(Maincode mc)
+        {
+            List<Texture2D> tex = new List<Texture2D>();
+            List<float> alpha = new List<float>();
+
+            foreach (Layer lr in mc._image.layers)
+            {
+                tex.Add(lr.tex);
+                alpha.Add(lr.alpha);
+            }
+
+            return UniteTex.CombineTextures(tex, alpha);
+        }
+
         public static void MoveItem<T>(List<T> list, int fromIndex, int toIndex)
         {
             if (list == null)
@@ -42,6 +56,7 @@ namespace RedPaint
                 Debug.WriteLine($"Параметр: {param.Name}, Тип: {param.ParameterType}");
             }
         }
+        
         public static int GetTextureSizeInBytes(Texture2D texture)
         {
             if (texture == null)

@@ -50,6 +50,13 @@ namespace RedPaint
             return new Vector2(1000f, 850f);
         }
 
+        public override void Update(float deltaTime)
+        {
+            SetDepth(1000);
+
+            base.Update(deltaTime);
+        }
+
         public override void OnSpawn()
         {
             if (mc._image.GetCurrentImage() == null)
@@ -162,19 +169,22 @@ namespace RedPaint
             outline.SetDepth(depth);
             setRect.SetDepth(depth + 2);
 
-            fileViewRect.SetDepth(depth + 4);
-            fileViewRectOutLine.SetDepth(depth + 3);
-            fileViewTop.SetDepth(depth + 5);
-            fileViewDecor1.SetDepth(depth + 5);
-            fileViewDecor2.SetDepth(depth + 5);
-            fileViewDecor3.SetDepth(depth + 5);
-            fileViewSide.SetDepth(depth + 5);
+            if (isCreated)
+            {
+                fileViewRect.SetDepth(depth + 4);
+                fileViewRectOutLine.SetDepth(depth + 3);
+                fileViewTop.SetDepth(depth + 5);
+                fileViewDecor1.SetDepth(depth + 5);
+                fileViewDecor2.SetDepth(depth + 5);
+                fileViewDecor3.SetDepth(depth + 5);
+                fileViewSide.SetDepth(depth + 5);
 
-            upFolderButton.SetDepth(depth + 6);
+                upFolderButton.SetDepth(depth + 6);
 
-            InputFileName.SetDepth(depth + 4);
+                InputFileName.SetDepth(depth + 4);
 
-            saveButton.SetDepth(depth + 4);
+                saveButton.SetDepth(depth + 4);
+            }
         }
 
         public DialogFileSave(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
@@ -234,7 +244,7 @@ namespace RedPaint
             saveButton.AddAction(new ActionDestroy(mc, this));
             saveButton.SetPos(new Vector2(size.X - saveButton.visual[0].scale.X / 2f - 20f, size.Y - 40f));
 
-            SetDepth(20);
+            SetDepth(1000);
         }
 
         private void SetupDecor(Drawrect decor, float width, float height, float xOffset, float lerpAmount)

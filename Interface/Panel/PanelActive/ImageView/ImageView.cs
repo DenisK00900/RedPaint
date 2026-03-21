@@ -108,6 +108,8 @@ namespace RedPaint
                 spr.pos = activeRect.size / 2f + innerPos + new Vector2(0f, VisualOffsetY);
                 spr.scale = new Vector2(currScale);
 
+                spr.alpha = mc._image.layers[i].alpha;
+
                 LayersVisual.Add(spr);
             }
 

@@ -99,6 +99,15 @@ namespace RedPaint
             Destroy();
         }
 
+        public override void SetDepth(int depth)
+        {
+            base.SetDepth(depth);
+
+            baseRect.SetDepth(depth + 1);
+            outline.SetDepth(depth);
+            setRect.SetDepth(depth + 2);
+        }
+
         public DialogBox(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
             baseRect = new Drawrect(mc, this);
@@ -130,6 +139,8 @@ namespace RedPaint
             setRect.depth = baseRect.depth + 1;
 
             SetOnCenter();
+
+            SetDepth(1000);
         }
     }
 }

@@ -23,6 +23,8 @@ namespace RedPaint
 
         public Texture2D tex;
 
+        public float alpha = 1.0f;
+
         public bool isLocked = false;
 
         public Layer(Maincode imc)

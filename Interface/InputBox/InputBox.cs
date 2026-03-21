@@ -39,6 +39,8 @@ namespace RedPaint
 
         public float boxSize = 96f;
 
+        public event Action onFinishWrite;
+
         public virtual Vector2 DetermentSize()
         {
             return new Vector2(boxSize, 32f);
@@ -95,6 +97,8 @@ namespace RedPaint
             {
                 isWriting = false;
                 mc._input.UnlockWrite();
+
+                onFinishWrite?.Invoke();
             }
 
             if (isWriting)

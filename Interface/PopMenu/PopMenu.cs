@@ -43,6 +43,14 @@ namespace RedPaint
             return clone;
         }
 
+        public override void SetDepth(int depth)
+        {
+            base.SetDepth(depth);
+
+            baseRect.SetDepth(depth);
+            outline.SetDepth(depth - 1);
+        }
+
         public PopMenu(Maincode mc, Vector2 pos, AbstrEntity pr = null) : base(mc, pos, pr)
         {
             baseRect = new Drawrect(mc, this);
@@ -61,7 +69,8 @@ namespace RedPaint
             (outline.visual[0] as Sprite).color =
             Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.25f);
             (outline.visual[0] as Sprite).scale = size + outlineSize;
-            outline.depth = baseRect.depth - 1;
+
+            SetDepth(100);
         }
     }
 }

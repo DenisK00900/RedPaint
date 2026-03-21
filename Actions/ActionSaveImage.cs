@@ -11,10 +11,10 @@ namespace RedPaint
         DialogFileSave fileSave;
 
         bool forse = false;
-
+        bool ignoneLayers = false;
         public override void Act()
         {
-            Texture2D image = mc._image.GetCurrentImage();
+            Texture2D image = TUH.GetCombineBeforeSave(mc);
 
             string fileName = fileSave.InputFileName.stringInput;
             string fullPath = Path.Combine(fileSave.currDir, fileName);
@@ -99,6 +99,41 @@ namespace RedPaint
                             null));
                     succCall = false;
                     return;
+                }
+
+                if (!ignoneLayers)
+                {
+                    if (mc._image.layers.Count > 1)
+                    {
+                        DialogWarning dw = new DialogWarning(
+                            mc,
+                            "Ошибка при сохранении файла",
+                            "Данный тип файлов не поддерживать множественные слои.\nПри сохранении слои будут объеденены. Продолжить?",
+                            null);
+
+                        dw.SetAgreeText("Объединить");
+
+                        ActionSaveImage forseSave = new ActionSaveImage(mc, fileSave);
+                        forseSave.ignoneLayers = true;
+
+                        dw.agree.AddAction(forseSave);
+                        dw.agree.AddAction(new ActionDestroy(mc, dw));
+                        dw.disagree.AddAction(new ActionDestroy(mc, fileSave));
+
+                        dw.agree.hint = new Hint(mc, "Объединить слои и сохранить в этом формате");
+
+                        dw.SetDisagreeText("Отмена");
+
+                        dw.disagree.AddAction(new ActionDestroy(mc, dw));
+                        dw.disagree.AddAction(new ActionDestroy(mc, fileSave));
+
+                        dw.disagree.hint = new Hint(mc, "Отменить действие и не объединять слои");
+
+                        mc._entityManager.AddEntity(dw);
+
+                        succCall = false;
+                        return;
+                    }
                 }
 
                 if (File.Exists(fullPath))

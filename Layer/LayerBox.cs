@@ -55,6 +55,11 @@ namespace RedPaint
             mc._image.SetWorkingLayer(layerIndex);
         }
 
+        public void SetNewName(string newname)
+        {
+            layer.name = newname;
+            (showName.visual[0] as Text).text = newname;
+        }
         public override void OnSpawn()
         {
             mc._entityManager.AddEntity(baseRect);
@@ -221,6 +226,7 @@ namespace RedPaint
             showEdit.visual[0] = new Sprite(showEdit);
             (showEdit.visual[0] as Sprite).texture = mc.Content.Load<Texture2D>("Texture/Icons/gear");
             showEdit.visual[0].scale = new Vector2(32f / 64f);
+            showEdit.AddAction(new ActionSpawn(mc, new DialogLayerSettings(mc, this)));
 
             showEdit.SetPos(new Vector2(leight - 64 - 16f, 16f));
             showEdit.visual[0].color = mc._settings.GetCurrPalletre().textColor1;

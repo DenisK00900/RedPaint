@@ -49,7 +49,7 @@ namespace RedPaint
             {
                 UpdatePushPos();
 
-                lean = TUH.InverseLerp(-leight / 2f, leight / 2f, push.GetPos().X-20 - leight/2f);
+                lean = TUH.InverseLerp(-leight / 2f, leight / 2f, push.position.X);
             }
         }
 
@@ -64,6 +64,8 @@ namespace RedPaint
 
         public void SetDef(float def)
         {
+            lean = def;
+
             push.SetPos(new Vector2(MathHelper.Lerp(-leight / 2f, leight / 2f, def),0f));
         }
 

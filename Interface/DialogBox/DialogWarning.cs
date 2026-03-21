@@ -81,8 +81,11 @@ namespace RedPaint
             outline.SetDepth(depth - 2);
             setRect.SetDepth(depth);
 
-            agree.SetDepth(depth + 1);
-            disagree.SetDepth(depth + 1);
+            if (isCreated)
+            {
+                agree.SetDepth(depth + 1);
+                disagree.SetDepth(depth + 1);
+            }
         }
 
         private void SetPosForButtons()
