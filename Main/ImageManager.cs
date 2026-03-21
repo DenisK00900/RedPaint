@@ -62,6 +62,11 @@ namespace RedPaint
             checkerTex = new CheckerTex(mc);
         }
 
+        public void CallChangesLayers()
+        {
+            ChangesLayers.Invoke();
+        }
+
         public void AddLayer(Layer lr = null)
         {
             if (lr != null)
@@ -268,8 +273,7 @@ namespace RedPaint
             if (isDirty) ApplyChanges();
 
             workingLayer = index;
-            InitPixelBuffer();
-            ChangesLayers?.Invoke();
+            InitPixelBuffer(); 
         }
 
         public void UpdateCanvas()

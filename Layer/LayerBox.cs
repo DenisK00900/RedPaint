@@ -46,6 +46,10 @@ namespace RedPaint
 
         public bool isTaken;
 
+        private int takenIndex;
+
+        public bool canGlow = true;
+
         public void SetThisLayer()
         {
             mc._image.SetWorkingLayer(layerIndex);
@@ -110,22 +114,30 @@ namespace RedPaint
             if (showName.mouseOver && mc._input.IsPressed(Button.LeftButton))
             {
                 isTaken = true;
+
+                showNum.visual[0].color = Color.Yellow;
+
+                takenIndex = layerIndex;
             }
             if (mc._input.IsReleased(Button.LeftButton))
             {
                 isTaken = false;
-            }
 
-            if (isTaken)
-            {
+                showNum.visual[0].color = mc._settings.GetCurrPalletre().textColor1;
 
+                if (takenIndex != layerIndex)
+                {
+                    (parent as LayerSettings).SetLayers();
+                }
             }
 
             currPos = TUH.Lerp(currPos, targetPos, 0.15f);
 
             SetPos(currPos);
 
-            outline.visual[0].color = mc._image.workingLayer == layerIndex ?
+            outline.visual[0].color = 
+                (mc._image.workingLayer == layerIndex && canGlow)
+                ?
                 mc._settings.GetCurrPalletre().effectColor2 :
                 Color.Lerp(
                     Color.Lerp(mc._settings.GetCurrPalletre().baseColor2, mc._settings.GetCurrPalletre().baseColor1, 0.25f),

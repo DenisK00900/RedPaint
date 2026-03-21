@@ -19,6 +19,22 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static void MoveItem<T>(List<T> list, int fromIndex, int toIndex)
+        {
+            if (list == null)
+                throw new ArgumentNullException(nameof(list));
+            if (fromIndex < 0 || fromIndex >= list.Count)
+                throw new ArgumentOutOfRangeException(nameof(fromIndex), "Индекс источника вне диапазона.");
+            if (toIndex < 0 || toIndex > list.Count)
+                throw new ArgumentOutOfRangeException(nameof(toIndex), "Индекс назначения вне диапазона.");
+            if (fromIndex == toIndex)
+                return;
+
+            T item = list[fromIndex];
+            list.RemoveAt(fromIndex);
+            list.Insert(toIndex, item);
+        }
+
         public static void PrintEffectParam(Effect eff)
         {
             foreach (var param in eff.Parameters)

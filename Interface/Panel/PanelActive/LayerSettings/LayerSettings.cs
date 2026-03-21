@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Numerics;
 using System.Reflection.Emit;
@@ -19,44 +20,87 @@ namespace RedPaint
 
         public List<LayerBox> layers = new List<LayerBox>();
 
-        public void AddLayer(Layer lr, Vector2? pos = null)
+        private int GetTakenIndex()
         {
-            LayerBox lb = new LayerBox(mc, lr, this);
+            int takenIndex = -1;
 
-            if (pos.HasValue)
+            for (int i = 0; i < layers.Count; i++)
             {
-                lb.currPos = pos.Value;
-                lb.targetPos = pos.Value;
+                if (layers[i].isTaken)
+                {
+                    takenIndex = i;
+                    break;
+                }
             }
 
-            mc._entityManager.AddEntity(lb);
-
-            layers.Add(lb);
+            return takenIndex;
         }
 
-        public void BoxesRepos(int movementIndex)
+        private int GetClosestIndex(Vector2 pos)
         {
-            if (movementIndex < 0 || movementIndex >= layers.Count || layers.Count <= 1)
-                return;
+            int closestIndex = -1;
+            float minDist = float.MaxValue;
 
-            
-        }
-
-        private void UpdateBoxesPos()
-        { 
             for (int i = 0; i < layers.Count; i++)
             {
                 int visualIndex = layers.Count - 1 - i;
 
-                layers[i].DetermentPos(
-                    new Vector2(0f, visualIndex * (32f + layers[i].outlineSize.Y))
-                    + new Vector2(0, 32f)
-                    + panel.outlineSize / 2f
-                );
+                float pos1 = (mc._input.GetMousePosition() - activeRect.position).Y + panel.outlineSize.Y / 2f;
 
-                layers[i].SetNum(i);
+                float pos2 = visualIndex * (32f + layers[i].outlineSize.Y) + 32f + panel.outlineSize.Y / 2f;
 
-                layers[i].SetDepth(depth + 1);
+                float dist = Math.Abs(pos1 - pos2);
+
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    closestIndex = i;
+                }
+            }
+
+            return closestIndex;
+        }
+
+        private void UpdateBoxesPos()
+        {
+            int takenIndex = GetTakenIndex();
+
+            for (int i = 0; i < layers.Count; i++)
+            {
+                int visualIndex = layers.Count - 1 - i;
+
+                if (takenIndex == i)
+                {
+                    layers[i].DetermentPos(
+                            new Vector2(0f, (mc._input.GetMousePosition() - activeRect.position).Y)
+                            + panel.outlineSize / 2f
+                        );
+
+                    layers[i].SetDepth(depth + 7);
+
+                    layers[i].SetNum(i);
+
+                    layers[i].canGlow = true;
+                }
+                else
+                {
+                    layers[i].DetermentPos(
+                            new Vector2(0f, visualIndex * (32f + layers[i].outlineSize.Y))
+                            + new Vector2(0, 32f)
+                            + panel.outlineSize / 2f
+                        );
+
+                    layers[i].SetDepth(depth + 1);
+
+                    layers[i].canGlow = false;
+                }
+
+                if (takenIndex == -1)
+                {
+                    layers[i].SetNum(i);
+                    layers[i].canGlow = true;
+                }
+
                 layers[i].UpdateHitbox();
             }
         }
@@ -64,58 +108,150 @@ namespace RedPaint
         public override void SetPanel(Panel pl)
         {
             base.SetPanel(pl);
-            pl.setRect.headText = "Слой";
+            pl.setRect.headText = "Слои";
             SetDepth(pl.baseRect.depth + 2);
+        }
+
+        public void UpdateMovement()
+        {
+            int takenIndex = GetTakenIndex();
+
+            if (takenIndex == -1) return;
+
+            TUH.MoveItem(layers, takenIndex, 
+                GetClosestIndex(new Vector2(0f, (mc._input.GetMousePosition() - activeRect.position).Y)
+                            + panel.outlineSize / 2f));
+
+            layers[takenIndex].SetThisLayer();
         }
 
         public override void Update(float deltaTime)
         {
-            UpdateBoxesPos();
+            base.Update(deltaTime);
 
-            for (int i = 0; i < layers.Count; i++)
+            UpdateMovement();
+
+            UpdateBoxesPos();
+        }
+
+        public void AddLayer(Layer lr)
+        {
+            LayerBox lb = new LayerBox(mc, lr, this);
+
+            mc._entityManager.AddEntity(lb);
+
+            layers.Add(lb);
+        }
+
+        public void RemoveLayer(Layer lr)
+        {
+            foreach (LayerBox lb in layers)
             {
-                if (layers[i].isTaken)
+                if (lb.layer == lr)
                 {
-                    BoxesRepos(i);
+                    lb.Destroy();
+                    layers.Remove(lb);
+
                     break;
                 }
             }
-
-            base.Update(deltaTime);
         }
 
-        public void UpdateLayers()
+        public void UpdateLayersList()
         {
-            List<Vector2> savedPos = new List<Vector2>();
+            var managerLayers = mc._image.layers;
 
-            int count = layers.Count;
-
-            foreach (LayerBox lb in layers)
+            foreach (var managerLayer in managerLayers)
             {
-                savedPos.Add(lb.currPos);
+                bool found = false;
+                foreach (var layerBox in layers)
+                {
+                    if (layerBox.layer == managerLayer)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    AddLayer(managerLayer);
+                }
+            }
+
+            var toRemove = new List<LayerBox>();
+            foreach (var layerBox in layers)
+            {
+                bool found = false;
+                foreach (var managerLayer in managerLayers)
+                {
+                    if (layerBox.layer == managerLayer)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    toRemove.Add(layerBox);
+                }
+            }
+
+            foreach (var lb in toRemove)
+            {
                 lb.Destroy();
+                layers.Remove(lb);
             }
 
-            layers.Clear();
-
-            for (int i = 0; i < mc._image.layers.Count; i++)
+            var reorderedBoxes = new List<LayerBox>();
+            foreach (var managerLayer in managerLayers)
             {
-                if (count == mc._image.layers.Count)
+                foreach (var layerBox in layers)
                 {
-                    AddLayer(mc._image.layers[i], savedPos[i]);
-                }
-                else
-                {
-                    AddLayer(mc._image.layers[i]);
+                    if (layerBox.layer == managerLayer)
+                    {
+                        reorderedBoxes.Add(layerBox);
+                        break;
+                    }
                 }
             }
+            layers.Clear();
+            layers.AddRange(reorderedBoxes);
+        }
+
+        public void SetLayers()
+        {
+            var reorderedLayers = new List<Layer>();
+            foreach (var layerBox in layers)
+            {
+                reorderedLayers.Add(layerBox.layer);
+            }
+
+            Layer workingLayerRef = null;
+            if (mc._image.workingLayer >= 0 && mc._image.workingLayer < mc._image.layers.Count)
+            {
+                workingLayerRef = mc._image.layers[mc._image.workingLayer];
+            }
+
+            mc._image.layers = reorderedLayers;
+
+            if (workingLayerRef != null)
+            {
+                int newIndex = mc._image.layers.IndexOf(workingLayerRef);
+                mc._image.workingLayer = newIndex >= 0 ? newIndex : 0;
+            }
+            else
+            {
+                mc._image.workingLayer = 0;
+            }
+
+            mc._image.CallChangesLayers();
         }
 
         public LayerSettings(Maincode imc, AbstrEntity pr = null) : base(imc, pr)
         {
-            UpdateLayers();
-
-            mc._image.ChangesLayers += UpdateLayers;
+            mc._image.ChangesLayers += UpdateLayersList;
         }
     }
 }

@@ -27,6 +27,10 @@ namespace RedPaint
 
         public Layer(Maincode imc)
         {
+            Random r = new Random();
+
+            name = "слой " + (r.Next(0, 9999)) ;
+
             mc = imc;
         }
     }
