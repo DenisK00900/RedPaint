@@ -1,6 +1,6 @@
 start;
 res = (1920, 1080);
 isFullScreen = false;
-version = Alpha v0.0.5 Build 64-212;
+version = Alpha v0.0.5 Build 65-245;
 isDevToolsOn = true;
 end;

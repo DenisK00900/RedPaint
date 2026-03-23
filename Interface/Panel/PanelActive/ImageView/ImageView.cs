@@ -15,7 +15,7 @@ namespace RedPaint
         private const float ZoomStep = 1f;
         private const float MinZoom = -3f;
         private const float MaxZoom = 6f;
-        private const float LerpFactor = 0.12f;
+        private const float LerpFactor = 1.0f;
         private const float VisualOffsetY = 32f;
 
         public VisualElement[] visual { get; set; }
@@ -220,7 +220,9 @@ namespace RedPaint
                 visual[2].pos = Vector2.Zero;
             }
 
-            visual[2].scale = new Vector2(currScale / 64f);
+            (visual[2] as Sprite).texture = mc._image.currTool.GetPrerender(currScale);
+
+            visual[2].pos += mc._image.currTool.GetAddPos(currScale);
         }
 
         private void UpdateMouseCoord(float deltaTime)

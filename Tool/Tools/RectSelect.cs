@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RedPaint
 {
     public class RectSelect : AbstrTool
     {
+        public BlockRender blockRender;
+
         public RectSelect(Maincode imc) : base(imc)
         {
             name = "Выделение прямоугольником";
@@ -14,6 +17,19 @@ namespace RedPaint
             icon = mc.Content.Load<Texture2D>("Texture/Icons/Tools/IconRectSelect");
 
             dest = "Выделить указаную область\nпрямоугольником";
+
+            blockRender = new BlockRender(mc);
+        }
+
+        public override Texture2D GetPrerender(float scale = 1f)
+        {
+            blockRender.size = (int)(scale);
+
+            blockRender.thickness = 2f;
+
+            blockRender.Generate();
+
+            return blockRender.Tex;
         }
     }
 }

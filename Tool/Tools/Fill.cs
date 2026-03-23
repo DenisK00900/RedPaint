@@ -1,13 +1,16 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+using static System.Net.Mime.MediaTypeNames;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
 {
     public class Fill : AbstrTool
     {
+        public BlockRender blockRender;
+
         private Color fillColor = Color.Black;
         private int tolerance = 32;
 
@@ -16,6 +19,19 @@ namespace RedPaint
             name = "Заливка";
             icon = mc.Content.Load<Texture2D>("Texture/Icons/Tools/IconFill");
             dest = "Закрашивает область в\nопределённый цвет";
+
+            blockRender = new BlockRender(mc);
+        }
+
+        public override Texture2D GetPrerender(float scale = 1f)
+        {
+            blockRender.size = (int)(scale);
+
+            blockRender.thickness = 2f;
+
+            blockRender.Generate();
+
+            return blockRender.Tex;
         }
 
         public override List<ToolSet> GetSets()

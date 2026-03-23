@@ -139,6 +139,8 @@ namespace RedPaint
 
         public void CreateNew(Texture2D t)
         {
+            layers.Clear();
+
             AddLayer(new Layer(mc));
             layers[0].tex = t;
             InitPixelBuffer();

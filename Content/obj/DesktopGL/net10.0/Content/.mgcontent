@@ -12,8 +12,10 @@
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Fonts/Serati/Serati3.spritefont</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/CheckerboardEffect.fx</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/ChopEffect.fx</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/CircleUtility.fx</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/Fade.fx</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/HueRect.fx</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/InnerEdgeOutline.fx</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Shaders/Rainbow.fx</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/CheckBoxOff.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/CheckBoxOn.png</File>
@@ -41,6 +43,8 @@
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File>Fonts/Haipapikuseru/Haipapikuseru2</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -31,6 +31,13 @@ namespace RedPaint
             mc = imc;
         }
 
+        public abstract Texture2D GetPrerender(float scale = 1f);
+
+        public virtual Vector2 GetAddPos(float scale = 1f)
+        {
+            return new Vector2(0, 0);
+        }
+
         public virtual List<ToolSet> GetSets()
         {
             return new List<ToolSet>();

@@ -100,7 +100,7 @@
 
             button[2] = new TextButton(mc);
             button[2].SetText(listtext[2]);
-            button[2].SetHintText("Сохранить изображение как\n{название файла}\n\nCtrl+S");
+            button[2].SetHintText("Сохранить изображение как\nпоследнее открытое\n\nCtrl+S");
             lists[0].AddMenuElement(button[2]);
 
             button[3] = new TextButton(mc);

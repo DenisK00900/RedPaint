@@ -102,3 +102,5 @@ E:\Dev\RedPaintDev\RedPaint\obj\Debug\net10.0\RedPaint.genruntimeconfig.cache
 E:\Dev\RedPaintDev\RedPaint\obj\Debug\net10.0\ref\RedPaint.dll
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\gear.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconGetColor.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\CircleUtility.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\InnerEdgeOutline.xnb

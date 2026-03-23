@@ -8,6 +8,9 @@ namespace RedPaint
 {
     public class Erase : AbstrTool
     {
+        public BlockRender blockRender;
+        public CircleRender circleRender;
+
         private Vector2? lastPos = null;
 
         public int brushSize = 1;
@@ -18,8 +21,46 @@ namespace RedPaint
             name = "Ластик";
             icon = mc.Content.Load<Texture2D>("Texture/Icons/Tools/IconErase");
             dest = "Стирает цвет пикселя,\nвозвращая его к прозрачности\nили цвету фона";
+
+            blockRender = new BlockRender(mc);
+            circleRender = new CircleRender(mc);
         }
 
+        public override Texture2D GetPrerender(float scale = 1f)
+        {
+            if (!sqrBrush)
+            {
+                circleRender.size = (int)(scale * Math.Max(1, (int)((brushSize - 1) * 2f)));
+
+                circleRender.thickness = 2f;
+
+                circleRender.Generate();
+
+                return circleRender.Tex;
+            }
+            else
+            {
+                blockRender.size = (int)(scale * ((brushSize - 1) * 2f + 1));
+
+                blockRender.thickness = 2f;
+
+                blockRender.Generate();
+
+                return blockRender.Tex;
+            }
+        }
+
+        public override Vector2 GetAddPos(float scale = 1f)
+        {
+            if (!sqrBrush)
+            {
+                return new Vector2(Math.Min(0, (1.5f - brushSize)) * scale);
+            }
+            else
+            {
+                return new Vector2(scale * -(brushSize - 1));
+            }
+        }
         public override List<ToolSet> GetSets()
         {
             follows.Clear();

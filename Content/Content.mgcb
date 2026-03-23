@@ -67,6 +67,12 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/ChopEffect.fx
 
+#begin Shaders/CircleUtility.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/CircleUtility.fx
+
 #begin Shaders/Fade.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -78,6 +84,12 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Shaders/HueRect.fx
+
+#begin Shaders/InnerEdgeOutline.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/InnerEdgeOutline.fx
 
 #begin Shaders/Rainbow.fx
 /importer:EffectImporter
