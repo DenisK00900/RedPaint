@@ -1,0 +1,17 @@
+start;
+
+baseColor1 = (85, 85, 85);
+baseColor2 = (55, 55, 55);
+
+itemColor1 = (60, 70, 190);
+itemColor2 = (20, 20, 80);
+
+boxColor = (240, 240, 240);
+
+textColor1 = (240, 240, 240);
+textColor2 = (10, 10, 10);
+
+effectColor1 = (40, 240, 30);
+effectColor2 = (65, 220, 235);
+
+end;

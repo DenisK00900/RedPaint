@@ -10,6 +10,8 @@ using System.Reflection.Emit;
 using Color = Microsoft.Xna.Framework.Color;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
+using System.CodeDom.Compiler;
 
 namespace RedPaint
 {
@@ -29,6 +31,13 @@ namespace RedPaint
         public void SetColor(Color newcolor)
         {
             hueColorTex.baseColor = newcolor;
+        }
+
+        public void SetColor()
+        {
+            hueColorTex.baseColor = TUH.GetPureColor(mc._image.GetColor());
+
+            hueColorTex.Generate();
         }
 
         public void UpdateHitbox()
@@ -125,6 +134,8 @@ namespace RedPaint
             visual = new VisualElement[1];
 
             visual[0] = new Sprite(this);
+
+            mc._image.ChangesColor += SetColor;
         }
     }
 }

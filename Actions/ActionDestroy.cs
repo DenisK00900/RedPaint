@@ -6,7 +6,7 @@ namespace RedPaint
 {
     internal class ActionDestroy : AbstrAction, IUseCloneFollows
     {
-        public List<AbstrEntity> follows = new List<AbstrEntity>();
+        public List<AbstrEntity> follows { get; set; } = new List<AbstrEntity>();
 
         public override void Act()
         {

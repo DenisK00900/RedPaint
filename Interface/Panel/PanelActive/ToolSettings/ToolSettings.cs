@@ -55,7 +55,7 @@ namespace RedPaint
 
                 sets[i].SetDepth(depth + 1);
 
-                posY += size.Y;
+                posY += sets[i].DetermentOffset().Y;
             }
         }
 

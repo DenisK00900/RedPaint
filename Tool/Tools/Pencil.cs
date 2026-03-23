@@ -21,27 +21,31 @@ namespace RedPaint
 
         public int brushSize = 1;
         public Color brushColor = Color.Black;
-
-        public ToolSetSliderInt brushSizeSlider;
+        public bool sqrBrush = false;
         public Pencil(Maincode imc) : base(imc)
         {
             name = "Карандаш";
             icon = mc.Content.Load<Texture2D>("Texture/Icons/Tools/IconPencil");
             dest = "Простой инструмент, который\nкрасит пиксели в определённый цвет";
-
-            brushSizeSlider = new ToolSetSliderInt(mc);
-            brushSizeSlider.name = "Размер кисти";
         }
 
         public override List<ToolSet> GetSets()
         {
+            follows.Clear();
+
             List<ToolSet> sets = new List<ToolSet>();
 
-            ToolSetSliderInt brushSizeSliderClone = brushSizeSlider.Clone();
+            ToolSetSliderInt brushSizeSlider = new ToolSetSliderInt(mc);
+            brushSizeSlider.name = "Размер кисти";
 
-            NewClone(brushSizeSliderClone);
+            ToolSetBool squardBrush = new ToolSetBool(mc);
+            squardBrush.name = "Квадратная кисть";
 
-            sets.Add(brushSizeSliderClone);
+            NewClone(brushSizeSlider);
+            NewClone(squardBrush);
+
+            sets.Add(brushSizeSlider);
+            sets.Add(squardBrush);
 
             return sets;
         }
@@ -53,6 +57,8 @@ namespace RedPaint
             brushColor = mc._image.GetColor();
 
             brushSize = GetValue<int>("Размер кисти");
+
+            sqrBrush = GetValue<bool>("Квадратная кисть");
 
             if (mc._input.IsDown(Button.LeftButton))
             {
@@ -85,13 +91,13 @@ namespace RedPaint
         {
             int cx = (int)Math.Round(pos.X);
             int cy = (int)Math.Round(pos.Y);
-            int radius = brushSize-1;
+            int radius = brushSize - 1;
 
             for (int dy = -radius; dy <= radius; dy++)
             {
                 for (int dx = -radius; dx <= radius; dx++)
                 {
-                    if (dx * dx + dy * dy <= radius * radius)
+                    if (sqrBrush || dx * dx + dy * dy <= radius * radius)
                     {
                         mc._image.SetPixel(cx + dx, cy + dy, brushColor);
                     }

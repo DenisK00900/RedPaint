@@ -23,6 +23,7 @@
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/Tools/IconCircle.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/Tools/IconErase.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/Tools/IconFill.png</File>
+    <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/Tools/IconGetColor.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/Tools/IconLine.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/Tools/IconPencil.png</File>
     <File>E:/Dev/RedPaintDev/RedPaint/Content/Texture/Icons/Tools/IconRect.png</File>
@@ -35,6 +36,7 @@
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File>Fonts/Haipapikuseru/Haipapikuseru2</File>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

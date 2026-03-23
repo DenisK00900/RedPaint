@@ -24,7 +24,7 @@ namespace RedPaint
 
         public List<ToolSet> setters = new List<ToolSet>();
 
-        private List<AbstrEntity> follows = new List<AbstrEntity>();
+        public List<AbstrEntity> follows { get; set; } = new List<AbstrEntity>();
 
         public AbstrTool (Maincode imc)
         {

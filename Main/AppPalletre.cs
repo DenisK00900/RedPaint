@@ -8,6 +8,7 @@ namespace RedPaint
     public class AppPalletre
     {
         public AppPalletre(
+            String nm,
             Color bc1, 
             Color bc2,
             Color ic1,
@@ -20,6 +21,8 @@ namespace RedPaint
             Color ec2
             )
         {
+            name = nm;
+
             baseColor1 = bc1;
             baseColor2 = bc2;
             itemColor1 = ic1;
@@ -33,6 +36,8 @@ namespace RedPaint
 
         public AppPalletre()
         {
+            name = "Базовая";
+
             baseColor1 = new Color(85, 85, 85);
             baseColor2 = new Color(55, 55, 55);
 
@@ -47,6 +52,8 @@ namespace RedPaint
             effectColor1 = new Color(40, 240, 30);
             effectColor2 = new Color(65, 220, 235);
         }
+
+        public string name;
 
         public Color baseColor1;
         public Color baseColor2;

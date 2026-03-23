@@ -22,6 +22,7 @@ namespace RedPaint
             baseTools.AddTool(new Pencil(tb.mc));
             baseTools.AddTool(new Fill(tb.mc));
             baseTools.AddTool(new Erase(tb.mc));
+            baseTools.AddTool(new GetColor(tb.mc));
             tb.AddRegion(baseTools);
 
             ToolsRegion brushTools = new ToolsRegion(tb.mc, tb);

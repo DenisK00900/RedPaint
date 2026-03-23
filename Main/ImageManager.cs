@@ -32,6 +32,7 @@ namespace RedPaint
         public event Action ImageLoaded;
         public event Action ChangesApplied;
         public event Action ChangesLayers;
+        public event Action ChangesColor;
 
         public Vector2 CanvasSize;
         public CheckerTex checkerTex;
@@ -109,6 +110,14 @@ namespace RedPaint
             paintColor.R = ((byte)newcolor.R);
             paintColor.G = ((byte)newcolor.G);
             paintColor.B = ((byte)newcolor.B);
+        }
+
+        public void SetColor(Color newcolor, float newalpha)
+        {
+            SetColor(newcolor);
+            SetAlpha(newalpha);
+
+            ChangesColor.Invoke();
         }
 
         public void SetAlpha(float newalpha)

@@ -19,6 +19,78 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static Color GetPureColor(Color color)
+        {
+            ColorToHSV(color, out float h, out float s, out float v);
+            return HSVToColor(h, 1.0f, v);
+        }
+
+        private static void ColorToHSV(Color color, out float h, out float s, out float v)
+        {
+            float r = color.R / 255f;
+            float g = color.G / 255f;
+            float b = color.B / 255f;
+
+            float max = Math.Max(r, Math.Max(g, b));
+            float min = Math.Min(r, Math.Min(g, b));
+
+            v = max;
+            float delta = max - min;
+
+            if (max > 0)
+                s = delta / max;
+            else
+            {
+                s = 0;
+                h = 0;
+                return;
+            }
+
+            if (r >= max)
+                h = (g - b) / delta;
+            else if (g >= max)
+                h = 2 + (b - r) / delta;
+            else
+                h = 4 + (r - g) / delta;
+
+            h *= 60;
+            if (h < 0)
+                h += 360;
+        }
+
+        private static Color HSVToColor(float h, float s, float v)
+        {
+            if (s == 0)
+            {
+                byte val = (byte)(v * 255);
+                return new Color(val, val, val);
+            }
+
+            h /= 60;
+            int i = (int)Math.Floor(h);
+            float f = h - i;
+            float p = v * (1 - s);
+            float q = v * (1 - s * f);
+            float t = v * (1 - s * (1 - f));
+
+            float r, g, b;
+            switch (i)
+            {
+                case 0: r = v; g = t; b = p; break;
+                case 1: r = q; g = v; b = p; break;
+                case 2: r = p; g = v; b = t; break;
+                case 3: r = p; g = q; b = v; break;
+                case 4: r = t; g = p; b = v; break;
+                default: r = v; g = p; b = q; break;
+            }
+
+            return new Color(
+                (byte)(r * 255),
+                (byte)(g * 255),
+                (byte)(b * 255)
+            );
+        }
+
         public static Texture2D GetCombineBeforeSave(Maincode mc)
         {
             List<Texture2D> tex = new List<Texture2D>();

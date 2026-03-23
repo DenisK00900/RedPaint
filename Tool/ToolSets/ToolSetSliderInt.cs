@@ -52,6 +52,11 @@ namespace RedPaint
             base.Update(deltaTime);
         }
 
+        public void SetDef(int value)
+        {
+            slider.SetDef(TUH.InverseLerp(minV, maxV, value));
+        }
+
         public override void DetermentPos(Vector2 newpos)
         {
             base.DetermentPos(newpos);
@@ -63,7 +68,13 @@ namespace RedPaint
 
         public override Vector2 DetermentSize()
         {
-            return new Vector2(Math.Min(slider.leight, (visual[0] as Text).GetRectSize().X), (visual[0] as Text).GetRectSize().Y);
+            return new Vector2(Math.Min(slider.leight, (visual[0] as Text).GetRectSize().X),
+                (visual[0] as Text).GetRectSize().Y);
+        }
+
+        public override Vector2 DetermentOffset()
+        {
+            return DetermentSize() + new Vector2(0f, 56f);
         }
 
         public override T GetValue<T>()

@@ -21,6 +21,11 @@ namespace RedPaint
 
         public abstract Vector2 DetermentSize();
 
+        public virtual Vector2 DetermentOffset()
+        {
+            return DetermentSize();
+        }
+
         public virtual void DetermentPos(Vector2 newpos)
         {
             SetPos(newpos);

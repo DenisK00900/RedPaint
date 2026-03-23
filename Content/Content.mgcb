@@ -241,6 +241,18 @@
 /processorParam:TextureFormat=Color
 /build:Texture/Icons/Tools/IconFill.png
 
+#begin Texture/Icons/Tools/IconGetColor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/Icons/Tools/IconGetColor.png
+
 #begin Texture/Icons/Tools/IconLine.png
 /importer:TextureImporter
 /processor:TextureProcessor
