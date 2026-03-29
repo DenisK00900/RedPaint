@@ -277,6 +277,30 @@
 /processorParam:TextureFormat=Color
 /build:Texture/Icons/Tools/IconLine.png
 
+#begin Texture/Icons/Tools/IconMarker.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/Icons/Tools/IconMarker.png
+
+#begin Texture/Icons/Tools/IconPaintBrush.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/Icons/Tools/IconPaintBrush.png
+
 #begin Texture/Icons/Tools/IconPencil.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -324,6 +348,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Texture/Icons/Tools/IconSee.png
+
+#begin Texture/Icons/Tools/IconSpray.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/Icons/Tools/IconSpray.png
 
 #begin Texture/Icons/unlock.png
 /importer:TextureImporter

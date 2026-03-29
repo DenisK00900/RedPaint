@@ -119,6 +119,45 @@
 
             //2
 
+            PopList rotateList = new PopList(mc, Vector2.Zero);
+
+            List<TextButton> rotateListButtons = new List<TextButton>();
+
+            Text[] rotateListButtonsText = new Text[3];
+
+            for (int i = 0; i < rotateListButtonsText.Length; i++)
+            {
+                rotateListButtonsText[i] = new Text(null);
+                rotateListButtonsText[i].font = font;
+
+                rotateListButtons.Add(new TextButton(mc));
+            }
+
+            rotateListButtonsText[0].text = "90 По часовой";
+            rotateListButtonsText[1].text = "90 Против часовой";
+            rotateListButtonsText[2].text = "Поворот на 180";
+
+            rotateListButtons[0] = new TextButton(mc);
+            rotateListButtons[0].SetText(rotateListButtonsText[0]);
+            rotateListButtons[0].AddAction(new ActionDestroy(mc, rotateList));
+            rotateListButtons[0].AddAction(new ActionRotateImage(mc, 1));
+            rotateListButtons[0].SetHintText("Повернуть изображение на 90 градусов по часовой стрелке");
+            rotateList.AddMenuElement(rotateListButtons[0]);
+
+            rotateListButtons[1] = new TextButton(mc);
+            rotateListButtons[1].SetText(rotateListButtonsText[1]);
+            rotateListButtons[1].AddAction(new ActionDestroy(mc, rotateList));
+            rotateListButtons[1].AddAction(new ActionRotateImage(mc, 3));
+            rotateListButtons[1].SetHintText("Повернуть изображение на 90 градусов против часовой стрелки");
+            rotateList.AddMenuElement(rotateListButtons[1]);
+
+            rotateListButtons[2] = new TextButton(mc);
+            rotateListButtons[2].SetText(rotateListButtonsText[2]);
+            rotateListButtons[2].AddAction(new ActionDestroy(mc, rotateList));
+            rotateListButtons[2].AddAction(new ActionRotateImage(mc, 2));
+            rotateListButtons[2].SetHintText("Повернуть изображение на 180 градусов");
+            rotateList.AddMenuElement(rotateListButtons[2]);
+
             lists[1] = new PopList(mc, Vector2.Zero);
 
             listtext = new Text[7];
@@ -165,6 +204,8 @@
             button[4] = new TextButton(mc);
             button[4].SetText(listtext[4]);
             button[4].SetHintText("Повернуть изображение");
+            button[4].AddAction(new ActionDestroy(mc, lists[1]));
+            button[4].AddAction(new ActionSpawn(mc, rotateList));
             lists[1].AddMenuElement(button[4]);
 
             button[5] = new TextButton(mc);

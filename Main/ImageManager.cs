@@ -73,12 +73,9 @@ namespace RedPaint
             if (lr != null)
             {
                 layers.Add(lr);
-
                 ChangesLayers.Invoke();
-
                 return;
             }
-
             AddBlankLayer();
         }
 
@@ -99,30 +96,29 @@ namespace RedPaint
         public void RemoveLayer(int index)
         {
             layers.RemoveAt(index);
-
             SetWorkingLayer(0);
-
             ChangesLayers.Invoke();
         }
 
+        // ✅ ИСПРАВЛЕНО: Теперь копируем альфа-канал
         public void SetColor(Color newcolor)
         {
-            paintColor.R = ((byte)newcolor.R);
-            paintColor.G = ((byte)newcolor.G);
-            paintColor.B = ((byte)newcolor.B);
+            paintColor.R = newcolor.R;
+            paintColor.G = newcolor.G;
+            paintColor.B = newcolor.B;
+            paintColor.A = newcolor.A; // ✅ Добавлено
         }
 
         public void SetColor(Color newcolor, float newalpha)
         {
             SetColor(newcolor);
             SetAlpha(newalpha);
-
             ChangesColor.Invoke();
         }
 
         public void SetAlpha(float newalpha)
         {
-            paintColor.A = ((byte)(newalpha*255));
+            paintColor.A = (byte)(newalpha * 255);
         }
 
         public Color GetColor()
@@ -140,13 +136,11 @@ namespace RedPaint
         public void CreateNew(Texture2D t)
         {
             layers.Clear();
-
             AddLayer(new Layer(mc));
             layers[0].tex = t;
             InitPixelBuffer();
             UpdateCanvas();
             ImageLoaded?.Invoke();
-
             isModified = false;
         }
 
@@ -168,7 +162,6 @@ namespace RedPaint
                 CanvasSize = TUH.GetTextureSize(layers[0].tex);
                 UpdateCanvas();
                 ImageLoaded?.Invoke();
-
                 isModified = false;
             }
             catch (Exception ex)
@@ -184,7 +177,7 @@ namespace RedPaint
             return layers.Count > 0 && !layers[workingLayer].isLocked;
         }
 
-        private void InitPixelBuffer()
+        public void InitPixelBuffer()
         {
             if (layers[workingLayer].tex == null) return;
 
@@ -194,6 +187,7 @@ namespace RedPaint
             dirtyRect = Rectangle.Empty;
         }
 
+        // ❌ Старый метод — прямая замена пикселя (оставляем для обратной совместимости)
         public bool SetPixel(int x, int y, Color color)
         {
             if (layers[workingLayer].tex == null || pixelBuffer == null) return false;
@@ -205,10 +199,64 @@ namespace RedPaint
 
             pixelBuffer[index] = color;
             MarkDirty(x, y);
-
             isModified = true;
-
             return true;
+        }
+
+        // ✅ НОВЫЙ МЕТОД: Смешивание с учётом альфа-канала
+        public bool SetPixelBlended(int x, int y, Color color)
+        {
+            if (layers[workingLayer].tex == null || pixelBuffer == null) return false;
+            if (x < 0 || x >= layers[workingLayer].tex.Width || y < 0 || y >= layers[workingLayer].tex.Height) return false;
+
+            int index = y * layers[workingLayer].tex.Width + x;
+            Color original = pixelBuffer[index];
+
+            // Если цвет полностью непрозрачный — используем быструю замену
+            if (color.A >= 255)
+            {
+                if (original == color) return true;
+                pixelBuffer[index] = color;
+                MarkDirty(x, y);
+                isModified = true;
+                return true;
+            }
+
+            // Если цвет полностью прозрачный — ничего не делаем
+            if (color.A <= 0) return true;
+
+            float alpha = color.A / 255f;
+
+            // Стандартное альфа-смешивание (Porter-Duff "over")
+            Color result = new Color(
+                (byte)Math.Clamp(original.R * (1f - alpha) + color.R * alpha, 0, 255),
+                (byte)Math.Clamp(original.G * (1f - alpha) + color.G * alpha, 0, 255),
+                (byte)Math.Clamp(original.B * (1f - alpha) + color.B * alpha, 0, 255),
+                (byte)Math.Clamp(original.A * (1f - alpha) + color.A, 0, 255)
+            );
+
+            if (pixelBuffer[index] == result) return true;
+
+            pixelBuffer[index] = result;
+            MarkDirty(x, y);
+            isModified = true;
+            return true;
+        }
+
+        // ✅ ВСПОМОГАТЕЛЬНЫЙ МЕТОД: Публичный хелпер для смешивания цветов
+        public static Color BlendColors(Color background, Color foreground)
+        {
+            if (foreground.A >= 255) return foreground;
+            if (foreground.A <= 0) return background;
+
+            float alpha = foreground.A / 255f;
+
+            return new Color(
+                (byte)Math.Clamp(background.R * (1f - alpha) + foreground.R * alpha, 0, 255),
+                (byte)Math.Clamp(background.G * (1f - alpha) + foreground.G * alpha, 0, 255),
+                (byte)Math.Clamp(background.B * (1f - alpha) + foreground.B * alpha, 0, 255),
+                (byte)Math.Clamp(background.A * (1f - alpha) + foreground.A, 0, 255)
+            );
         }
 
         public Color GetPixel(int x, int y)
@@ -230,16 +278,17 @@ namespace RedPaint
                 dirtyRect = Rectangle.Union(dirtyRect, new Rectangle(x, y, 1, 1));
             }
         }
+
         public void ApplyChanges()
         {
             if (!isDirty || layers[workingLayer].tex == null || pixelBuffer == null) return;
 
             layers[workingLayer].tex.SetData(pixelBuffer);
-
             isDirty = false;
             dirtyRect = Rectangle.Empty;
             ChangesApplied?.Invoke();
         }
+
         private Color[] GetSubRectData(Rectangle rect)
         {
             Color[] result = new Color[rect.Width * rect.Height];
@@ -284,14 +333,18 @@ namespace RedPaint
             if (isDirty) ApplyChanges();
 
             workingLayer = index;
-            InitPixelBuffer(); 
+            InitPixelBuffer();
+        }
+
+        public void CallChanges()
+        {
+            ChangesApplied?.Invoke();
+            ChangesLayers?.Invoke();
         }
 
         public void UpdateCanvas()
         {
             if (layers[workingLayer].tex == null) return;
-
-            //checkerTex.Dispose();
 
             checkerTex.sizeX = layers[workingLayer].tex.Width;
             checkerTex.sizeY = layers[workingLayer].tex.Height;

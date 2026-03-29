@@ -27,6 +27,9 @@ namespace RedPaint
 
             ToolsRegion brushTools = new ToolsRegion(tb.mc, tb);
             brushTools.SetHeadText("Кисти");
+            brushTools.AddTool(new Marker(tb.mc));
+            brushTools.AddTool(new Spray(tb.mc));
+            brushTools.AddTool(new PaintBrush(tb.mc));
             tb.AddRegion(brushTools);
 
             ToolsRegion figureTools = new ToolsRegion(tb.mc, tb);

@@ -51,7 +51,7 @@ namespace RedPaint
 
         public override Vector2 DetermentSize()
         {
-            return (visual[0] as Text).GetRectSize() + new Vector2(0f, 0f);
+            return new Vector2((visual[0] as Text).GetRectSize().X, Math.Max((visual[0] as Text).GetRectSize().Y, 40f));
         }
 
         public override ToolSetBool Clone()

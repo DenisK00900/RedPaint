@@ -104,3 +104,6 @@ E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\gear.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconGetColor.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\CircleUtility.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\InnerEdgeOutline.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconMarker.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconSpray.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconPaintBrush.xnb

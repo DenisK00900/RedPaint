@@ -59,13 +59,13 @@ namespace RedPaint
             if (this is IDrawable d) d.depth = depth;
         }
 
-        public Vector2 GetPos()
+        public virtual Vector2 GetPos()
         {
             if (!isAbsolute && parent != null) return parent.GetPos() + position;
             return position;
         }
 
-        public void SetPos(Vector2 pos)
+        public virtual void SetPos(Vector2 pos)
         {
             position = pos;
         }
