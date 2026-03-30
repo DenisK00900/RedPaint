@@ -46,7 +46,7 @@ namespace RedPaint
 
             innerPos = Vector2.Zero;
 
-            visual = new VisualElement[3];
+            visual = new VisualElement[4];
             spriteCanvas = new Sprite(this);
 
             visual[0] = spriteCanvas;
@@ -60,6 +60,9 @@ namespace RedPaint
             visual[2] = new Sprite(this);
             (visual[2] as Sprite).texture = mc.Content.Load<Texture2D>("Texture/Icons/pixelselect");
             visual[2].origin = new Vector2(0f, 0f);
+
+            visual[3] = new Sprite(this);
+            visual[3].origin = new Vector2(0f, 0f);
 
             border[0] = new Drawrect(mc, this);
             border[1] = new Drawrect(mc, this);
@@ -139,6 +142,7 @@ namespace RedPaint
 
             visual[1].Draw(sb);
             visual[2].Draw(sb);
+            visual[3].Draw(sb);
 
             sb.End();
 
@@ -303,6 +307,22 @@ namespace RedPaint
             border[3].depth = -1;
         }
 
+        private void UpdateSelect()
+        {
+            if (mc._select.tex == null)
+            {
+                visual[3].isActive = false;
+                return;
+            }
+
+            visual[3].isActive = true;
+
+            (visual[3] as Sprite).texture = mc._select.tex;
+            visual[3].scale = new Vector2(currScale);
+
+            visual[3].pos = (mc._select.pos - TUH.GetTextureSize(spriteCanvas.texture) / 2f) * currScale + innerPos + activeRect.size * 0.5f + new Vector2(0f, 32f);
+        }
+
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
@@ -316,6 +336,7 @@ namespace RedPaint
 
             UpdateMouseCoord(deltaTime);
             UpdateSelectPixel();
+            UpdateSelect();
             UpdateVisualElements();
 
             depth = -2;

@@ -22,7 +22,8 @@ namespace RedPaint
 
         public override Texture2D GetPrerender(float scale = 1f)
         {
-            blockRender.size = (int)(scale);
+            blockRender.sizeX = (int)(scale);
+            blockRender.sizeY = (int)(scale);
 
             blockRender.thickness = 2f;
 

@@ -97,6 +97,12 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/Rainbow.fx
 
+#begin Shaders/RectSelect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/RectSelect.fx
+
 #begin Texture/Icons/CheckBoxOff.png
 /importer:TextureImporter
 /processor:TextureProcessor

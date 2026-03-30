@@ -1,21 +1,25 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
+using Color = Microsoft.Xna.Framework.Color;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
+using Vector3 = Microsoft.Xna.Framework.Vector3;
 
 namespace RedPaint
 {
-    public class BlockRender : AbstrShaderTex
+    public class SelectBlockRender : AbstrShaderTex
     {
         private static Texture2D _whitePixel;
 
@@ -23,8 +27,16 @@ namespace RedPaint
         public int sizeY = 256;
 
         public float thickness = 4f;
-
         public bool smoth = false;
+
+        public Color color1 = Color.White;
+        public Color color2 = Color.Cyan;
+
+        public int cycleSize = 60;
+        public int currCycle = 0;
+
+        public bool enableAnimation = true;
+        public float phaseShiftFactor = 0.3f;
 
         public override void Generate()
         {
@@ -40,7 +52,7 @@ namespace RedPaint
 
             if (Effect == null)
             {
-                Effect = mc.Content.Load<Effect>("Shaders/InnerEdgeOutline");
+                Effect = mc.Content.Load<Effect>("Shaders/RectSelect");
             }
 
             int rsizeX = Math.Max(1, sizeX);
@@ -62,6 +74,14 @@ namespace RedPaint
             Effect.Parameters["resolution"].SetValue(new Vector2(rsizeX, rsizeY));
             Effect.Parameters["thicknessPixels"].SetValue(thickness);
             Effect.Parameters["useSmoothing"].SetValue(smoth);
+
+            Effect.Parameters["color1"].SetValue(color1.ToVector3());
+            Effect.Parameters["color2"].SetValue(color2.ToVector3());
+
+            Effect.Parameters["CycleSize"].SetValue(enableAnimation ? cycleSize : 1);
+            Effect.Parameters["currCycle"].SetValue(enableAnimation ? currCycle : 0);
+
+            // Effect.Parameters["phaseShiftFactor"].SetValue(phaseShiftFactor);
 
             using (var tempSB = new SpriteBatch(device))
             {
@@ -85,7 +105,13 @@ namespace RedPaint
             device.SamplerStates[0] = oldSamplerState;
         }
 
-        public BlockRender(Maincode imc) : base(imc)
+        public void AdvanceCycle(int steps = 1)
+        {
+            if (cycleSize <= 0) cycleSize = 1;
+            currCycle = (currCycle + steps) % cycleSize;
+        }
+
+        public SelectBlockRender(Maincode imc) : base(imc)
         {
         }
     }

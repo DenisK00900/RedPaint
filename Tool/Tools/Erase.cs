@@ -40,7 +40,8 @@ namespace RedPaint
             }
             else
             {
-                blockRender.size = (int)(scale * ((brushSize - 1) * 2f + 1));
+                blockRender.sizeX = (int)(scale * ((brushSize - 1) * 2f + 1));
+                blockRender.sizeY = (int)(scale * ((brushSize - 1) * 2f + 1));
 
                 blockRender.thickness = 2f;
 

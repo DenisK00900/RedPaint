@@ -48,7 +48,8 @@ namespace RedPaint
             }
             else
             {
-                blockRender.size = size;
+                blockRender.sizeX = size;
+                blockRender.sizeY = size;
                 blockRender.thickness = 0f;
                 blockRender.Generate();
                 return blockRender.Tex;

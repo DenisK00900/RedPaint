@@ -19,6 +19,11 @@ namespace RedPaint
 {
     public static class TUH
     {
+        public static bool IsIndiseImage(Maincode mc, Vector2 pos)
+        {
+            return pos.X >= 0 && pos.Y >= 0 && pos.X < mc._image.CanvasSize.X && pos.Y < mc._image.CanvasSize.Y;
+        }
+
         public static Color GetPureColor(Color color)
         {
             ColorToHSV(color, out float h, out float s, out float v);

@@ -107,3 +107,4 @@ E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\InnerEdgeOutline.x
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconMarker.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconSpray.xnb
 E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Texture\Icons\Tools\IconPaintBrush.xnb
+E:\Dev\RedPaintDev\RedPaint\bin\Debug\net10.0\Content\Shaders\RectSelect.xnb
