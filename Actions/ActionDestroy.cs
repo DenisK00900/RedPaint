@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RedPaint
 {
-    internal class ActionDestroy : AbstrAction, IUseCloneFollows
+    public class ActionDestroy : AbstrAction, IUseCloneFollows
     {
         public List<AbstrEntity> follows { get; set; } = new List<AbstrEntity>();
 

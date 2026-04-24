@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v10.0": {
       "RedPaint/1.0.0": {
         "dependencies": {
-          "MonoGame.Framework.DesktopGL": "3.8.4.1"
+          "MonoGame.Framework.DesktopGL": "3.8.4.1",
+          "SixLabors.ImageSharp": "3.1.12"
         },
         "runtime": {
           "RedPaint.dll": {}
@@ -112,6 +113,14 @@
             "fileVersion": "0.10.4.0"
           }
         }
+      },
+      "SixLabors.ImageSharp/3.1.12": {
+        "runtime": {
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.1.12.0"
+          }
+        }
       }
     }
   },
@@ -148,6 +157,13 @@
       "sha512": "sha512-WYnil3DhQHzjCY0dM9I2B3r1vWip90AOuQd25KE4NrjPQBg0tBJFluRLm5YPnO5ZLDmwrfosY8jCQGQRmWI/Pg==",
       "path": "nvorbis/0.10.4",
       "hashPath": "nvorbis.0.10.4.nupkg.sha512"
+    },
+    "SixLabors.ImageSharp/3.1.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iAg6zifihXEFS/t7fiHhZBGAdCp3FavsF4i2ZIDp0JfeYeDVzvmlbY1CNhhIKimaIzrzSi5M/NBFcWvZT2rB/A==",
+      "path": "sixlabors.imagesharp/3.1.12",
+      "hashPath": "sixlabors.imagesharp.3.1.12.nupkg.sha512"
     }
   }
 }

@@ -33,6 +33,7 @@ namespace RedPaint
         public event Action ChangesApplied;
         public event Action ChangesLayers;
         public event Action ChangesColor;
+        public event Action<Vector2> CanvasResized;
 
         public Vector2 CanvasSize;
         public CheckerTex checkerTex;
@@ -100,13 +101,12 @@ namespace RedPaint
             ChangesLayers.Invoke();
         }
 
-        // ✅ ИСПРАВЛЕНО: Теперь копируем альфа-канал
         public void SetColor(Color newcolor)
         {
             paintColor.R = newcolor.R;
             paintColor.G = newcolor.G;
             paintColor.B = newcolor.B;
-            paintColor.A = newcolor.A; // ✅ Добавлено
+            paintColor.A = newcolor.A;
         }
 
         public void SetColor(Color newcolor, float newalpha)
@@ -138,12 +138,17 @@ namespace RedPaint
             layers.Clear();
             AddLayer(new Layer(mc));
             layers[0].tex = t;
+            workingLayer = 0;
             InitPixelBuffer();
+
+            CanvasSize = TUH.GetTextureSize(t);
+
             UpdateCanvas();
             ImageLoaded?.Invoke();
             isModified = false;
-        }
 
+            CanvasResized?.Invoke(CanvasSize);
+        }
         public void LoadImage(string path)
         {
             if (!File.Exists(path))
@@ -163,6 +168,8 @@ namespace RedPaint
                 UpdateCanvas();
                 ImageLoaded?.Invoke();
                 isModified = false;
+
+                CanvasResized?.Invoke(CanvasSize);
             }
             catch (Exception ex)
             {
@@ -187,7 +194,6 @@ namespace RedPaint
             dirtyRect = Rectangle.Empty;
         }
 
-        // ❌ Старый метод — прямая замена пикселя (оставляем для обратной совместимости)
         public bool SetPixel(int x, int y, Color color)
         {
             if (layers[workingLayer].tex == null || pixelBuffer == null) return false;
@@ -203,7 +209,6 @@ namespace RedPaint
             return true;
         }
 
-        // ✅ НОВЫЙ МЕТОД: Смешивание с учётом альфа-канала
         public bool SetPixelBlended(int x, int y, Color color)
         {
             if (layers[workingLayer].tex == null || pixelBuffer == null) return false;
@@ -212,7 +217,6 @@ namespace RedPaint
             int index = y * layers[workingLayer].tex.Width + x;
             Color original = pixelBuffer[index];
 
-            // Если цвет полностью непрозрачный — используем быструю замену
             if (color.A >= 255)
             {
                 if (original == color) return true;
@@ -222,12 +226,10 @@ namespace RedPaint
                 return true;
             }
 
-            // Если цвет полностью прозрачный — ничего не делаем
             if (color.A <= 0) return true;
 
             float alpha = color.A / 255f;
 
-            // Стандартное альфа-смешивание (Porter-Duff "over")
             Color result = new Color(
                 (byte)Math.Clamp(original.R * (1f - alpha) + color.R * alpha, 0, 255),
                 (byte)Math.Clamp(original.G * (1f - alpha) + color.G * alpha, 0, 255),
@@ -242,8 +244,6 @@ namespace RedPaint
             isModified = true;
             return true;
         }
-
-        // ✅ ВСПОМОГАТЕЛЬНЫЙ МЕТОД: Публичный хелпер для смешивания цветов
         public static Color BlendColors(Color background, Color foreground)
         {
             if (foreground.A >= 255) return foreground;
@@ -312,6 +312,8 @@ namespace RedPaint
         }
 
         public Texture2D GetCurrentImage() => layers[workingLayer].tex;
+
+        public bool IsCreated() => layers.Count > 0;
         public Texture2D GetCanvas() => canvasImage;
         public Color[] GetPixelBuffer() => pixelBuffer;
         public bool HasUnappliedChanges() => isDirty;

@@ -9,7 +9,7 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
 {
-    internal class CircleHitbox : Hitbox
+    public class CircleHitbox : Hitbox
     {
         public float r {  get; set; }
 

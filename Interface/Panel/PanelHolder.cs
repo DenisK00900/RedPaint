@@ -23,7 +23,7 @@ namespace RedPaint
 
         private Drawrect[] showrect = new Drawrect[0];
 
-        public bool isShow = false;
+        public bool isShow = true;
 
         public override AbstrEntity Clone()
         {

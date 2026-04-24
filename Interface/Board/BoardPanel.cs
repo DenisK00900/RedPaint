@@ -58,7 +58,7 @@
             texts[1].text = "Изменить";
             texts[2].text = "Вид";
             texts[3].text = "Слой";
-            texts[4].text = "Анимация";
+            texts[4].text = "ИИ";
 
             float currentX = 30;
             float spacing = 20;

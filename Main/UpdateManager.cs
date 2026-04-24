@@ -34,6 +34,11 @@ namespace RedPaint
                     mc._entityManager.AddEntity(newpanel);
                     mc.mainHolder.AddPanel(newpanel, mousePosition);
                 }
+                if (mc._input.IsPressed(Keys.F5))
+                {
+                    ActionAIGenerate ai = new ActionAIGenerate(mc);
+                    ai.Act();
+                }
             }
 
             List<Hitbox> overlap = new List<Hitbox>();

@@ -8,7 +8,7 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace RedPaint
 {
-    class PolygonHitbox : Hitbox
+    public class PolygonHitbox : Hitbox
     {
         public List<Vector2> points { get; set; }
 
