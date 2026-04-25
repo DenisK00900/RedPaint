@@ -65,6 +65,16 @@ namespace RedPaint
             return position;
         }
 
+        public void SetPos()
+        {
+            SetPos(new Vector2(0, 0));
+        }
+
+        public void SetPos(float x, float y)
+        {
+            SetPos(new Vector2(x,y));
+        }
+
         public virtual void SetPos(Vector2 pos)
         {
             position = pos;

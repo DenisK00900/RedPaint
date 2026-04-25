@@ -62,6 +62,18 @@ namespace RedPaint
                         case "version":
                             version = value;
                             break;
+                        case "standartAPIkey":
+                            standartKey = value;
+                            break;
+                        case "standartAPIkeyActuality":
+                            standartKeyDate = value;
+                            break;
+                        case "promnt":
+                            promnt = value;
+                            break;
+                        case "negativePromnt":
+                            negativePromnt = value;
+                            break;
                         case "isDevToolsOn":
                             if (bool.TryParse(value, out bool dev))
                                 isDevToolsOn = dev;
@@ -116,5 +128,18 @@ namespace RedPaint
         public AppPalletre[] LoadedPalletres;
         public String version;
         public bool isDevToolsOn;
+
+        public string standartKey;
+        public string standartKeyDate;
+        public bool useStandratKey = false;
+
+        public string userKey = "";
+
+        public string promnt;
+        public string negativePromnt;
+
+        public int AIsteps = 20;
+        public float AIscale = 5.0f;
+        public int AIseed = -1;
     }
 }

@@ -292,6 +292,50 @@
 
             lists[4] = new PopList(mc, Vector2.Zero);
 
+            listtext = new Text[4];
+            for (int i = 0; i < listtext.Length; i++)
+            {
+                listtext[i] = new Text(null);
+                listtext[i].font = font;
+            }
+
+            listtext[0].text = "Ключ";
+            listtext[1].text = "Запрос";
+            listtext[2].text = "Настройки";
+            listtext[3].text = "Запустить";
+
+            button = new TextButton[4];
+
+            button[0] = new TextButton(mc);
+            button[0].AddAction(new ActionSpawn(mc, new DialogAPIkey(mc)));
+            button[0].AddAction(new ActionDestroy(mc, lists[4]));
+            button[0].SetHintText("Ввести ключ");
+            button[0].SetText(listtext[0]);
+            lists[4].AddMenuElement(button[0]);
+
+            button[1] = new TextButton(mc);
+            button[1].AddAction(new ActionSpawn(mc, new DialogPromnt(mc)));
+            button[1].AddAction(new ActionDestroy(mc, lists[4]));
+            button[1].SetHintText("Редактировать запрос к нейросети");
+            button[1].SetText(listtext[1]);
+            lists[4].AddMenuElement(button[1]);
+
+            button[2] = new TextButton(mc);
+            button[2].AddAction(new ActionSpawn(mc, new DialogAIsettings(mc)));
+            button[2].AddAction(new ActionDestroy(mc, lists[4]));
+            button[2].SetHintText("Настроить параметры генерации");
+            button[2].SetText(listtext[2]);
+            lists[4].AddMenuElement(button[2]);
+
+            lists[4].AddMenuElement(new DelayMenuElement(mc));
+
+            button[3] = new TextButton(mc);
+            button[3].AddAction(new ActionAIGenerate(mc));
+            button[3].AddAction(new ActionDestroy(mc, lists[4]));
+            button[3].SetHintText("Запуск генерации");
+            button[3].SetText(listtext[3]);
+            lists[4].AddMenuElement(button[3]);
+
             baseRect.SetDepth(1);
 
             string[] menuHints = new string[5];

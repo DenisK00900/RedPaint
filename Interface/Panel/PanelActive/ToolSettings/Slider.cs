@@ -26,6 +26,8 @@ namespace RedPaint
 
         public float leight = 200f;
 
+        public event Action onDrop;
+
         private void UpdatePushPos()
         {
             push.SetPos(new Vector2(Math.Clamp(mc._input.GetMousePosition().X - GetPos().X, -leight/2f, leight / 2f),0f));
@@ -43,6 +45,8 @@ namespace RedPaint
             if (mc._input.IsReleased(Button.LeftButton))
             {
                 isTaken = false;
+
+                onDrop.Invoke();
             }
 
             if (isTaken)

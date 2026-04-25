@@ -33,5 +33,12 @@ namespace RedPaint
         {
             return parent._data.LoadedPalletres[parent._data.currPalletre];
         }
+
+        public String GetAPIkey()
+        {
+            if (parent._data.useStandratKey) return parent._data.standartKey;
+
+            return parent._data.userKey;
+        }
     }
 }

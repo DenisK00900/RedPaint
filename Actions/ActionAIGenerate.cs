@@ -8,13 +8,10 @@ namespace RedPaint
 {
     public class ActionAIGenerate : AbstrAction
     {
-        public string prompt = "An apple on the table outside";
-        public string negativePrompt = "Low-quality, blurry image, abstract, cartoonish, dark atmosphere, harsh lighting";
-        public Vector2 size = new Vector2(1024, 1024);
+        public string prompt;
+        public string negativePrompt;
 
-        public int numSteps = 20;
-        public float guidanceScale = 5.0f;
-        public int? seed = null;
+        public Vector2 size = new Vector2(1024, 1024);
 
         private AiImageGenerator _aiGenerator;
         private Task<Texture2D> _generationTask;
@@ -23,16 +20,60 @@ namespace RedPaint
 
         public ActionAIGenerate(Maincode imc) : base(imc)
         {
-            var apiKey = "bf1e9e0c1c2246a78a66170449b70bb9";
 
-            _aiGenerator = new AiImageGenerator(apiKey, mc)
-            {
-                DebugMode = false,
-            };
         }
 
         public override void Act()
         {
+            string apiKey = mc._settings.GetAPIkey();
+
+            if (apiKey.Length == 0)
+            {
+                mc._entityManager.AddEntity(
+                    new DialogError(
+                        mc,
+                        "Ошибка ИИ генерации",
+                        "Отсутсвует ключ. Введите ключ или используйте встроенный.",
+                        null
+                        ));
+
+                return;
+            }
+
+            prompt = mc._data.promnt;
+            negativePrompt = mc._data.negativePromnt;
+
+            if (prompt.Length == 0)
+            {
+                mc._entityManager.AddEntity(
+                    new DialogError(
+                        mc,
+                        "Ошибка ИИ генерации",
+                        "Отсутсвует запрос. Редактируйте запрос перед началом генерации",
+                        null
+                        ));
+
+                return;
+            }
+
+            if (!mc._image.IsCreated())
+            {
+                mc._entityManager.AddEntity(
+                    new DialogError(
+                        mc,
+                        "Ошибка ИИ генерации",
+                        "Нет изображения. Создайте изображение перед началом генерации",
+                        null
+                        ));
+
+                return;
+            }
+
+            _aiGenerator = new AiImageGenerator(apiKey, mc)
+            {
+                DebugMode = true,
+            };
+
             if (_isGenerating) return;
 
             if (mc._image?.GetCanvas() != null)
@@ -45,19 +86,26 @@ namespace RedPaint
             _generationTask = GenerateAndApplyAsync(_cts.Token);
         }
 
+        private int RandomSeed()
+        {
+            Random random = new Random();
+
+            return random.Next(0,999999);
+        }
+
         private async Task<Texture2D> GenerateAndApplyAsync(CancellationToken ct)
         {
             try
             {
                 var texture = await _aiGenerator.GenerateSDXLAsync(
                     mc.GraphicsDevice,
-                    prompt,
-                    negativePrompt,
+                    mc._data.promnt,
+                    mc._data.negativePromnt,
                     (int)size.X,
                     (int)size.Y,
-                    numSteps,
-                    guidanceScale,
-                    seed,
+                    mc._data.AIsteps,
+                    mc._data.AIscale,
+                    mc._data.AIseed < 0 ? RandomSeed() : mc._data.AIseed,
                     ct);
 
                 ApplyToCanvas(texture);
