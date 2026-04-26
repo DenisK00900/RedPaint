@@ -54,6 +54,10 @@ namespace RedPaint
         {
             try
             {
+                mc._status.SetNoFade(true);
+
+                mc._status.SetLog("Получен запрос...");
+
                 Log($"[Pixazo SDXL] Запрос: {prompt}");
                 Log($"[Pixazo SDXL] Целевой размер: {width}x{height}");
 
@@ -71,11 +75,15 @@ namespace RedPaint
                 var json = JsonSerializer.Serialize(requestBody);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+                mc._status.SetLog("Запрос отправлен на сервер...");
+
                 _httpClient.DefaultRequestHeaders.Remove("Cache-Control");
                 _httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
 
                 Log($"[Pixazo SDXL] POST {SDXL_Url}");
                 Log($"[Pixazo SDXL] Body: {Truncate(json, 500)}");
+
+                mc._status.SetLog("Ожидание ответа сервера...");
 
                 var response = await _httpClient.PostAsync(SDXL_Url, content, ct);
                 var responseText = await response.Content.ReadAsStringAsync(ct);
@@ -83,8 +91,13 @@ namespace RedPaint
                 Log($"[Pixazo SDXL] Статус: {response.StatusCode}");
                 Log($"[Pixazo SDXL] Response: {Truncate(responseText, 1000)}");
 
+                mc._status.SetLog("Ответ получен...");
+
                 if (!response.IsSuccessStatusCode)
                 {
+                    mc._status.SetLog("Ошибка!");
+                    mc._status.SetNoFade(false);
+
                     mc._entityManager.AddEntity(
                     new DialogError(
                                 mc,
@@ -138,6 +151,9 @@ namespace RedPaint
 
                 if (string.IsNullOrEmpty(imageUrl) && string.IsNullOrEmpty(base64Image))
                 {
+                    mc._status.SetLog("Ошибка");
+                    mc._status.SetNoFade(false);
+
                     var availableProps = GetAvailableProperties(root);
                     throw new InvalidOperationException(
                         $"Не удалось найти изображение в ответе.\n" +
@@ -145,12 +161,39 @@ namespace RedPaint
                         $"Полный ответ: {responseText}");
                 }
 
+                mc._status.SetLog("Скачивание изображения...");
+
                 byte[] imageBytes;
 
                 if (!string.IsNullOrEmpty(imageUrl))
                 {
-                    Log($"[Pixazo SDXL] Скачивание: {imageUrl}");
-                    imageBytes = await _httpClient.GetByteArrayAsync(imageUrl, ct);
+                    using var headResponse = await _httpClient.GetAsync(imageUrl, HttpCompletionOption.ResponseHeadersRead, ct);
+                    var contentLength = headResponse.Content.Headers.ContentLength;
+
+                    if (contentLength.HasValue)
+                    {
+                        var sizeMb = contentLength.Value / (1024f * 1024f);
+                        mc._status.SetLog($"Скачивание изображения... ({sizeMb:F2} МБ)");
+                        Log($"[Pixazo SDXL] Скачивание: {imageUrl} | Размер: {sizeMb:F2} МБ");
+                    }
+                    else
+                    {
+                        mc._status.SetLog("Скачивание изображения... (размер неизвестен)");
+                        Log($"[Pixazo SDXL] Скачивание: {imageUrl}");
+                    }
+
+                    // Скачиваем с отслеживанием прогресса
+                    var progress = new Progress<float>(percent =>
+                    {
+                        if (contentLength.HasValue)
+                        {
+                            var downloadedMb = (contentLength.Value * percent) / (1024f * 1024f);
+                            var totalMb = contentLength.Value / (1024f * 1024f);
+                            mc._status.SetLog($"Загрузка: {downloadedMb:F1}/{totalMb:F1} МБ ({percent * 100:F0}%)");
+                        }
+                    });
+
+                    imageBytes = await DownloadWithProgressAsync(imageUrl, ct, progress);
                 }
                 else
                 {
@@ -161,7 +204,7 @@ namespace RedPaint
                     imageBytes = Convert.FromBase64String(base64Image);
                 }
 
-                Log($"[Pixazo SDXL] Получено {imageBytes.Length} байт (1024x1024)");
+                Log($"[Pixazo SDXL] Получено {imageBytes.Length} байт");
 
                 if (width != 1024 || height != 1024)
                 {
@@ -171,13 +214,48 @@ namespace RedPaint
                 }
 
                 using var ms = new MemoryStream(imageBytes);
+
+                mc._status.SetLog("Готово!");
+                mc._status.SetNoFade(false);
+
                 return Texture2D.FromStream(graphicsDevice, ms);
             }
             catch (Exception ex)
             {
+                mc._status.SetLog("Ошибка!");
+                mc._status.SetNoFade(false);
+
                 Log($"[Pixazo SDXL] Ошибка: {ex.Message}");
                 throw;
             }
+        }
+
+        private async Task<byte[]> DownloadWithProgressAsync(string url, CancellationToken ct, IProgress<float> progress = null)
+        {
+            using var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct);
+            response.EnsureSuccessStatusCode();
+
+            using var stream = await response.Content.ReadAsStreamAsync(ct);
+            using var ms = new MemoryStream();
+
+            var buffer = new byte[8192];
+            long totalRead = 0;
+            var totalBytes = response.Content.Headers.ContentLength;
+
+            int read;
+            while ((read = await stream.ReadAsync(buffer, ct)) > 0)
+            {
+                await ms.WriteAsync(buffer.AsMemory(0, read), ct);
+                totalRead += read;
+
+                if (totalBytes.HasValue && progress != null)
+                {
+                    var percent = (float)totalRead / totalBytes.Value;
+                    progress?.Report(percent);
+                }
+            }
+
+            return ms.ToArray();
         }
 
         private byte[] ResizeImageBytes(byte[] imageBytes, int targetWidth, int targetHeight)

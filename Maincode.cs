@@ -26,6 +26,8 @@ namespace RedPaint
 
         public SelectManager _select;
 
+        public StatusManager _status;
+
         public List<AbstrEntity> entities;
 
         public PanelHolder mainHolder;
@@ -43,6 +45,7 @@ namespace RedPaint
             _input = new InputManager(this);
             _image = new ImageManager(this);
             _select = new SelectManager(this);
+            _status = new StatusManager(this);
 
             entities = new List<AbstrEntity>();
         }

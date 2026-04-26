@@ -18,6 +18,8 @@
                 {
                     mc._entityManager.AddEntity(menu[i]);
                 }
+
+                mc._entityManager.AddEntity(new StatusShow(mc, this));
             }
 
             public override BoardPanel Clone()

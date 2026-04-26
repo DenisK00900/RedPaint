@@ -77,6 +77,8 @@ namespace RedPaint
                 mc._image.currTool.Update(deltaTime);
                 mc._image.Apply();
             }
+
+            mc._status.Update(deltaTime);
         }
     }
 }
