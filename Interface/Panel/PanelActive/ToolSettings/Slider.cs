@@ -46,7 +46,7 @@ namespace RedPaint
             {
                 isTaken = false;
 
-                onDrop.Invoke();
+                onDrop?.Invoke();
             }
 
             if (isTaken)

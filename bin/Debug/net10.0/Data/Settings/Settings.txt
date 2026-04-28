@@ -1,7 +1,7 @@
 start;
 res = (1920, 1080);
 isFullScreen = false;
-version = Alpha v0.0.7 Build 70-372;
+version = Alpha v0.0.7 Build 71-373;
 isDevToolsOn = true;
 standartAPIkey = bf1e9e0c1c2246a78a66170449b70bb9;
 standartAPIkeyActuality = 25.04.2026;
